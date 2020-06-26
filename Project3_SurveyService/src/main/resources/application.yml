@@ -1,0 +1,10 @@
+
+server:
+  port: 8085
+  
+spring:
+  rabbitmq:
+    port: 5672
+    host: ec2-3-128-80-159.us-east-2.compute.amazonaws.com
+    username: guest2 
+    password: "PvVf2pk&X9Xm%3"
