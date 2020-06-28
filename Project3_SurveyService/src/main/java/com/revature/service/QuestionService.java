@@ -11,7 +11,7 @@ public interface QuestionService {
 
 	public Question getQuestionByFormId(int formId);
 	
-	public Question getQuestionByQuestionType(String questionType);
+	public List<Question> getQuestionByQuestionType(String questionType);
 	
 	public void createQuestion(Question question);
 

@@ -3,6 +3,8 @@ package com.revature.model;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -12,17 +14,18 @@ public class Form implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="form_id")
-	private int formId; //PK
+	private long formId; //PK
 	
 	@Column(name="creation_form_ts")
 	private String newFormTimestamp;
 	
-	public int getFormId() {
+	public long getFormId() {
 		return formId;
 	}
 
-	public void setFormId(int formId) {
+	public void setFormId(long formId) {
 		this.formId = formId;
 	}
 

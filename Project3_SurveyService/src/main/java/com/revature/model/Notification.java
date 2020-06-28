@@ -28,6 +28,16 @@ public class Notification implements Serializable {
 	
 	@Column(name = "batch_name")
 	private String batchName;
+	
+	public Notification(String batchName) {
+		super();
+		this.batchName = batchName;
+	}
+
+	public Notification() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	public int getNotificationId() {
 		return notificationId;

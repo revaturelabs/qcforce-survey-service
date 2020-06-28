@@ -22,8 +22,8 @@ public class ResponseServiceImpl implements ResponseService {
 	}
 
 	@Override
-	public Response getResponseByBatchName(String batchName) {
-		return responseRepo.findByBatchName(batchName).get(index);
+	public List<Response> getResponseByBatchName(String batchName) {
+		return responseRepo.findByBatchName(batchName);
 	}
 
 	@Override

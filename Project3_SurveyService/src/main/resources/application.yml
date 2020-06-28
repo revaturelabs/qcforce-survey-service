@@ -12,13 +12,16 @@ spring:
   jpa:
     database: POSTGRESQL
     show-sql: true
+    generate-ddl: true
+    
     
     hibernate:
       ddl-auto: create-drop
+  
       
   datasource:
     platform: postgres
-    url: jdbc:postgresql://localhost:5432/
+    url: jdbc:postgresql://revature-db.cj2nb1xoq6zr.us-east-2.rds.amazonaws.com:5432/postgres
     username: postgres
     password: "admin#123"
     driverClassName: org.postgresql.Driver

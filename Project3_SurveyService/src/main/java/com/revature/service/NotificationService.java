@@ -10,10 +10,8 @@ public interface NotificationService {
 	
 	public List<Notification> getAllNotification();
 
-	public Notification getNotificationByBatchName(String batchName);
+	public List<Notification> getNotificationByBatchName(String batchName);
 	
-	//public Notification getNotificationByNotificationId(int notificationId);
-
 	public void createResponse(Notification notification);
 
 	public void updateResponse(Notification notification);

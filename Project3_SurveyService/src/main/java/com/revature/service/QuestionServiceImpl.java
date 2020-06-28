@@ -29,8 +29,8 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public Question getQuestionByQuestionType(String questionType) {
-		return questionRepo.findByQuestionType(questionType).get(index);
+	public List<Question> getQuestionByQuestionType(String questionType) {
+		return questionRepo.findByQuestionType(questionType);
 	}
 
 	@Override

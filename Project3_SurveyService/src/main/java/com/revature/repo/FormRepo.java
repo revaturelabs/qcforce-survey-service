@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import com.revature.model.Form;
 
 @Repository
-public interface FormRepo extends JpaRepository<Form,Integer> {
+public interface FormRepo extends JpaRepository<Form,Long> {
 
 }
 

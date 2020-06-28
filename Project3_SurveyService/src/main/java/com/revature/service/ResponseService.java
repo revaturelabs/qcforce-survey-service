@@ -7,7 +7,7 @@ public interface ResponseService {
 
 	public List<Response> getAllResponses();
 
-	public Response getResponseByBatchName(String batchName);
+	public List<Response> getResponseByBatchName(String batchName);
 	
 	public Response getResponseByFormId(int formId);
 

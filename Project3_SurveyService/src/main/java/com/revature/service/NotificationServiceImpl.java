@@ -24,8 +24,8 @@ public class NotificationServiceImpl implements NotificationService {
 	}
 
 	@Override
-	public Notification getNotificationByBatchName(String batchName) {
-		return notificationRepo.findByBatchName(batchName).get(index); 
+	public List<Notification> getNotificationByBatchName(String batchName) {
+		return notificationRepo.findByBatchName(batchName); 
 	}
 
 	@Override
