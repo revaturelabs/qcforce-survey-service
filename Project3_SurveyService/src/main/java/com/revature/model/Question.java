@@ -21,8 +21,10 @@ public class Question implements Serializable{
 	@Column(name="question_string")
 	private String question;
 	
+	/*
 	@OneToMany
 	private int formId;// FK
+	*/
 	
 	@Column(name="question_type")
 	private String questionType;
@@ -46,10 +48,12 @@ public class Question implements Serializable{
 	public void setQuestionType(String questionType) {
 		this.questionType = questionType;
 	}
+	
+	/*
 	@Override
 	public String toString() {
 		return "question [questionId=" + questionId + ", question=" + question + ", formId=" + formId
 				+ ", questionType=" + questionType + "]";
 	}	
-
+*/
 }

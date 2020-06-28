@@ -4,6 +4,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import com.revature.model.Response;
 
@@ -11,7 +12,7 @@ import com.revature.model.Response;
 @Transactional
 public interface ResponseRepo extends JpaRepository<Response, Integer> {
 
-	@Query("SELECT * FROM qcforce_survey.response WHERE response.batch_name=(:batchName)")
-	List<Response> findByBatchName(String batchName); //can be Stream or List
+	@Query("SELECT resp FROM Response resp WHERE resp.batchName = :batchName")
+	List<Response> findByBatchName(@Param("batchName")String batchName); //can be Stream or List
 
 }

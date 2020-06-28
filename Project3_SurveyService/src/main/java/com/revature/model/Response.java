@@ -17,9 +17,10 @@ public class Response implements Serializable {
 	@Column(name="response_id")
 	private int responseId;  //primary key
 	
+	/*
 	@OneToMany
 	private int formId; //FK
-	
+	*/
 	@Column(name="batch_name")
 	private String batchName;
 	
@@ -37,12 +38,12 @@ public class Response implements Serializable {
 		this.batchName = batchName;
 	}
 	
-	
+	/*
 	@Override
 	public String toString() {
 		return "Response [responseId=" + responseId + ", batchName=" + batchName + ", formId=" + formId + "]";
 	}
-	
+	*/
 	
 
 }

@@ -12,7 +12,7 @@ import com.revature.model.Notification;
 @Transactional
 public interface NotificationRepo extends JpaRepository<Notification,Integer> {
 
-	@Query("SELECT * FROM qcforce_survey.notification WHERE notification.batch_name=(:batchName)")
-	List<Notification> findByBatchName(@Param ("batch_name") String batchName); //it can be Stream or List
+	@Query("SELECT notif FROM Notification notif WHERE notif.batchName = :batchName")
+	List<Notification> findByBatchName(@Param ("batchName") String batchName); //it can be Stream or List
 
 }

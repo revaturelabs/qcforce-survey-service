@@ -7,30 +7,31 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import com.revature.model.Form;
+import com.revature.service.FormService;
 import com.revature.service.FormServiceImpl;
 
+@SpringBootTest()
+@AutoConfigureMockMvc
+@RunWith(SpringRunner.class)
 public class FormServiceImplTest {
 	
-	private FormServiceImpl formService  =new FormServiceImpl();
-
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-		
+	
+	private FormService formService;
+	
+	@Autowired
+	public void setFormService(FormService formService) {
+		this.formService=formService;
 	}
+	
+	private Form form;
 
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
-	@Before
-	public void setUp() throws Exception {	
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
 
 	@Test
 	public void testSetFormRepo() {
@@ -49,10 +50,11 @@ public class FormServiceImplTest {
 
 	@Test
 	public void testCreateForm() {
-		Form f = new Form();
-		//f.setFormId(1);
-		f.setNewFormTimestamp("2020-05-05");
-		formService.createForm(f);
+		
+		form = new Form();
+		form.setFormId(1);
+		form.setNewFormTimestamp("2020-05-05");
+		formService.createForm(form);
 
 	}
 

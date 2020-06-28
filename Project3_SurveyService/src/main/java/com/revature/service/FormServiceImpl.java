@@ -2,6 +2,7 @@ package com.revature.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.revature.model.Form;
@@ -12,6 +13,7 @@ public class FormServiceImpl implements FormService {
 	
 	private FormRepo formRepo;
 	
+	@Autowired
 	public void setFormRepo(FormRepo formRepo) {
 		this.formRepo=formRepo;
 	}

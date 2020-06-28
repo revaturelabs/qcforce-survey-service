@@ -21,12 +21,13 @@ public class Answer implements Serializable {
 	@Column(name="answer_string")
 	private String answer;
 	
+	/*
 	@OneToMany
 	private int responseId;// FK
 	
 	@OneToMany
 	private int questionId; //FK
-
+*/
 	public int getAnswerId() {
 		return answerId;
 	}
@@ -42,11 +43,11 @@ public class Answer implements Serializable {
 	public void setAnswer(String answer) {
 		this.answer = answer;
 	}
-
+/*
 	@Override
 	public String toString() {
 		return "Answer [answerId=" + answerId + ", answer=" + answer + ", responseId=" + responseId + ", questionId="
 				+ questionId + "]";
 	}
-	
+	*/
 }
