@@ -8,7 +8,7 @@ public interface FormService {
 	
 public List<Form> getAllForms();
 	
-	public Form getFormById(long formId);
+	public Form getFormById(int formId);
 	
 	public void createForm(Form form);
 	

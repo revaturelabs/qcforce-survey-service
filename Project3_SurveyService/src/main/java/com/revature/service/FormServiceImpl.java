@@ -24,7 +24,7 @@ public class FormServiceImpl implements FormService {
 	}
 
 	@Override
-	public Form getFormById(long formId) {
+	public Form getFormById(int formId) {
 		return formRepo.findById(formId).get();
 	}
 

@@ -2,6 +2,8 @@ package com.revature.service.test;
 
 import static org.junit.Assert.*;
 
+import java.sql.Timestamp;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -52,8 +54,7 @@ public class FormServiceImplTest {
 	public void testCreateForm() {
 		
 		form = new Form();
-		form.setFormId(1);
-		form.setNewFormTimestamp("2020-05-05");
+		form.setNewFormTimestamp(new Timestamp(System.currentTimeMillis()));
 		formService.createForm(form);
 
 	}
