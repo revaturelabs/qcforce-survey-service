@@ -21,40 +21,20 @@ public class Notification implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "notification_id")
-	private String notificationId; //primary key
+	private int notificationId; //PK
 
+	@Column(name = "notification_ts")
+	private Timestamp notificationTimestamp;
+	
 	@Column(name = "batch_name")
 	private String batchName;
 
-	@Column(name = "notification_timestamp")
-	private Timestamp notificationTimestamp;
-
-	public Notification(String notificationId, String batchName, Timestamp notificationTimestamp) {
-		super();
-		this.notificationId = notificationId;
-		this.batchName = batchName;
-		this.notificationTimestamp = notificationTimestamp;
-	}
-
-	public Notification() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public String getNotificationId() {
+	public int getNotificationId() {
 		return notificationId;
 	}
 
-	public void setNotificationId(String notificationId) {
+	public void setNotificationId(int notificationId) {
 		this.notificationId = notificationId;
-	}
-
-	public String getBatchName() {
-		return batchName;
-	}
-
-	public void setBatchName(String batchName) {
-		this.batchName = batchName;
 	}
 
 	public Timestamp getNotificationTimestamp() {
@@ -65,11 +45,18 @@ public class Notification implements Serializable {
 		this.notificationTimestamp = notificationTimestamp;
 	}
 
-	@Override
-	public String toString() {
-		return "Notification [notificationId=" + notificationId + ", batchName=" + batchName
-				+ ", notificationTimestamp=" + notificationTimestamp + "]";
+	public String getBatchName() {
+		return batchName;
 	}
 
+	public void setBatchName(String batchName) {
+		this.batchName = batchName;
+	}
+
+	@Override
+	public String toString() {
+		return "Notification [notificationId=" + notificationId + ", notificationTimestamp=" + notificationTimestamp
+				+ ", batchName=" + batchName + "]";
+	}
 	
 }

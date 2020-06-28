@@ -1,17 +1,27 @@
 package com.revature.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="qcforce_survey.response")
 public class Response implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@Column(name="response_id")
 	private int responseId;  //primary key
+	
+	@OneToMany
+	private int formId; //FK
+	
+	@Column(name="batch_name")
 	private String batchName;
-	private String formId;
-	private List<String> answers = new ArrayList<String>();
 	
 	
 	public int getResponseId() {
@@ -26,22 +36,11 @@ public class Response implements Serializable {
 	public void setBatchName(String batchName) {
 		this.batchName = batchName;
 	}
-	public String getFormId() {
-		return formId;
-	}
-	public void setFormId(String formId) {
-		this.formId = formId;
-	}
-	public List<String> getAnswers() {
-		return answers;
-	}
-	public void setAnswers(List<String> answers) {
-		this.answers = answers;
-	}
+	
+	
 	@Override
 	public String toString() {
-		return "Response [responseId=" + responseId + ", batchName=" + batchName + ", formId=" + formId + ", answers="
-				+ answers + "]";
+		return "Response [responseId=" + responseId + ", batchName=" + batchName + ", formId=" + formId + "]";
 	}
 	
 	

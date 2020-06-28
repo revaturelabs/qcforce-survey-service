@@ -8,3 +8,17 @@ spring:
     host: ec2-3-128-80-159.us-east-2.compute.amazonaws.com
     username: guest2 
     password: "PvVf2pk&X9Xm%3"
+    
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    
+    hibernate:
+      ddl-auto: create-drop
+      
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/
+    username: postgres
+    password: "admin#123"
+    driverClassName: org.postgresql.Driver
