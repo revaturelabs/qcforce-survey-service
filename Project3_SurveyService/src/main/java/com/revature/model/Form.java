@@ -21,7 +21,7 @@ public class Form implements Serializable {
 	private int formId; //PK
 	
 	@Column(name="creation_form_ts")
-	private Timestamp newFormTimestamp;
+	private Timestamp creationFormTs;
 	
 	public int getFormId() {
 		return formId;
@@ -31,17 +31,17 @@ public class Form implements Serializable {
 		this.formId = formId;
 	}
 
-	public Timestamp getNewFormTimestamp() {
-		return newFormTimestamp;
+	public Timestamp getCreationFormTs() {
+		return creationFormTs;
 	}
 
-	public void setNewFormTimestamp(Timestamp newFormTimestamp) {
-		this.newFormTimestamp = newFormTimestamp;
+	public void setCreationFormTs(Timestamp creationFormTs) {
+		this.creationFormTs = creationFormTs;
 	}
 
 	@Override
 	public String toString() {
-		return "Form [formId=" + formId + ", newFormTimestamp=" + newFormTimestamp + "]";
+		return "Form [formId=" + formId + ", newFormTimestamp=" + creationFormTs + "]";
 	}
 	
 }

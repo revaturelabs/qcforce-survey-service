@@ -9,7 +9,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="qcforce_survey.question")
+@Table(name="question", schema="qcforce_survey")
 public class Question implements Serializable{
 	
 	private static final long serialVersionUID = 1L;

@@ -19,7 +19,7 @@ spring:
       
   datasource:
     
-    url: jdbc:postgresql://${REVATURE_POSTGRES_URL}:5432/${REVATURE_POSTGRES_DB}?
+    url: "jdbc:postgresql://${REVATURE_POSTGRES_URL}:5432/${REVATURE_POSTGRES_DB}?"
     username: ${REVATURE_POSTGRES_USERNAME}
     password: ${REVATURE_POSTGRES_PASSWORD}
     driverClassName: org.postgresql.Driver

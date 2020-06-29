@@ -12,7 +12,7 @@ public List<Form> getAllForms();
 	
 	public void createForm(Form form);
 	
-	public void updateFrom(Form form);
+	public void updateForm(Form form);
 	
 	public void deleteForm(Form form);
 

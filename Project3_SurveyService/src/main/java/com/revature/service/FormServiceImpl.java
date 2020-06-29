@@ -35,7 +35,7 @@ public class FormServiceImpl implements FormService {
 	}
 
 	@Override
-	public void updateFrom(Form form) {
+	public void updateForm(Form form) {
 		formRepo.findById(form.getFormId()).ifPresent((existingForm) -> formRepo.save(form));
 
 	}

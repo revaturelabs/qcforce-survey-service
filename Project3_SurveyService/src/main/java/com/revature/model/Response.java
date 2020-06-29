@@ -8,7 +8,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="qcforce_survey.response")
+@Table(name="response", schema="qcforce_survey")
 public class Response implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

@@ -3,6 +3,8 @@ package com.revature.service.test;
 import static org.junit.Assert.*;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -27,6 +29,10 @@ public class FormServiceImplTest {
 	
 	private FormService formService;
 	
+	Calendar calendar = Calendar.getInstance();
+	java.util.Date now = calendar.getTime();
+	
+	
 	@Autowired
 	public void setFormService(FormService formService) {
 		this.formService=formService;
@@ -36,37 +42,38 @@ public class FormServiceImplTest {
 
 
 	@Test
-	public void testSetFormRepo() {
-		fail("Not yet implemented");
-	}
-
-	@Test
 	public void testGetAllForms() {
-		fail("Not yet implemented");
+		//List<Form> 
+		formService.getAllForms();
 	}
 
 	@Test
 	public void testGetFormById() {
-		fail("Not yet implemented");
+		formService.getFormById(4);
 	}
 
 	@Test
 	public void testCreateForm() {
 		
 		form = new Form();
-		form.setNewFormTimestamp(new Timestamp(System.currentTimeMillis()));
+		form.setCreationFormTs(new Timestamp(System.currentTimeMillis()));
 		formService.createForm(form);
 
 	}
 
 	@Test
 	public void testUpdateFrom() {
-		fail("Not yet implemented");
+		form = new Form();
+		form.setFormId(4);
+		form.setCreationFormTs(new Timestamp(now.getTime()));  
+		formService.updateForm(form);
 	}
 
 	@Test
 	public void testDeleteForm() {
-		fail("Not yet implemented");
+		form = new Form();
+		form.setFormId(3);
+		formService.deleteForm(form);
 	}
 
 }

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Entity
-@Table(name = "qcforce_survey.notification")
+@Table(name = "notification", schema="qcforce_survey")
 public class Notification implements Serializable {
 
 	private static final long serialVersionUID = 1L;
