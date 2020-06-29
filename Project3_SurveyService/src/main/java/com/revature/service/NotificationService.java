@@ -12,10 +12,10 @@ public interface NotificationService {
 
 	public List<Notification> getNotificationByBatchName(String batchName);
 	
-	public void createResponse(Notification notification);
+	public void createNotification(Notification notification);
 
-	public void updateResponse(Notification notification);
+	public void updateNotification(Notification notification);
 
-	public void deleteResponse(Notification notification);
+	public void deleteNotification(Notification notification);
 
 }

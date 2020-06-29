@@ -29,19 +29,19 @@ public class NotificationServiceImpl implements NotificationService {
 	}
 
 	@Override
-	public void createResponse(Notification notification) {
+	public void createNotification(Notification notification) {
 		notificationRepo.save(notification);
 
 	}
 
 	@Override
-	public void updateResponse(Notification notification) {
+	public void updateNotification(Notification notification) {
 		notificationRepo.findById(notification.getNotificationId()).ifPresent((existingNotification) ->notificationRepo.save(notification));
 
 	}
 
 	@Override
-	public void deleteResponse(Notification notification) {
+	public void deleteNotification(Notification notification) {
 		notificationRepo.delete(notification);
 
 	}

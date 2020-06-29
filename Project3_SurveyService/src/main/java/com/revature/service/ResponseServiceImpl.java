@@ -27,8 +27,8 @@ public class ResponseServiceImpl implements ResponseService {
 	}
 
 	@Override
-	public Response getResponseByFormId(int formId) {
-		return responseRepo.findById(formId).get();
+	public List<Response> getResponseByFormId(int formId) {
+		return (List<Response>) responseRepo.findById(formId).get();
 	}
 
 	@Override

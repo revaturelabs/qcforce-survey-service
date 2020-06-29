@@ -9,7 +9,7 @@ public interface ResponseService {
 
 	public List<Response> getResponseByBatchName(String batchName);
 	
-	public Response getResponseByFormId(int formId);
+	public List<Response> getResponseByFormId(int formId);
 
 	public void createResponse(Response response);
 

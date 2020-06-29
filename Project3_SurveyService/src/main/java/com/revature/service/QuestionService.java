@@ -7,7 +7,7 @@ import com.revature.model.Question;
 
 public interface QuestionService {
 	
-	public List<Question> getAllQuestion();
+	public List<Question> getAllQuestions();
 
 	public Question getQuestionByFormId(int formId);
 	
