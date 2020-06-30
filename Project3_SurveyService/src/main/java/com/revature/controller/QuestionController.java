@@ -53,7 +53,7 @@ public class QuestionController {
 		return "Question successfully updated";
 	}
 	
-	@DeleteMapping("/Question/{id}")
+	@DeleteMapping("/Question/{questionId}")
 	public String deleteQuestion(@PathParam("questionId") int questionId) {
 		Question question = new Question();
 		question.setQuestionId(questionId);

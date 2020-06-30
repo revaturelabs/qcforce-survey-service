@@ -45,7 +45,7 @@ public class NotificationController {
 		return "Notification successfully updated";
 	}
 	
-	@DeleteMapping("/notification/{id}")
+	@DeleteMapping("/notification/{notificationId}")
 	public String deleteNotification(@PathParam("notificationId") int notificationId) {
 		Notification notification = new Notification();
 		notification.setNotificationId(notificationId);

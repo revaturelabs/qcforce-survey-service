@@ -30,7 +30,7 @@ public class FormController {
 		return formService.getAllForms();
 	}
 	
-	@GetMapping("/form/{id}")
+	@GetMapping("/form/{formId}")
 	public Form getFormById(@PathVariable("formId")int formId) {
 		return formService.getFormById(formId);
 	}
@@ -47,7 +47,7 @@ public class FormController {
 		return "Form successfully updated";
 	}
 	
-	@DeleteMapping("/form/{id}")
+	@DeleteMapping("/form/{formId}")
 	public String deleteForm(@PathParam("formId") int formId) {
 		Form form = new Form();
 		form.setFormId(formId);

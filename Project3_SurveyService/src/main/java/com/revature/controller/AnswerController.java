@@ -51,7 +51,7 @@ public class AnswerController {
 		return "Answer successfully updated";
 	}
 	
-	@DeleteMapping("/Answer/{id}")
+	@DeleteMapping("/Answer/{answerId}")
 	public String deleteAnswer(@PathParam("answerId") int answerId) {
 		Answer answer = new Answer();
 		answer.setAnswerId(answerId);

@@ -51,7 +51,7 @@ public class ResponseController {
 		return "Response successfully updated";
 	}
 	
-	@DeleteMapping("/response/{id}")
+	@DeleteMapping("/response/{responseId}")
 	public String deleteResponse(@PathParam("responseId") int responseId) {
 		Response response = new Response();
 		response.setResponseId(responseId);
