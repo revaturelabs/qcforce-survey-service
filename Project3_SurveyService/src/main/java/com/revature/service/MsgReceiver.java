@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.revature.model.Answer;
@@ -20,17 +21,52 @@ import com.revature.model.FormResponse;
 import com.revature.model.Notification;
 import com.revature.model.Question;
 import com.revature.model.Response;
+import com.revature.repo.FormRepo;
 
 @Service
 public class MsgReceiver{
-
+	FormService formservice;
+	
+	@Autowired
+	public void setFormService(FormService formService) {
+		this.formservice = formService;
+	}
+	
 	@RabbitListener(queues="FormResponse-Queue")
-    public void recievedMessage(FormResponse form) {
-		int id = form.getFormId();
-        System.out.println("Recieved Message: "+ form.toString());
+    public void recievedMessage(FormResponse formResponse) {
+		int id = formResponse.getFormId();
+        System.out.println("Recieved Message: "+ formResponse.toString());
         System.out.println("Recieved id of the form: "+ id);
-        System.out.println("Questions: "+ form.getQuestions().toString());
-    }
+        System.out.println("Questions: "+ formResponse.getQuestions().toString());
+        Form form = formservice.getFormBySource(formResponse.getSourceId());
+        // Form : id , source id
+        //getFormBySourceId(id); if null make new form.
+        //form
+        //Form response will have retrieve form id
+        Response response = new Response();
+        response.setResponseId(id);
+        response.setForm(form);
+        response.setSubmittedResponseTs(convertStringToTimestamp(formResponse.getTimestamp()));
+        response.setBatchName(formResponse.getAnswers().get(4));
+        
+       // Question question = new Question();
+       // Answer answer = new Answer();
+        for(int i = 0; i< formResponse.getQuestions().size(); i++) {
+        	
+        	Question question = new Question();
+        	question.setQuestionId(i+1);
+        	question.setQuestionString(formResponse.getQuestions().get(i));
+        	question.setResponse(response);
+        	
+        	
+        	
+        	
+        	
+            Answer answer = new Answer();
+        }
+        
+	}
+	
 	
 	
 	

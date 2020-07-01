@@ -32,20 +32,13 @@ public class Answer implements Serializable {
 	private int answerId; //PK
 	
 	@Column(name="answer_string")
-	private String answer;
-	
-	
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "response_id")
-	private Response response; //foreign key response_id
+	private String answerString;	
 	
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "question_id")
 	private Question question; //foreign key question_id
 	
-	
-
 
 	public Answer() {
 		super();
@@ -53,23 +46,10 @@ public class Answer implements Serializable {
 	}
 
 
-	public Answer(int answerId, String answer, Response response, Question question) {
+	public Answer(int answerId, String answerString, Question question) {
 		super();
 		this.answerId = answerId;
-		this.answer = answer;
-		this.response = response;
-		this.question = question;
-	}
-
-
-	public Answer(Response response) {
-		super();
-		this.response = response;
-	}
-
-
-	public Answer(Question question) {
-		super();
+		this.answerString = answerString;
 		this.question = question;
 	}
 
@@ -84,26 +64,15 @@ public class Answer implements Serializable {
 	}
 
 
-	public String getAnswer() {
-		return answer;
+	public String getAnswerString() {
+		return answerString;
 	}
 
 
-	public void setAnswer(String answer) {
-		this.answer = answer;
+	public void setAnswerString(String answerString) {
+		this.answerString = answerString;
 	}
-
-
-	public Response getResponse() {
-		return response;
-	}
-
-
-	public void setResponse(Response response) {
-		this.response = response;
-	}
-
-
+	
 	public Question getQuestion() {
 		return question;
 	}
@@ -116,9 +85,10 @@ public class Answer implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Answer [answerId=" + answerId + ", answer=" + answer + ", response=" + response + ", question="
-				+ question + "]";
+		return "Answer [answerId=" + answerId + ", answerString=" + answerString + ", question=" + question + "]";
 	}
+
+	
 	
 	
 }

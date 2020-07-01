@@ -45,5 +45,24 @@ public class FormServiceImpl implements FormService {
 		formRepo.delete(form);
 
 	}
+	
+	@Override
+	public Form getFormBySource(String sourceId) {
+		List<Form> forms = getAllForms();
+		int formCount =0;
+		for(Form f : forms) {
+			if(f.getSourceId().equals(sourceId))
+			{
+				return f;
+			} else {
+				formCount +=1;
+			}
+		}
+		Form form =new Form(sourceId);
+		form.setFormId(formCount);
+		createForm(form);
+		form = getFormBySource(sourceId);
+		return form;
+	}
 
 }

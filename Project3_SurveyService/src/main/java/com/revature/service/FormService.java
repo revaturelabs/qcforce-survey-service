@@ -6,9 +6,11 @@ import com.revature.model.Form;
 
 public interface FormService {
 	
-public List<Form> getAllForms();
+	public List<Form> getAllForms();
 	
 	public Form getFormById(int formId);
+	
+	public Form getFormBySource(String sourceId);
 	
 	public void createForm(Form form);
 	

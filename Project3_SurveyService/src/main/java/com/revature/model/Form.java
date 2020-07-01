@@ -2,7 +2,10 @@ package com.revature.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -29,37 +32,36 @@ public class Form implements Serializable {
 	@Column(name="form_id")
 	private int formId; //PK
 	
+	@Id
+	@Column(name="source_id")
+	private String sourceId; // SPREADSHEETS ID
+	
 	@Column(name="creation_form_ts")
 	private Timestamp creationFormTs;
-	
-	@OneToMany(mappedBy="form",  
-			targetEntity=Question.class, 
-			fetch=FetchType.EAGER, 
-			cascade = CascadeType.ALL)
-	private Set<Question> question = new HashSet<Question>(); 
 	
 	@OneToMany(mappedBy="form",  
 			targetEntity=Response.class, 
 			fetch=FetchType.EAGER, 
 			cascade = CascadeType.ALL)
-	private Set<Response> response = new HashSet<Response>();
+	private List<Response> responses = new ArrayList<Response>();
+	
+	Calendar calendar = Calendar.getInstance();
+	java.util.Date now = calendar.getTime();
 
 	public Form() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	public Form(int formId, Timestamp creationFormTs, Set<Question> question, Set<Response> response) {
-		super();
-		this.formId = formId;
-		this.creationFormTs = creationFormTs;
-		this.question = question;
-		this.response = response;
+	public Form(String sourceId) {
+		this.sourceId = sourceId;
+		this.creationFormTs = new Timestamp(now.getTime());
 	}
-
-	public Form(int formId) {
+	public Form(int formId, String sourceId, Timestamp creationFormTs, List<Response> responses) {
 		super();
 		this.formId = formId;
+		this.sourceId = sourceId;
+		this.creationFormTs = creationFormTs;
+		this.responses = responses;
 	}
 
 	public int getFormId() {
@@ -70,6 +72,14 @@ public class Form implements Serializable {
 		this.formId = formId;
 	}
 
+	public String getSourceId() {
+		return sourceId;
+	}
+
+	public void setSourceId(String sourceId) {
+		this.sourceId = sourceId;
+	}
+
 	public Timestamp getCreationFormTs() {
 		return creationFormTs;
 	}
@@ -78,27 +88,20 @@ public class Form implements Serializable {
 		this.creationFormTs = creationFormTs;
 	}
 
-	public Set<Question> getQuestion() {
-		return question;
+	public List<Response> getResponses() {
+		return responses;
 	}
 
-	public void setQuestion(Set<Question> question) {
-		this.question = question;
-	}
-
-	public Set<Response> getResponse() {
-		return response;
-	}
-
-	public void setResponse(Set<Response> response) {
-		this.response = response;
+	public void setResponses(List<Response> responses) {
+		this.responses = responses;
 	}
 
 	@Override
 	public String toString() {
-		return "Form [formId=" + formId + ", creationFormTs=" + creationFormTs + ", question=" + question
-				+ ", response=" + response + "]";
-	} 
+		return "Form [formId=" + formId + ", sourceId=" + sourceId + ", creationFormTs=" + creationFormTs
+				+ ", response=" + responses + "]";
+	}
+
 	
 	
 }

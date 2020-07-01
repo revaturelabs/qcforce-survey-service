@@ -1,7 +1,9 @@
 package com.revature.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -32,49 +34,29 @@ public class Question implements Serializable{
 	private int questionId;//PK
 	
 	@Column(name="question_string")
-	private String question;
-	
-	/*
-	@OneToMany
-	private int formId;// FK
-	*/
+	private String questionString;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "form_id")
-	private Form form; //foreign key form_id
-	
-	@Column(name="question_type")
-	private String questionType;
+	@JoinColumn(name = "response_id")
+	private Response response; //foreign key
 	
 	@OneToMany(mappedBy="question",  
 			targetEntity=Answer.class, 
 			fetch=FetchType.EAGER, 
 			cascade = CascadeType.ALL)
-	private Set<Answer> answer = new HashSet<Answer>();
+	private List<Answer> answers = new ArrayList<Answer>();
 
 	public Question() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Question(int questionId, String question, Form form, String questionType, Set<Answer> answer) {
+	public Question(int questionId, String questionString, Response response, List<Answer> answers) {
 		super();
 		this.questionId = questionId;
-		this.question = question;
-		this.form = form;
-		this.questionType = questionType;
-		this.answer = answer;
-	}
-
-	public Question(String questionType) {
-		super();
-		this.questionType = questionType;
-	}
-	
-
-	public Question(Form form) {
-		super();
-		this.form = form;
+		this.questionString = questionString;
+		this.response = response;
+		this.answers = answers;
 	}
 
 	public int getQuestionId() {
@@ -85,43 +67,35 @@ public class Question implements Serializable{
 		this.questionId = questionId;
 	}
 
-	public String getQuestion() {
-		return question;
+	public String getQuestionString() {
+		return questionString;
 	}
 
-	public void setQuestion(String question) {
-		this.question = question;
+	public void setQuestionString(String questionString) {
+		this.questionString = questionString;
+	}
+	
+	public Response getResponse() {
+		return response;
 	}
 
-	public Form getForm() {
-		return form;
+	public void setResponse(Response response) {
+		this.response = response;
 	}
 
-	public void setForm(Form form) {
-		this.form = form;
+	public List<Answer> getAnswers() {
+		return answers;
 	}
 
-	public String getQuestionType() {
-		return questionType;
-	}
-
-	public void setQuestionType(String questionType) {
-		this.questionType = questionType;
-	}
-
-	public Set<Answer> getAnswer() {
-		return answer;
-	}
-
-	public void setAnswer(Set<Answer> answer) {
-		this.answer = answer;
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
 	}
 
 	@Override
 	public String toString() {
-		return "Question [questionId=" + questionId + ", question=" + question + ", form=" + form + ", questionType="
-				+ questionType + ", answer=" + answer + "]";
-	} 
+		return "Question [questionId=" + questionId + ", questionString=" + questionString + ", response=" + response + ", answer=" + answers + "]";
+	}
+
 	
 	
 }
