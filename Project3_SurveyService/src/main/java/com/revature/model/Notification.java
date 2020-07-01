@@ -11,13 +11,9 @@ import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 @Component
 @Entity
 @Table(name = "notification", schema="qcforce_survey")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "notificationId")
 public class Notification implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -32,22 +28,15 @@ public class Notification implements Serializable {
 	
 	@Column(name = "batch_name")
 	private String batchName;
+	
+	public Notification(String batchName) {
+		super();
+		this.batchName = batchName;
+	}
 
 	public Notification() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
-
-	public Notification(int notificationId, Timestamp notificationTimestamp, String batchName) {
-		super();
-		this.notificationId = notificationId;
-		this.notificationTimestamp = notificationTimestamp;
-		this.batchName = batchName;
-	}
-
-	public Notification(String batchName) {
-		super();
-		this.batchName = batchName;
 	}
 
 	public int getNotificationId() {
@@ -79,7 +68,5 @@ public class Notification implements Serializable {
 		return "Notification [notificationId=" + notificationId + ", notificationTimestamp=" + notificationTimestamp
 				+ ", batchName=" + batchName + "]";
 	}
-	
-	
 	
 }
