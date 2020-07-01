@@ -38,32 +38,33 @@ public class MsgReceiver{
         System.out.println("Recieved Message: "+ formResponse.toString());
         System.out.println("Recieved id of the form: "+ id);
         System.out.println("Questions: "+ formResponse.getQuestions().toString());
-        Form form = formservice.getFormBySource(formResponse.getSourceId());
-        // Form : id , source id
-        //getFormBySourceId(id); if null make new form.
-        //form
-        //Form response will have retrieve form id
-        Response response = new Response();
-        response.setResponseId(id);
-        response.setForm(form);
-        response.setSubmittedResponseTs(convertStringToTimestamp(formResponse.getTimestamp()));
-        response.setBatchName(formResponse.getAnswers().get(4));
-        
-       // Question question = new Question();
-       // Answer answer = new Answer();
-        for(int i = 0; i< formResponse.getQuestions().size(); i++) {
-        	
-        	Question question = new Question();
-        	question.setQuestionId(i+1);
-        	question.setQuestionString(formResponse.getQuestions().get(i));
-        	question.setResponse(response);
-        	
-        	
-        	
-        	
-        	
-            Answer answer = new Answer();
-        }
+        System.out.println("Answers: "+ formResponse.getAnswers().toString());
+//        Form form = formservice.getFormBySource(formResponse.getSourceId());
+//        // Form : id , source id
+//        //getFormBySourceId(id); if null make new form.
+//        //form
+//        //Form response will have retrieve form id
+//        Response response = new Response();
+//        response.setResponseId(id);
+//        response.setForm(form);
+//        response.setSubmittedResponseTs(convertStringToTimestamp(formResponse.getTimestamp()));
+//        response.setBatchName(formResponse.getAnswers().get(4));
+//        
+//       // Question question = new Question();
+//       // Answer answer = new Answer();
+//        for(int i = 0; i< formResponse.getQuestions().size(); i++) {
+//        	
+//        	Question question = new Question();
+//        	question.setQuestionId(i+1);
+//        	question.setQuestionString(formResponse.getQuestions().get(i));
+//        	//question.setResponse(response);
+//        	
+//        	
+//        	
+//        	
+//        	
+//            Answer answer = new Answer();
+      //  }
         
 	}
 	
