@@ -1,14 +1,16 @@
 CREATE SCHEMA qcforce_survey;
 
 CREATE TABLE qcforce_survey.response (
-	response_id 			serial PRIMARY KEY,
+	response_id 			int PRIMARY KEY,
 	form_id 				int NOT NULL,
-	batch_name				varchar NOT NULL
+	batch_name				varchar NOT NULL,
+	response_ts				timestamp NOT NULL,
+	response_week			varchar NOT NULL
 );
 
 CREATE TABLE qcforce_survey.form (
 	form_id					serial PRIMARY KEY,
-	creation_form_ts		timestamp NOT NULL
+	source_id				varchar NOT NULL
 );
 
 CREATE TABLE qcforce_survey.notification (
