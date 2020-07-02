@@ -4,23 +4,56 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
 /**
- * @authors 
+ * @authors
  *
  */
+@Entity
 public class FormResponse implements Serializable {
 
 	private static final long serialVersionUID = 9136762341724971453L;
 
+	@Id
 	private int formId;
 
+	@Column
 	private String timestamp;
-	
+
+	@Transient
 	private String sourceId;
 
+	@Transient
 	private List<String> questions;
 
+	@Transient
 	private List<String> answers;
+
+	@Column(columnDefinition = "TEXT")
+	private String questionsString;
+
+	@Column(columnDefinition = "TEXT")
+	private String answersString;
+
+	public String getQuestionsString() {
+		return questionsString;
+	}
+
+	public void setQuestionsString(String questionsString) {
+		this.questionsString = questionsString;
+	}
+
+	public String getAnswersString() {
+		return answersString;
+	}
+
+	public void setAnswersString(String answersString) {
+		this.answersString = answersString;
+	}
 
 	public FormResponse() {
 		super();
@@ -55,7 +88,7 @@ public class FormResponse implements Serializable {
 	public void setTimestamp(String timestamp) {
 		this.timestamp = timestamp;
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -100,8 +133,9 @@ public class FormResponse implements Serializable {
 
 	@Override
 	public String toString() {
-		return "FormResponse [formId=" + formId + ", timestamp=" + timestamp + ", sourceId=" + sourceId +", questions=" + questions + ", answers="
-				+ answers + "]";
+		return "FormResponse [formId=" + formId + ", timestamp=" + timestamp + ", sourceId=" + sourceId + ", questions="
+				+ questions + ", answers=" + answers + ", questionsString=" + questionsString + ", answersString="
+				+ answersString + "]";
 	}
 
 }
