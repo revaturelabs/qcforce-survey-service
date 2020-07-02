@@ -2,6 +2,7 @@ package com.revature.service;
 
 import java.util.List;
 
+import com.revature.model.ChartData;
 import com.revature.model.FormResponse;
 
 public interface FormResponseService {
@@ -14,6 +15,10 @@ public interface FormResponseService {
 
 	public List<String> getBatchNames();
 
+	public List<String> getBatchWeeks();
+
+	public List<FormResponse> getBatchByNameAndWeek(String batch, String week);
+
 	public long count();
 
 	public void deleteById(Integer id);
@@ -24,4 +29,11 @@ public interface FormResponseService {
 
 	public void save(FormResponse formResponse);
 
+	public List<FormResponse> getBatchForms(String batch);
+
+	public List<ChartData> getChartDataByBatch(String batch);
+
+	public ChartData calculateWeekNumbers(List<FormResponse> forms, String week);
+
+	public ChartData getChartDataByBatchAndWeek(String batch, String week);
 }
