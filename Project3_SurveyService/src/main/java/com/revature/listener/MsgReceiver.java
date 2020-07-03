@@ -50,84 +50,49 @@ public class MsgReceiver {
 
 	@RabbitListener(queues = "FormResponse-Queue")
 	public void recievedMessage(FormResponse formResponse) {
+		System.out.println("Recieved id of the form: " + formResponse.getFormResponseId());
 
-		try {
-			// System.out.println("Recieved Message: " + formResponse.toString());
-			System.out.println("Recieved id of the form: " + formResponse.getFormId());
-			// System.out.println("Questions: " + formResponse.getQuestions().toString());
-			// System.out.println("Answers: " + formResponse.getAnswers().toString());
+		// Get the form by its source id
+		Form form = formService.getFormBySource(formResponse.getSourceId());
+		// Instantiate a new response
+		Response response = new Response();
+		// Set the response's id
+		response.setResponseId(formResponse.getFormResponseId());
+		// Set the response's form
+		response.setForm(form);
+		// set the response's timestamp
+		response.setSubmittedResponseTs(convertStringToTimestamp(formResponse.getTimestamp()));
 
-			// Get the form by its source id
-			Form form = formService.getFormBySource(formResponse.getSourceId());
-			// Instantiate a new response
-			Response response = new Response();
-			// System.out.println("ERROR CHECK 1");
-			// Set the response's id
-			response.setResponseId(formResponse.getFormId());
-			// Set the response's form
-			response.setForm(form);
-			// set the response's timestamp
-			response.setSubmittedResponseTs(convertStringToTimestamp(formResponse.getTimestamp()));
+		// Persist response
+		responseService.saveResponse(response);
 
-			// Persist response
-			responseService.saveResponse(response);
+		// Cycling the the questions/answers
+		for (int i = 0; i < formResponse.getQuestions().size(); i++) {
 
-			// Add response to a list of responses
-			// form.addResponse(response);
-			// System.out.println("ERROR CHECK 2");
-			// Cycling the the questions/answers
-			for (int i = 0; i < formResponse.getQuestions().size(); i++) {
+			// Create new question
+			Question question = new Question();
+			// Create new answer
+			Answer answer = new Answer();
+			// Set the fields for the question
 
-				// Create new question
-				Question question = new Question();
-				// Create new answer
-				Answer answer = new Answer();
+			question.setQuestionString(formResponse.getQuestions().get(i));
+			question.setForm(form);
+			// Persist the question
 
-				// Set the fields for the question
-				// question.setQuestionId(i+1);
-				question.setQuestionString(formResponse.getQuestions().get(i));
-				question.setForm(form);
-				// Persist the question
-				// System.out.println("ERROR CHECK 2241243453");
-				question = questionService.getOrCreateQuestion(question);
-				// System.out.println("ERROR CHECK 224124345354354564354");
-				/*
-				 * POSSIBLY ADD CODE RELATING TO OLD QUESTIONS (LATER)
-				 */
-				// System.out.println("ERROR CHECK 3");
-				// Set the fields for the answer
-				// answer.setAnswerId(i+1);
-				answer.setQuestion(question);
-				answer.setResponse(response);
-				answer.setAnswerString(formResponse.getAnswers().get(i));
-				// Persist the answer
-				answerService.createAnswer(answer);
+			question = questionService.getOrCreateQuestion(question);
 
-				// Set the question's list of answers
-				// question.addAnswers(answer);
-				// Set the answer's question
-				// answer.setQuestion(question);
-				// Update the question
-				// questionService.updateQuestion(question); ???
-				// Update the answer
-				// answerService.updateAnswer(answer); ???
+			/*
+			 * POSSIBLY ADD CODE RELATING TO OLD QUESTIONS (LATER)
+			 */
 
-				// Set the form's list of questions
-				// form.addQuestion(question);
-				// Set the response's list of answers
-				// response.addAnswers(answer);
-				// System.out.println("ERROR CHECK 4");
-			}
-			// System.out.println("ERROR CHECK 5");
-			// Update the form
-			// formService.updateForm(form);
-			// Update the response
-			// responseService.updateResponse(response);
-			System.out.println("Completed");
+			answer.setQuestion(question);
+			answer.setResponse(response);
+			answer.setAnswerString(formResponse.getAnswers().get(i));
+			// Persist the answer
+			answerService.createAnswer(answer);
 
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
+		System.out.println("Completed");
 	}
 
 	public static Timestamp convertStringToTimestamp(String strDate) {

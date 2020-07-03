@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * @authors
  *
@@ -12,8 +14,8 @@ public class FormResponse implements Serializable {
 
 	private static final long serialVersionUID = 9136762341724971453L;
 
-	// @JsonProperty("formId")
-	private int formId;
+	@JsonProperty("formId")
+	private int formResponseId;
 
 	private String timestamp;
 
@@ -32,15 +34,15 @@ public class FormResponse implements Serializable {
 	/**
 	 * @return
 	 */
-	public int getFormId() {
-		return formId;
+	public int getFormResponseId() {
+		return formResponseId;
 	}
 
 	/**
 	 * @param formResponseId
 	 */
-	public void setFormId(int formId) {
-		this.formId = formId;
+	public void setFormResponseId(int formResponseId) {
+		this.formResponseId = formResponseId;
 	}
 
 	/**
