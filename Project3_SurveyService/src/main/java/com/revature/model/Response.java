@@ -31,7 +31,7 @@ public class Response implements Serializable {
 	@Column(name="response_id")
 	private int responseId;  //primary key
 	
-	@Column(name="submitted_response_ts")
+	@Column(name="response_ts")
 	private Timestamp submittedResponseTs;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
@@ -41,46 +41,35 @@ public class Response implements Serializable {
 	@Column(name="batch_name")
 	private String batchName;
 	
+	@Column(name="response_week")
+	private String week;
+	
 	
 	@OneToMany(mappedBy="response",  
 			targetEntity=Answer.class, 
 			fetch=FetchType.EAGER, 
 			cascade = CascadeType.ALL)
-	private List<Answer> answer = new ArrayList<Answer>();
+	private List<Answer> answers = new ArrayList<Answer>();
 
 
 	public Response() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-
-	public Response(int responseId, Timestamp submittedResponseTs, Form form, String batchName) {
+	public Response(int responseId, Timestamp submittedResponseTs, Form form, String batchName, String week,
+			List<Answer> answers) {
 		super();
 		this.responseId = responseId;
 		this.submittedResponseTs = submittedResponseTs;
 		this.form = form;
 		this.batchName = batchName;
+		this.week = week;
+		this.answers = answers;
 	}
-
-
-
-	public Response(String batchName) {
-		super();
-		this.batchName = batchName;
-	}
-
-
-	public Response(Form form) {
-		super();
-		this.form = form;
-	}
-
-
+	
 	public int getResponseId() {
 		return responseId;
 	}
-
 
 	public void setResponseId(int responseId) {
 		this.responseId = responseId;
@@ -90,7 +79,6 @@ public class Response implements Serializable {
 		return submittedResponseTs;
 	}
 
-
 	public void setSubmittedResponseTs(Timestamp submittedResponseTs) {
 		this.submittedResponseTs = submittedResponseTs;
 	}
@@ -99,38 +87,42 @@ public class Response implements Serializable {
 		return form;
 	}
 
-
 	public void setForm(Form form) {
 		this.form = form;
 	}
-
 
 	public String getBatchName() {
 		return batchName;
 	}
 
-
 	public void setBatchName(String batchName) {
 		this.batchName = batchName;
 	}
 
-
-	public List<Answer> getAnswer() {
-		return answer;
+	public String getWeek() {
+		return week;
 	}
 
-
-	public void setAnswer(List<Answer> answer) {
-		this.answer = answer;
+	public void setWeek(String week) {
+		this.week = week;
 	}
 
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
+	}
 
 	@Override
 	public String toString() {
-		return "Response [responseId=" + responseId + ", form=" + form + ", batchName=" + batchName + ", answer="
-				+ answer + "]";
-	} 
+		return "Response [responseId=" + responseId + ", submittedResponseTs=" + submittedResponseTs + ", form=" + form
+				+ ", batchName=" + batchName + ", week=" + week + ", answers=" + answers + "]";
+	}
 
+
+	
 	
 
 }

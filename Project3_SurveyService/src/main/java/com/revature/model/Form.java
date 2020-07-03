@@ -30,7 +30,7 @@ public class Form implements Serializable {
 	@Column(name="form_id")
 	private int formId; //PK
 	
-	@Column(name="creation_form_ts")
+	@Column(name="new_form_ts")
 	private Timestamp creationFormTs;
 	
 	@Column(name="source_id")
@@ -40,32 +40,31 @@ public class Form implements Serializable {
 			targetEntity=Question.class, 
 			fetch=FetchType.EAGER, 
 			cascade = CascadeType.ALL)
-	private List<Question> question = new ArrayList<Question>(); 
+	private List<Question> questions = new ArrayList<Question>(); 
 	
 	@OneToMany(mappedBy="form",  
 			targetEntity=Response.class, 
 			fetch=FetchType.EAGER, 
 			cascade = CascadeType.ALL)
-	private List<Response> response = new ArrayList<Response>();
+	private List<Response> responses = new ArrayList<Response>();
 
 	Calendar calendar = Calendar.getInstance();
 	java.util.Date now = calendar.getTime();
 
 	public Form() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public Form(String sourceId) {
 		this.sourceId = sourceId;
 		this.creationFormTs = new Timestamp(now.getTime());
 	}
 
-	public Form(int formId, Timestamp creationFormTs, List<Question> question, List<Response> response) {
+	public Form(int formId, Timestamp creationFormTs, List<Question> questions, List<Response> responses) {
 		super();
 		this.formId = formId;
 		this.creationFormTs = creationFormTs;
-		this.question = question;
-		this.response = response;
+		this.questions = questions;
+		this.responses = responses;
 	}
 
 	public Form(int formId) {
@@ -89,20 +88,20 @@ public class Form implements Serializable {
 		this.creationFormTs = creationFormTs;
 	}
 
-	public List<Question> getQuestion() {
-		return question;
+	public List<Question> getQuestions() {
+		return questions;
 	}
 
-	public void setQuestion(List<Question> question) {
-		this.question = question;
+	public void setQuestions(List<Question> questions) {
+		this.questions = questions;
 	}
 
-	public List<Response> getResponse() {
-		return response;
+	public List<Response> getResponses() {
+		return responses;
 	}
 
-	public void setResponse(List<Response> response) {
-		this.response = response;
+	public void setResponses(List<Response> responses) {
+		this.responses = responses;
 	}
 
 	public String getSourceId() {
@@ -115,8 +114,8 @@ public class Form implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Form [formId=" + formId + ", creationFormTs=" + creationFormTs + ", question=" + question
-				+ ", response=" + response + "]";
+		return "Form [formId=" + formId + ", creationFormTs=" + creationFormTs + ", question=" + questions
+				+ ", response=" + responses + "]";
 	} 
 	
 	

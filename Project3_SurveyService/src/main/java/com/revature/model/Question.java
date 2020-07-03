@@ -50,20 +50,20 @@ public class Question implements Serializable{
 			targetEntity=Answer.class, 
 			fetch=FetchType.EAGER, 
 			cascade = CascadeType.ALL)
-	private List<Answer> answer = new ArrayList<Answer>();
+	private List<Answer> answers = new ArrayList<Answer>();
 
 	public Question() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Question(int questionId, String questionString, Form form, String questionType, List<Answer> answer) {
+	public Question(int questionId, String questionString, Form form, String questionType, List<Answer> answers) {
 		super();
 		this.questionId = questionId;
 		this.questionString = questionString;
 		this.form = form;
 		this.questionType = questionType;
-		this.answer = answer;
+		this.answers = answers;
 	}
 
 	public Question(String questionType) {
@@ -109,18 +109,18 @@ public class Question implements Serializable{
 		this.questionType = questionType;
 	}
 
-	public List<Answer> getAnswer() {
-		return answer;
+	public List<Answer> getAnswers() {
+		return answers;
 	}
 
-	public void setAnswer(List<Answer> answer) {
-		this.answer = answer;
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
 	}
 
 	@Override
 	public String toString() {
 		return "Question [questionId=" + questionId + ", questionString=" + questionString + ", form=" + form + ", questionType="
-				+ questionType + ", answer=" + answer + "]";
+				+ questionType + ", answers=" + answers + "]";
 	} 
 	
 	

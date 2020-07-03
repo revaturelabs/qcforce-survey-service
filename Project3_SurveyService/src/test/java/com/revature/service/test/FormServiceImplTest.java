@@ -2,8 +2,8 @@ package com.revature.service.test;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+//import org.junit.Test;
+//import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,10 +13,10 @@ import com.revature.service.FormService;
 
 @SpringBootTest()
 @AutoConfigureMockMvc
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
 public class FormServiceImplTest {
 	
-	
+/*
 	private FormService formService;
 	
 	Calendar calendar = Calendar.getInstance();
@@ -65,5 +65,5 @@ public class FormServiceImplTest {
 		form.setFormId(3);
 		formService.deleteForm(form);
 	}
-
+*/
 }

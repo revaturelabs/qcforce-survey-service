@@ -32,7 +32,7 @@ public class Answer implements Serializable {
 	private int answerId; //PK
 	
 	@Column(name="answer_string")
-	private String answer;
+	private String answerString;
 	
 	
 	@ManyToOne(fetch=FetchType.EAGER)
@@ -53,10 +53,10 @@ public class Answer implements Serializable {
 	}
 
 
-	public Answer(int answerId, String answer, Response response, Question question) {
+	public Answer(int answerId, String answerString, Response response, Question question) {
 		super();
 		this.answerId = answerId;
-		this.answer = answer;
+		this.answerString = answerString;
 		this.response = response;
 		this.question = question;
 	}
@@ -84,13 +84,13 @@ public class Answer implements Serializable {
 	}
 
 
-	public String getAnswer() {
-		return answer;
+	public String getAnswerString() {
+		return answerString;
 	}
 
 
-	public void setAnswer(String answer) {
-		this.answer = answer;
+	public void setAnswerString(String answerString) {
+		this.answerString = answerString;
 	}
 
 
@@ -116,7 +116,7 @@ public class Answer implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Answer [answerId=" + answerId + ", answer=" + answer + ", response=" + response + ", question="
+		return "Answer [answerId=" + answerId + ", answerString=" + answerString + ", response=" + response + ", question="
 				+ question + "]";
 	}
 	
