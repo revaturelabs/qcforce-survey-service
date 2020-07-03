@@ -9,16 +9,19 @@ spring:
     username: guest2 
     password: "PvVf2pk&X9Xm%3"
     
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://readifined.czdzryggenuf.us-east-2.rds.amazonaws.com:5432/postgres?
+    username: postgres
+    password: tomcats_2020
+    maxActive: 10
+    maxIdle: 5
+    minIdle: 2
+    initialSize: 5
+    removeAbandoned: true
   jpa:
-   properties:
+    properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect 
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         show-sql: true
         format-sql: true
-  
-      
-  datasource:
-    url: jdbc:postgresql://${REVATURE_POSTGRES_URL}:5432/${REVATURE_POSTGRES_DB}?
-    username: ${REVATURE_POSTGRES_USERNAME}
-    password: ${REVATURE_POSTGRES_PASSWORD}
-    driverClassName: org.postgresql.Driver

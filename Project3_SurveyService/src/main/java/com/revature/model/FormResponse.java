@@ -5,17 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @authors 
+ * @authors
  *
  */
 public class FormResponse implements Serializable {
 
 	private static final long serialVersionUID = 9136762341724971453L;
 
+	// @JsonProperty("formId")
 	private int formId;
 
 	private String timestamp;
-	
+
 	private String sourceId;
 
 	private List<String> questions;
@@ -36,7 +37,7 @@ public class FormResponse implements Serializable {
 	}
 
 	/**
-	 * @param formId
+	 * @param formResponseId
 	 */
 	public void setFormId(int formId) {
 		this.formId = formId;
@@ -55,7 +56,7 @@ public class FormResponse implements Serializable {
 	public void setTimestamp(String timestamp) {
 		this.timestamp = timestamp;
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -96,12 +97,6 @@ public class FormResponse implements Serializable {
 	 */
 	public void setAnswers(List<String> answers) {
 		this.answers = answers;
-	}
-
-	@Override
-	public String toString() {
-		return "FormResponse [formId=" + formId + ", timestamp=" + timestamp + ", sourceId=" + sourceId +", questions=" + questions + ", answers="
-				+ answers + "]";
 	}
 
 }

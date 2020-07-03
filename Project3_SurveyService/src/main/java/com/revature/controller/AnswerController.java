@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.revature.model.Answer;
+
+import com.revature.entity.Answer;
 import com.revature.service.AnswerService;
 
 @RestController

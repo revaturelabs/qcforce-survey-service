@@ -2,7 +2,7 @@ package com.revature.service;
 
 import java.util.List;
 
-import com.revature.model.Notification;
+import com.revature.entity.Notification;
 
 
 

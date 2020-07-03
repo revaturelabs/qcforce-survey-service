@@ -1,7 +1,8 @@
-package com.revature.model;
+package com.revature.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,22 +14,22 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Entity
-@Table(name = "notification", schema="qcforce_survey")
+@Table(name = "notification", schema = "qcforce_survey")
 public class Notification implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "notification_id")
-	private int notificationId; //PK
+	@Column(name = "id")
+	private int notificationId; // PK
 
 	@Column(name = "notification_ts")
 	private Timestamp notificationTimestamp;
-	
+
 	@Column(name = "batch_name")
 	private String batchName;
-	
+
 	public Notification(String batchName) {
 		super();
 		this.batchName = batchName;
@@ -68,5 +69,5 @@ public class Notification implements Serializable {
 		return "Notification [notificationId=" + notificationId + ", notificationTimestamp=" + notificationTimestamp
 				+ ", batchName=" + batchName + "]";
 	}
-	
+
 }

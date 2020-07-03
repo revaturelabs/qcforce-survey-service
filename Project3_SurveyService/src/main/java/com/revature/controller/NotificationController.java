@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.revature.model.Notification;
+
+import com.revature.entity.Notification;
 import com.revature.service.NotificationService;
 
 @RestController

@@ -1,7 +1,8 @@
 package com.revature.service;
 
 import java.util.List;
-import com.revature.model.Answer;
+
+import com.revature.entity.Answer;
 
 public interface AnswerService {
 	

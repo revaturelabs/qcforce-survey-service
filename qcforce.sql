@@ -1,49 +1,65 @@
 CREATE SCHEMA qcforce_survey;
 
+drop table qcforce_survey.response cascade;
+drop table qcforce_survey.form cascade;
+drop table qcforce_survey.notification cascade;
+drop table qcforce_survey.question cascade;
+drop table qcforce_survey.answer cascade;
+
 CREATE TABLE qcforce_survey.response (
-	response_id 			int PRIMARY KEY,
-	form_id 				int NOT NULL,
-	batch_name				varchar NOT NULL,
-	response_ts				timestamp NOT NULL,
-	response_week			varchar NOT NULL
+	id 			int PRIMARY KEY,
+	form_id 				int,
+	response_ts				timestamp
 );
 
 CREATE TABLE qcforce_survey.form (
-	form_id					serial PRIMARY KEY,
-	source_id				varchar NOT NULL
+	id					serial PRIMARY KEY,
+	source_id				varchar,
+	created_time       timestamp
 );
 
 CREATE TABLE qcforce_survey.notification (
-	notification_id			serial PRIMARY KEY,
-	batch_name				varchar NOT NULL,
-	notification_ts			timestamp NOT null
+	id			serial PRIMARY KEY,
+	batch_name				varchar,
+	notification_ts			timestamp
 );
 
 CREATE TABLE qcforce_survey.question (
-	question_id				serial PRIMARY KEY,
-	question_string			varchar NOT NULL,
-	form_id					int NOT NULL,
-	question_type			varchar NOT NULL
+	id				serial PRIMARY KEY,
+	question_string			varchar,
+	form_id					int
 );
 
 CREATE TABLE qcforce_survey.answer (
-	answer_id				serial PRIMARY KEY,
+	id				serial PRIMARY KEY,
 	answer_string			varchar,
-	response_id				int NOT NULL,
-	question_id				int NOT null
+	response_id				int,
+	question_id				int,
+	weight                  int
 );
 
 alter table qcforce_survey.response add constraint FK_response_form_id
-	foreign key (form_id) references qcforce_survey.form (form_id) on delete cascade on update cascade;
+	foreign key (form_id) references qcforce_survey.form (id) on delete cascade on update cascade;
 
 alter table qcforce_survey.question add constraint FK_question_form_id
-	foreign key (form_id) references qcforce_survey.form (form_id) on delete cascade on update cascade;
+	foreign key (form_id) references qcforce_survey.form (id) on delete cascade on update cascade;
 
 alter table qcforce_survey.answer add constraint FK_answer_response_id
-	foreign key (response_id) references qcforce_survey.response (response_id) on delete cascade on update cascade;
+	foreign key (response_id) references qcforce_survey.response (id) on delete cascade on update cascade;
 
 alter table qcforce_survey.answer add constraint FK_answer_question_id
-	foreign key (question_id) references qcforce_survey.question (question_id) on delete cascade on update cascade;
+	foreign key (question_id) references qcforce_survey.question (id) on delete cascade on update cascade;
+
+
+
+
+
+
+
+
+
+
+
 
 CREATE SCHEMA qcforce_training;
 

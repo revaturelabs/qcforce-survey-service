@@ -2,7 +2,7 @@ package com.revature.service;
 
 import java.util.List;
 
-import com.revature.model.Form;
+import com.revature.entity.Form;
 
 public interface FormService {
 	

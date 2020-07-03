@@ -1,8 +1,7 @@
-package com.revature.model;
+package com.revature.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,53 +15,47 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
-@Table(name="form", schema="qcforce_survey")
+@Table(name = "form", schema = "qcforce_survey")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "formId")
 public class Form implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="form_id")
-	private int formId; //PK
-	
-	@Column(name="new_form_ts")
-	private Timestamp creationFormTs;
-	
-	@Column(name="source_id")
-	private String sourceId;
-	
-	@OneToMany(mappedBy="form",  
-			targetEntity=Question.class, 
-			fetch=FetchType.EAGER, 
-			cascade = CascadeType.ALL)
-	private List<Question> questions = new ArrayList<Question>(); 
-	
-	@OneToMany(mappedBy="form",  
-			targetEntity=Response.class, 
-			fetch=FetchType.EAGER, 
-			cascade = CascadeType.ALL)
-	private List<Response> responses = new ArrayList<Response>();
+	@Column(name = "id")
+	private int formId; // PK
 
-	Calendar calendar = Calendar.getInstance();
-	java.util.Date now = calendar.getTime();
+	@CreationTimestamp
+	@Column(name = "created_time")
+	private Timestamp creationTime;
+
+	@Column(name = "source_id")
+	private String sourceId;
+
+	@OneToMany(mappedBy = "form", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<Question> questions = new ArrayList<Question>();
+
+	@OneToMany(mappedBy = "form", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<Response> responses = new ArrayList<Response>();
 
 	public Form() {
 		super();
 	}
+
 	public Form(String sourceId) {
 		this.sourceId = sourceId;
-		this.creationFormTs = new Timestamp(now.getTime());
 	}
 
-	public Form(int formId, Timestamp creationFormTs, List<Question> questions, List<Response> responses) {
+	public Form(int formId, Timestamp creationTime, List<Question> questions, List<Response> responses) {
 		super();
 		this.formId = formId;
-		this.creationFormTs = creationFormTs;
+		this.creationTime = creationTime;
 		this.questions = questions;
 		this.responses = responses;
 	}
@@ -80,28 +73,28 @@ public class Form implements Serializable {
 		this.formId = formId;
 	}
 
-	public Timestamp getCreationFormTs() {
-		return creationFormTs;
+	public Timestamp getCreationTime() {
+		return creationTime;
 	}
 
-	public void setCreationFormTs(Timestamp creationFormTs) {
-		this.creationFormTs = creationFormTs;
+	public void setCreationTime(Timestamp creationTime) {
+		this.creationTime = creationTime;
 	}
 
 	public List<Question> getQuestions() {
 		return questions;
 	}
 
-	public void setQuestions(List<Question> questions) {
-		this.questions = questions;
+	public void addQuestion(Question question) {
+		this.questions.add(question);
 	}
 
 	public List<Response> getResponses() {
 		return responses;
 	}
 
-	public void setResponses(List<Response> responses) {
-		this.responses = responses;
+	public void addResponse(Response response) {
+		this.responses.add(response);
 	}
 
 	public String getSourceId() {
@@ -114,9 +107,8 @@ public class Form implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Form [formId=" + formId + ", creationFormTs=" + creationFormTs + ", question=" + questions
-				+ ", response=" + responses + "]";
-	} 
-	
-	
+		return "Form [formId=" + formId + ", creationTime=" + creationTime + ", question=" + questions + ", response="
+				+ responses + "]";
+	}
+
 }

@@ -1,19 +1,21 @@
 package com.revature.service;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.revature.model.Response;
+
+import com.revature.entity.Response;
 import com.revature.repo.ResponseRepo;
 
 @Service
 public class ResponseServiceImpl implements ResponseService {
 
 	private ResponseRepo responseRepo;
-	
+
 	@Autowired
 	public void setReponseRepo(ResponseRepo responseRepo) {
-		this.responseRepo=responseRepo;
+		this.responseRepo = responseRepo;
 	}
 
 	@Override
@@ -21,18 +23,17 @@ public class ResponseServiceImpl implements ResponseService {
 		return responseRepo.findAll();
 	}
 
-	@Override
-	public List<Response> getResponseByBatchName(String batchName) {
-		return responseRepo.findByBatchName(batchName);
-	}
-
+	/*
+	 * @Override public List<Response> getResponseByBatchName(String batchName) {
+	 * return responseRepo.findByBatchName(batchName); }
+	 */
 	@Override
 	public List<Response> getResponseByFormId(int formId) {
 		return (List<Response>) responseRepo.findById(formId).get();
 	}
 
 	@Override
-	public void createResponse(Response response) {
+	public void saveResponse(Response response) {
 		responseRepo.save(response);
 
 	}

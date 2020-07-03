@@ -5,17 +5,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.revature.model.Question;
+import com.revature.entity.Question;
 import com.revature.repo.QuestionRepo;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
-	
+
 	private QuestionRepo questionRepo;
-	
+
 	@Autowired
 	public void setQuestionRepo(QuestionRepo questionRepo) {
-		this.questionRepo=questionRepo;
+		this.questionRepo = questionRepo;
 	}
 
 	@Override
@@ -28,11 +28,10 @@ public class QuestionServiceImpl implements QuestionService {
 		return questionRepo.findById(formId).get();
 	}
 
-	@Override
-	public List<Question> getQuestionByQuestionType(String questionType) {
-		return questionRepo.findByQuestionType(questionType);
-	}
-
+	/*
+	 * @Override public List<Question> getQuestionByQuestionType(String
+	 * questionType) { return questionRepo.findByQuestionType(questionType); }
+	 */
 	@Override
 	public void createQuestion(Question question) {
 		questionRepo.save(question);
