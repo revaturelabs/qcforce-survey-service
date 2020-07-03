@@ -38,11 +38,11 @@ public class Question implements Serializable {
 	 * @OneToMany private int formId;// FK
 	 */
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "form_id")
 	private Form form; // foreign key form_id
 
-	@OneToMany(mappedBy = "question", targetEntity = Answer.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "question", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Answer> answers = new ArrayList<Answer>();
 
 	public Question() {

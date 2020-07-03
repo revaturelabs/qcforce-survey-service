@@ -32,11 +32,11 @@ public class Response implements Serializable {
 	@Column(name = "response_ts")
 	private Timestamp submittedResponseTs;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "form_id")
 	private Form form; // foreign key form_id
 
-	@OneToMany(mappedBy = "response", targetEntity = Answer.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "response", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Answer> answers = new ArrayList<Answer>();
 
 	public Response() {

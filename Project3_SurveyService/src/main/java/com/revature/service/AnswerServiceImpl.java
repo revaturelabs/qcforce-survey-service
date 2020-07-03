@@ -1,22 +1,25 @@
 package com.revature.service;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.entity.Answer;
 import com.revature.repo.AnswerRepo;
 
 @Service
+@Transactional
 public class AnswerServiceImpl implements AnswerService {
 
 	private AnswerRepo answerRepo;
-	
+
 	@Autowired
 	public void setAnswerRepo(AnswerRepo answerRepo) {
-		this.answerRepo=answerRepo;
+		this.answerRepo = answerRepo;
 	}
-	
+
 	@Override
 	public List<Answer> getAllAnswers() {
 		return answerRepo.findAll();
@@ -24,7 +27,7 @@ public class AnswerServiceImpl implements AnswerService {
 
 	@Override
 	public Answer getAnswerByResponseId(int responseId) {
-		return answerRepo.findById(responseId).get(); 
+		return answerRepo.findById(responseId).get();
 	}
 
 	@Override
@@ -40,7 +43,7 @@ public class AnswerServiceImpl implements AnswerService {
 
 	@Override
 	public void updateAnswer(Answer answer) {
-		answerRepo.findById(answer.getAnswerId()).ifPresent((existingAnswer) ->answerRepo.save(answer));
+		answerRepo.findById(answer.getAnswerId()).ifPresent((existingAnswer) -> answerRepo.save(answer));
 
 	}
 

@@ -4,18 +4,20 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.entity.Form;
 import com.revature.repo.FormRepo;
 
 @Service
+@Transactional
 public class FormServiceImpl implements FormService {
-	
+
 	private FormRepo formRepo;
-	
+
 	@Autowired
 	public void setFormRepo(FormRepo formRepo) {
-		this.formRepo=formRepo;
+		this.formRepo = formRepo;
 	}
 
 	@Override
@@ -45,20 +47,19 @@ public class FormServiceImpl implements FormService {
 		formRepo.delete(form);
 
 	}
-	
+
 	@Override
 	public Form getFormBySource(String sourceId) {
 		List<Form> forms = getAllForms();
-		int formCount =0;
-		for(Form f : forms) {
-			if(f.getSourceId().equals(sourceId))
-			{
+		int formCount = 0;
+		for (Form f : forms) {
+			if (f.getSourceId().equals(sourceId)) {
 				return f;
 			} else {
-				formCount +=1;
+				formCount += 1;
 			}
 		}
-		Form form =new Form(sourceId);
+		Form form = new Form(sourceId);
 		form.setFormId(formCount);
 		createForm(form);
 		form = getFormBySource(sourceId);

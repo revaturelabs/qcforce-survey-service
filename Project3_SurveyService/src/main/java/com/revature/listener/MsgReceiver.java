@@ -61,7 +61,7 @@ public class MsgReceiver {
 			Form form = formService.getFormBySource(formResponse.getSourceId());
 			// Instantiate a new response
 			Response response = new Response();
-
+			System.out.println("ERROR CHECK 1");
 			// Set the response's id
 			response.setResponseId(formResponse.getFormId());
 			// Set the response's form
@@ -74,9 +74,10 @@ public class MsgReceiver {
 
 			// Add response to a list of responses
 			form.addResponse(response);
-
+			System.out.println("ERROR CHECK 2");
 			// Cycling the the questions/answers
 			for (int i = 0; i < formResponse.getQuestions().size(); i++) {
+
 				// Create new question
 				Question question = new Question();
 				// Create new answer
@@ -92,7 +93,7 @@ public class MsgReceiver {
 				/*
 				 * POSSIBLY ADD CODE RELATING TO OLD QUESTIONS (LATER)
 				 */
-
+				System.out.println("ERROR CHECK 3");
 				// Set the fields for the answer
 				// answer.setAnswerId(i+1);
 				answer.setQuestion(question);
@@ -114,12 +115,14 @@ public class MsgReceiver {
 				form.addQuestion(question);
 				// Set the response's list of answers
 				response.addAnswers(answer);
+				System.out.println("ERROR CHECK 4");
 			}
-
+			System.out.println("ERROR CHECK 5");
 			// Update the form
 			formService.updateForm(form);
 			// Update the response
 			responseService.updateResponse(response);
+			System.out.println("ERROR CHECK 6");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

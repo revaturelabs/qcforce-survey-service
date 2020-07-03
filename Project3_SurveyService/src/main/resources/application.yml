@@ -14,11 +14,6 @@ spring:
     url: jdbc:postgresql://readifined.czdzryggenuf.us-east-2.rds.amazonaws.com:5432/postgres?
     username: postgres
     password: tomcats_2020
-    maxActive: 10
-    maxIdle: 5
-    minIdle: 2
-    initialSize: 5
-    removeAbandoned: true
   jpa:
     properties:
       hibernate:
