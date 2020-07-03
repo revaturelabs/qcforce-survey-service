@@ -1,4 +1,4 @@
-package com.revature.listener;
+package com.revature.mqlistener;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.revature.entity.Answer;
@@ -28,23 +27,12 @@ public class MsgReceiver {
 	private QuestionService questionService;
 	private ResponseService responseService;
 
-	@Autowired
-	public void setFormService(FormService formService) {
+	public MsgReceiver(FormService formService, AnswerService answerService, QuestionService questionService,
+			ResponseService responseService) {
+		super();
 		this.formService = formService;
-	}
-
-	@Autowired
-	public void setAnswerService(AnswerService answerService) {
 		this.answerService = answerService;
-	}
-
-	@Autowired
-	public void setQuestionService(QuestionService questionService) {
 		this.questionService = questionService;
-	}
-
-	@Autowired
-	public void setResponseService(ResponseService responseService) {
 		this.responseService = responseService;
 	}
 
@@ -57,7 +45,7 @@ public class MsgReceiver {
 		// Instantiate a new response
 		Response response = new Response();
 		// Set the response's id
-		response.setResponseId(formResponse.getFormResponseId());
+		response.setId(formResponse.getFormResponseId());
 		// Set the response's form
 		response.setForm(form);
 		// set the response's timestamp
@@ -108,9 +96,5 @@ public class MsgReceiver {
 			return null;
 		}
 	}
-
-//	public void recievedMessage(Notification notification) {
-//        System.out.println("Recieved Message: "+ notification.toString());
-//    }
 
 }

@@ -22,7 +22,7 @@ public class Notification implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private int notificationId; // PK
+	private int id; // PK
 
 	@Column(name = "notification_ts")
 	private Timestamp notificationTimestamp;
@@ -40,12 +40,12 @@ public class Notification implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getNotificationId() {
-		return notificationId;
+	public int getId() {
+		return id;
 	}
 
-	public void setNotificationId(int notificationId) {
-		this.notificationId = notificationId;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Timestamp getNotificationTimestamp() {
@@ -66,8 +66,8 @@ public class Notification implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Notification [notificationId=" + notificationId + ", notificationTimestamp=" + notificationTimestamp
-				+ ", batchName=" + batchName + "]";
+		return "Notification [id=" + id + ", notificationTimestamp=" + notificationTimestamp + ", batchName="
+				+ batchName + "]";
 	}
 
 }

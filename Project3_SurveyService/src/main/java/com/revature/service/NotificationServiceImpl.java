@@ -4,13 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.entity.Notification;
 import com.revature.repo.NotificationRepo;
 
 @Service
-@Transactional
 public class NotificationServiceImpl implements NotificationService {
 
 	private NotificationRepo notificationRepo;
@@ -38,7 +36,7 @@ public class NotificationServiceImpl implements NotificationService {
 
 	@Override
 	public void updateNotification(Notification notification) {
-		notificationRepo.findById(notification.getNotificationId())
+		notificationRepo.findById(notification.getId())
 				.ifPresent((existingNotification) -> notificationRepo.save(notification));
 
 	}

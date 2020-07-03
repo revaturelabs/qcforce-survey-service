@@ -22,14 +22,14 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "form", schema = "qcforce_survey")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "formId")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Form implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private int formId; // PK
+	private int id; // PK
 
 	@CreationTimestamp
 	@Column(name = "created_time")
@@ -38,10 +38,10 @@ public class Form implements Serializable {
 	@Column(name = "source_id")
 	private String sourceId;
 
-	@OneToMany(mappedBy = "form", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "form", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Question> questions = new ArrayList<Question>();
 
-	@OneToMany(mappedBy = "form", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "form", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Response> responses = new ArrayList<Response>();
 
 	public Form() {
@@ -52,25 +52,25 @@ public class Form implements Serializable {
 		this.sourceId = sourceId;
 	}
 
-	public Form(int formId, Timestamp creationTime, List<Question> questions, List<Response> responses) {
+	public Form(int id, Timestamp creationTime, List<Question> questions, List<Response> responses) {
 		super();
-		this.formId = formId;
+		this.id = id;
 		this.creationTime = creationTime;
 		this.questions = questions;
 		this.responses = responses;
 	}
 
-	public Form(int formId) {
+	public Form(int id) {
 		super();
-		this.formId = formId;
+		this.id = id;
 	}
 
-	public int getFormId() {
-		return formId;
+	public int getId() {
+		return id;
 	}
 
-	public void setFormId(int formId) {
-		this.formId = formId;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Timestamp getCreationTime() {
@@ -107,7 +107,7 @@ public class Form implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Form [formId=" + formId + ", creationTime=" + creationTime + ", question=" + questions + ", response="
+		return "Form [id=" + id + ", creationTime=" + creationTime + ", question=" + questions + ", response="
 				+ responses + "]";
 	}
 

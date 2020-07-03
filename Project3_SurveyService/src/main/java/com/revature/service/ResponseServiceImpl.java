@@ -4,13 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.entity.Response;
 import com.revature.repo.ResponseRepo;
 
 @Service
-@Transactional
 public class ResponseServiceImpl implements ResponseService {
 
 	private ResponseRepo responseRepo;
@@ -42,7 +40,7 @@ public class ResponseServiceImpl implements ResponseService {
 
 	@Override
 	public void updateResponse(Response response) {
-		responseRepo.findById(response.getResponseId()).ifPresent((existingResponse) -> responseRepo.save(response));
+		responseRepo.findById(response.getId()).ifPresent((existingResponse) -> responseRepo.save(response));
 	}
 
 	@Override

@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "answer", schema = "qcforce_survey")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "answerId")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Answer implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -24,7 +24,7 @@ public class Answer implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private int answerId; // PK
+	private int id; // PK
 
 	@Column(name = "answer_string")
 	private String answerString;
@@ -45,31 +45,21 @@ public class Answer implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Answer(int answerId, String answerString, Response response, Question question, int weight) {
+	public Answer(int id, String answerString, Response response, Question question, int weight) {
 		super();
-		this.answerId = answerId;
+		this.id = id;
 		this.answerString = answerString;
 		this.response = response;
 		this.question = question;
 		this.weight = weight;
 	}
 
-	public Answer(Response response) {
-		super();
-		this.response = response;
+	public int getId() {
+		return id;
 	}
 
-	public Answer(Question question) {
-		super();
-		this.question = question;
-	}
-
-	public int getAnswerId() {
-		return answerId;
-	}
-
-	public void setAnswerId(int answerId) {
-		this.answerId = answerId;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getAnswerString() {
@@ -104,10 +94,14 @@ public class Answer implements Serializable {
 		this.weight = weight;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Override
 	public String toString() {
-		return "Answer [answerId=" + answerId + ", answerString=" + answerString + ", response=" + response
-				+ ", question=" + question + ", weight=" + weight + "]";
+		return "Answer [id=" + id + ", answerString=" + answerString + ", response=" + response + ", question="
+				+ question + ", weight=" + weight + "]";
 	}
 
 }

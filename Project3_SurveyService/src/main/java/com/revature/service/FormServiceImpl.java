@@ -4,13 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.entity.Form;
 import com.revature.repo.FormRepo;
 
 @Service
-@Transactional
 public class FormServiceImpl implements FormService {
 
 	private FormRepo formRepo;
@@ -38,7 +36,7 @@ public class FormServiceImpl implements FormService {
 
 	@Override
 	public void updateForm(Form form) {
-		formRepo.findById(form.getFormId()).ifPresent((existingForm) -> formRepo.save(form));
+		formRepo.findById(form.getId()).ifPresent((existingForm) -> formRepo.save(form));
 
 	}
 
@@ -60,7 +58,7 @@ public class FormServiceImpl implements FormService {
 			}
 		}
 		Form form = new Form(sourceId);
-		form.setFormId(formCount);
+		form.setId(formCount);
 		createForm(form);
 		form = getFormBySource(sourceId);
 		return form;

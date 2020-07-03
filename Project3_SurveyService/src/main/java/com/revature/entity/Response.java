@@ -20,14 +20,14 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "response", schema = "qcforce_survey")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "responseId")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Response implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name = "id")
-	private int responseId; // primary key
+	private int id; // primary key
 
 	@Column(name = "response_ts")
 	private Timestamp submittedResponseTs;
@@ -36,27 +36,27 @@ public class Response implements Serializable {
 	@JoinColumn(name = "form_id")
 	private Form form; // foreign key form_id
 
-	@OneToMany(mappedBy = "response", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "response", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Answer> answers = new ArrayList<Answer>();
 
 	public Response() {
 		super();
 	}
 
-	public Response(int responseId, Timestamp submittedResponseTs, Form form, List<Answer> answers) {
+	public Response(int id, Timestamp submittedResponseTs, Form form, List<Answer> answers) {
 		super();
-		this.responseId = responseId;
+		this.id = id;
 		this.submittedResponseTs = submittedResponseTs;
 		this.form = form;
 		this.answers = answers;
 	}
 
-	public int getResponseId() {
-		return responseId;
+	public int getId() {
+		return id;
 	}
 
-	public void setResponseId(int responseId) {
-		this.responseId = responseId;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Timestamp getSubmittedResponseTs() {
@@ -85,8 +85,8 @@ public class Response implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Response [responseId=" + responseId + ", submittedResponseTs=" + submittedResponseTs + ", form=" + form
-				+ ", answers=" + answers + "]";
+		return "Response [id=" + id + ", submittedResponseTs=" + submittedResponseTs + ", form=" + form + ", answers="
+				+ answers + "]";
 	}
 
 }

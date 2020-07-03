@@ -50,7 +50,7 @@ public class QuestionController {
 	@DeleteMapping("/Question/{questionId}")
 	public String deleteQuestion(@PathParam("questionId") int questionId) {
 		Question question = new Question();
-		question.setQuestionId(questionId);
+		question.setId(questionId);
 		questionService.deleteQuestion(question);
 		return "Form successfully deleted";
 	}

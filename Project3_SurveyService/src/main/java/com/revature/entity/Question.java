@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "question", schema = "qcforce_survey")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "questionId")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Question implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -29,7 +29,7 @@ public class Question implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private int questionId;// PK
+	private int id;// PK
 
 	@Column(name = "question_string")
 	private String questionString;
@@ -42,7 +42,7 @@ public class Question implements Serializable {
 	@JoinColumn(name = "form_id")
 	private Form form; // foreign key form_id
 
-	@OneToMany(mappedBy = "question", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Answer> answers = new ArrayList<Answer>();
 
 	public Question() {
@@ -50,9 +50,9 @@ public class Question implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Question(int questionId, String questionString, Form form, List<Answer> answers) {
+	public Question(int id, String questionString, Form form, List<Answer> answers) {
 		super();
-		this.questionId = questionId;
+		this.id = id;
 		this.questionString = questionString;
 		this.form = form;
 		this.answers = answers;
@@ -63,12 +63,12 @@ public class Question implements Serializable {
 		this.form = form;
 	}
 
-	public int getQuestionId() {
-		return questionId;
+	public int getId() {
+		return id;
 	}
 
-	public void setQuestionId(int questionId) {
-		this.questionId = questionId;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getQuestionString() {
@@ -97,8 +97,8 @@ public class Question implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Question [questionId=" + questionId + ", questionString=" + questionString + ", form=" + form
-				+ ", answers=" + answers + "]";
+		return "Question [id=" + id + ", questionString=" + questionString + ", form=" + form + ", answers=" + answers
+				+ "]";
 	}
 
 }
