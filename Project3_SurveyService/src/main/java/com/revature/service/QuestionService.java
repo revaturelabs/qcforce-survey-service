@@ -16,7 +16,7 @@ public interface QuestionService {
 
 	public void createQuestion(Question question);
 
-	public void updateQuestion(Question question);
+	public Question getOrCreateQuestion(Question question);
 
 	public void deleteQuestion(Question question);
 

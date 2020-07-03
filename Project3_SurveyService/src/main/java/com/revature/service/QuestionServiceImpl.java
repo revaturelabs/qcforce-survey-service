@@ -41,9 +41,14 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public void updateQuestion(Question question) {
-		questionRepo.findById(question.getQuestionId()).ifPresent((existingQuestion) -> questionRepo.save(question));
-
+	public Question getOrCreateQuestion(Question question) {
+		List<Question> qu = questionRepo.findByQuestionString(question.getQuestionString());
+		if (!qu.isEmpty()) {
+			return qu.get(0);
+		} else {
+			questionRepo.save(question);
+			return question;
+		}
 	}
 
 	@Override
