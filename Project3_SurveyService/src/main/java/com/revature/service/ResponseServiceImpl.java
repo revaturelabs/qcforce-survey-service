@@ -23,19 +23,18 @@ public class ResponseServiceImpl implements ResponseService {
 		return responseRepo.findAll();
 	}
 
-	/*
-	 * @Override public List<Response> getResponseByBatchName(String batchName) {
-	 * return responseRepo.findByBatchName(batchName); }
-	 */
 	@Override
-	public List<Response> getResponseByFormId(int formId) {
-		return (List<Response>) responseRepo.findById(formId).get();
+	public Boolean checkIfResponseExist(int formId) {
+		if (responseRepo.findById(formId).isPresent()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
 	public void saveResponse(Response response) {
 		responseRepo.save(response);
-
 	}
 
 	@Override
@@ -47,6 +46,21 @@ public class ResponseServiceImpl implements ResponseService {
 	public void deleteResponse(Response response) {
 		responseRepo.delete(response);
 
+	}
+
+	@Override
+	public List<Response> getByWeekAndBatch(String batchName, String week) {
+		return responseRepo.getByWeekAndBatch(batchName, week);
+	}
+
+	@Override
+	public List<Response> getByBatch(String batchName) {
+		return responseRepo.getByBatch(batchName);
+	}
+
+	@Override
+	public List<Response> getByWeek(String week) {
+		return responseRepo.getByWeek(week);
 	}
 
 }

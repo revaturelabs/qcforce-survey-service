@@ -38,14 +38,14 @@ public class Answer implements Serializable {
 	private Question question; // foreign key question_id
 
 	@Column(name = "weight")
-	private int weight;
+	private double weight;
 
 	public Answer() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Answer(int id, String answerString, Response response, Question question, int weight) {
+	public Answer(int id, String answerString, Response response, Question question, double weight) {
 		super();
 		this.id = id;
 		this.answerString = answerString;
@@ -86,11 +86,11 @@ public class Answer implements Serializable {
 		this.question = question;
 	}
 
-	public int getWeight() {
+	public double getWeight() {
 		return weight;
 	}
 
-	public void setWeight(int weight) {
+	public void setWeight(double weight) {
 		this.weight = weight;
 	}
 

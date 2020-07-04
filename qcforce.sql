@@ -49,3 +49,21 @@ alter table qcforce_survey.answer add constraint FK_answer_response_id
 
 alter table qcforce_survey.answer add constraint FK_answer_question_id
 	foreign key (question_id) references qcforce_survey.question (id) on delete cascade on update cascade;
+
+--INSERT INTO qcforce_survey.answer (answer_string, question_id)
+--VALUES ('2005Nick', 1);
+--INSERT INTO qcforce_survey.answer (answer_string, question_id)
+--VALUES ('1905Nick', 1);
+--INSERT INTO qcforce_survey.answer (answer_string, question_id)
+--VALUES ('2005Nick', 1);
+--INSERT INTO qcforce_survey.question (question_string)
+--VALUES ('What batch are you in?');
+--
+--
+--select distinct(answer_string) from qcforce_survey.answer a where a.question_id = (select id from qcforce_survey.question q where q.question_string = 'What batch are you in?');
+--
+-- 
+
+
+
+

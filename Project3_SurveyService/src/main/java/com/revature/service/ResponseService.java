@@ -8,10 +8,7 @@ public interface ResponseService {
 
 	public List<Response> getAllResponses();
 
-	/*
-	 * public List<Response> getResponseByBatchName(String batchName);
-	 */
-	public List<Response> getResponseByFormId(int formId);
+	public Boolean checkIfResponseExist(int formId);
 
 	public void saveResponse(Response response);
 
@@ -19,4 +16,9 @@ public interface ResponseService {
 
 	public void deleteResponse(Response response);
 
+	List<Response> getByWeekAndBatch(String batchName, String week);
+
+	List<Response> getByBatch(String batchName);
+
+	List<Response> getByWeek(String week);
 }

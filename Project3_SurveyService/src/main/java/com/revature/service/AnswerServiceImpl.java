@@ -51,4 +51,9 @@ public class AnswerServiceImpl implements AnswerService {
 
 	}
 
+	@Override
+	public List<String> getAnswerByQuestionString(String qString) {
+		return answerRepo.getAnswers(qString);
+	}
+
 }

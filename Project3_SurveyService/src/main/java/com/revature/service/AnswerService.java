@@ -17,5 +17,7 @@ public interface AnswerService {
 	public void updateAnswer(Answer answer);
 
 	public void deleteAnswer(Answer answer);
+	
+	public List<String> getAnswerByQuestionString(String qString);
 
 }
