@@ -62,27 +62,49 @@ public class MsgReceiver {
 		formResponse.setFormId(1);
 		List<String> questions = new ArrayList<String>(form.getQuestions());
 		List<String> answers = formResponse.getAnswers();
+		List<Double> weights = new ArrayList<Double>();
+		
 		for (int i = 0; i < answers.size(); i++) {
 			if (answers.get(i).toLowerCase().trim().startsWith("week")) {
 				formResponse.setWeek(answers.get(i));
+				weights.set(i,-100.0);
 			}
-			if (questions.get(i).toLowerCase().contains("what batch are you in")) {
+			else if (questions.get(i).toLowerCase().contains("what batch are you in")) {
 				formResponse.setBatch(answers.get(i).replace("/", "_"));
+				weights.set(i,-100.0);
 			}
-			if (answers.get(i).toLowerCase().trim().startsWith("n/a")) {
-				answers.set(i, "1.0");
+			else if (answers.get(i).toLowerCase().trim().startsWith("n/a")) {
+				weights.set(i,1.0);
 			}
-			if (answers.get(i).toLowerCase().trim().startsWith("strongly disagree")) {
-				answers.set(i, "2.0");
+			else if (answers.get(i).toLowerCase().trim().startsWith("strongly disagree")) {
+				weights.set(i,2.0);
 			}
-			if (answers.get(i).toLowerCase().trim().startsWith("disagree")) {
-				answers.set(i, "3.0");
+			else if (answers.get(i).toLowerCase().trim().startsWith("disagree")) {
+				weights.set(i, 3.0);
 			}
-			if (answers.get(i).toLowerCase().trim().startsWith("agree")) {
-				answers.set(i, "4.0");
+			else if (answers.get(i).toLowerCase().trim().startsWith("agree")) {
+				weights.set(i, 4.0);
 			}
-			if (answers.get(i).toLowerCase().trim().startsWith("strongly agree")) {
-				answers.set(i, "5.0");
+			else if (answers.get(i).toLowerCase().trim().startsWith("strongly agree")) {
+				weights.set(i, 5.0);
+			}
+			else if (answers.get(i).toLowerCase().trim().startsWith("yes")) {
+				weights.set(i, 1.0);
+			}
+			else if (answers.get(i).toLowerCase().trim().startsWith("no")) {
+				weights.set(i, 0.0);
+			}
+			else if(answers.get(i).toLowerCase().trim().startsWith("too slow")) {
+				weights.set(i, -1.0);
+			}
+			else if(answers.get(i).toLowerCase().trim().startsWith("good")) {
+				weights.set(i, 0.0);
+			}
+			else if(answers.get(i).toLowerCase().trim().startsWith("too fast")) {
+				weights.set(i, 1.0);
+			}
+			else{
+				weights.set(i, -100.0);
 			}
 		}
 		formResponse.setAnswers(answers);

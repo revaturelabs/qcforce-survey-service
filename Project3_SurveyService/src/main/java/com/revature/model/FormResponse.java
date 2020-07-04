@@ -31,7 +31,9 @@ public class FormResponse implements Serializable {
 
 	private List<String> answers;
 
-	private List<Integer> weights;
+	//private List<Integer> weights;
+	private List<Double> weights;
+
 
 	@Transient
 	private List<String> questions;
@@ -84,15 +86,23 @@ public class FormResponse implements Serializable {
 	public void setResponseId(int responseId) {
 		this.responseId = responseId;
 	}
-
+	/*
 	public List<Integer> getWeights() {
 		return weights;
 	}
-
+	*/
+	public List<Double> getWeights() {
+		return weights;
+	}
+	/*
 	public void setWeights(List<Integer> weights) {
 		this.weights = weights;
 	}
-
+	*/
+	public void setWeights(List<Double> weights) {
+		this.weights = weights;
+	}
+	
 	public FormResponse(int formId, String week, String batch, String timestamp, String sourceId, Set<String> questions,
 			List<String> answers) {
 		super();

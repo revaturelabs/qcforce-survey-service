@@ -32,6 +32,10 @@ public interface FormResponseService {
 	public List<FormResponse> getBatchForms(String batch);
 
 	public List<ChartData> getChartDataByBatch(String batch);
+	
+	public List<ChartData> getChartDataByWeek(String week);
+	
+	public List<ChartData> getAllChartData();
 
 	public ChartData calculateWeekNumbers(List<FormResponse> forms, String week, int id);
 

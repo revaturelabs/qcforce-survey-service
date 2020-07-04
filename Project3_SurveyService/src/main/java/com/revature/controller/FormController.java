@@ -43,10 +43,20 @@ public class FormController {
 		System.out.println(batchWeek);
 		return formResponseService.getBatchByNameAndWeek(batchName, batchWeek);
 	}
+	
+	@GetMapping("/batch/chartdatabatch/{week}")
+	public List<ChartData> getChartDataByWeek(@PathVariable(name = "week") String batchWeek) {
+		return formResponseService.getChartDataByWeek(batchWeek);
+	}
 
 	@GetMapping("/batch/chartdatabatch/{name}")
 	public List<ChartData> getChartDataByBatchName(@PathVariable(name = "name") String batchName) {
 		return formResponseService.getChartDataByBatch(batchName);
+	}
+	
+	@GetMapping("/batch/chartdatabatch/all")
+	public List<ChartData> getAllChartData() {
+		return formResponseService.getAllChartData();
 	}
 
 	@GetMapping("/batch/chartdatabatch/{name}/{week}")
