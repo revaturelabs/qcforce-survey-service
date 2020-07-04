@@ -2,14 +2,17 @@ package com.revature.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
+import com.mongodb.client.DistinctIterable;
 import com.revature.model.ChartData;
+import com.revature.model.Form;
 import com.revature.model.FormResponse;
+import com.revature.repo.FormRepo;
 import com.revature.repo.FormResponseRepo;
 
 @Service
@@ -17,9 +20,23 @@ public class FormResponseServiceImpl implements FormResponseService {
 
 	FormResponseRepo formResponseRepo;
 
+	FormRepo formRepo;
+
+	MongoTemplate mongoTemplate;
+
 	@Autowired
 	public void setFormResponseRepo(FormResponseRepo formResponseRepo) {
 		this.formResponseRepo = formResponseRepo;
+	}
+
+	@Autowired
+	public void setMongoTemplate(MongoTemplate mongoTemplate) {
+		this.mongoTemplate = mongoTemplate;
+	}
+
+	@Autowired
+	public void setFormRepo(FormRepo formRepo) {
+		this.formRepo = formRepo;
 	}
 
 	@Override
@@ -69,25 +86,34 @@ public class FormResponseServiceImpl implements FormResponseService {
 
 	@Override
 	public List<String> getBatchNames() {
-		return new ArrayList<String>(new LinkedHashSet<String>(formResponseRepo.getBatches()));
+		ArrayList<String> result = new ArrayList<String>();
+		DistinctIterable<String> values = getUniqueTask();
+		values.into(result);
+		return result;
+	}
+
+	public DistinctIterable<String> getUniqueTask() {
+
+		return mongoTemplate.getCollection("formscollection").distinct("batch", String.class);
 	}
 
 	public List<FormResponse> getBatchForms(String batch) {
-		return formResponseRepo.getBatchForms(batch);
+		return formResponseRepo.findByBatch(batch);
 
 	}
 
 	@Override
 	public List<String> getBatchWeeks() {
-		return new ArrayList<String>(new LinkedHashSet<String>(formResponseRepo.getWeeks()));
+		List<String> result = new ArrayList<String>();
+		mongoTemplate.getCollection("formscollection").distinct("week", String.class).into(result);
+		return result;
 	}
 
 	@Override
 	public List<FormResponse> getBatchByNameAndWeek(String batch, String week) {
 		System.out.println("Batch: " + batch);
 		System.out.println("Week: " + week);
-		System.out.println(formResponseRepo.getBatchFormsbyWeek(batch, week));
-		return formResponseRepo.getBatchFormsbyWeek(batch, week);
+		return formResponseRepo.findByBatchAndWeek(batch, week);
 	}
 
 	@Override
@@ -95,18 +121,18 @@ public class FormResponseServiceImpl implements FormResponseService {
 		List<String> weeks = getBatchWeeks();
 		List<ChartData> chartsByWeek = new ArrayList<ChartData>();
 		for (String week : weeks) {
-			chartsByWeek.add(calculateWeekNumbers(getBatchByNameAndWeek(batch, week), week));
+			chartsByWeek.add(calculateWeekNumbers(getBatchByNameAndWeek(batch, week), week, 1));
 		}
 		return chartsByWeek;
 	}
 
 	@Override
 	public ChartData getChartDataByBatchAndWeek(String batch, String week) {
-		return calculateWeekNumbers(getBatchByNameAndWeek(batch, week), week);
+		return calculateWeekNumbers(getBatchByNameAndWeek(batch, week), week, 1);
 	}
 
 	@Override
-	public ChartData calculateWeekNumbers(List<FormResponse> forms, String week) {
+	public ChartData calculateWeekNumbers(List<FormResponse> forms, String week, int id) {
 
 		try {
 			forms.get(0).getAnswers().size();
@@ -120,10 +146,11 @@ public class FormResponseServiceImpl implements FormResponseService {
 			data.set(j, 0.0);
 		}
 		// Cycle through forms for the week
+		Form form = formRepo.findById(id);
 		for (FormResponse f : forms) {
 			// Convert from collection
-			List<String> ans = (List<String>) f.getAnswers();
-			List<String> ques = (List<String>) f.getQuestions();
+			List<String> ans = f.getAnswers();
+			List<String> ques = form.getQuestions();
 			// System.out.println("Form Id : " + f.getFormId());
 			// System.out.println("Week : " + week);
 			// Finds columns of interest
@@ -140,8 +167,10 @@ public class FormResponseServiceImpl implements FormResponseService {
 			}
 			// System.out.println("Sums : " + data.toString());
 		}
+
 		// System.out.println("Question size : " + forms.size());
 		// Calculates average
+
 		for (int j = 0; j < data.size(); j++) {
 			data.set(j, data.get(j) / Double.parseDouble(forms.size() + ""));
 		}

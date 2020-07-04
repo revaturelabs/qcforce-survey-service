@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,23 +12,56 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.revature.model.Form;
 import com.revature.model.FormResponse;
+import com.revature.repo.FormRepo;
+import com.revature.repo.FormResponseRepo;
 
 @Service
 public class MsgReceiver {
 
-	FormResponseService formResponseService;
+	private FormResponseRepo formResponseRepo;
+
+	private FormRepo formRepository;
+
+	private Form form;
+
+	private boolean init = false;
 
 	@Autowired
-	public void setFormResponseService(FormResponseService formResponseService) {
-		this.formResponseService = formResponseService;
+	public void setFormRepository(FormRepo formRepository) {
+		this.formRepository = formRepository;
+	}
+
+	@Autowired
+	public void setFormResponseRepo(FormResponseRepo formResponseRepo) {
+		this.formResponseRepo = formResponseRepo;
+	}
+
+	public void init() {
+		form = new Form();
+		form.setId(1);
+		formRepository.save(form);
+		System.out.println("Updated form");
 	}
 
 	@RabbitListener(queues = "FormResponse-Queue")
 	public void recievedMessage(FormResponse formResponse) {
+		// Map to form temporary to form 1
 		System.out.println(formResponse.getFormId());
-		List<String> questions = (List<String>) formResponse.getQuestions();
-		List<String> answers = (List<String>) formResponse.getAnswers();
+		// Map Ids
+		if (!init) {
+			form = new Form();
+			form.setId(1);
+			formRepository.save(form);
+			System.out.println("Updated form");
+		}
+		formRepository.save(form);
+		form.setQuestions(formResponse.getQuestions());
+		formResponse.setResponseId(formResponse.getFormId());
+		formResponse.setFormId(1);
+		List<String> questions = new ArrayList<String>(form.getQuestions());
+		List<String> answers = formResponse.getAnswers();
 		for (int i = 0; i < answers.size(); i++) {
 			if (answers.get(i).toLowerCase().trim().startsWith("week")) {
 				formResponse.setWeek(answers.get(i));
@@ -52,11 +86,12 @@ public class MsgReceiver {
 			}
 		}
 		formResponse.setAnswers(answers);
-		// System.out.println(formResponse.getAnswers().toString());
+		// System.out.println(formResponse.getBatch());
 		try {
-			formResponseService.save(formResponse);
-			FormResponse f = formResponseService.findById(formResponse.getFormId());
-			System.out.println("Recovered Successfully: " + f.toString());
+			formRepository.save(form);
+			formResponseRepo.save(formResponse);
+			FormResponse f = formResponseRepo.findByResponseId(formResponse.getFormId());
+			// System.out.println("Recovered Successfully: " + f.toString());
 		} catch (Exception e) {
 
 		}

@@ -2,26 +2,18 @@ package com.revature.repo;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.revature.model.FormResponse;
 
-@Repository
-public interface FormResponseRepo extends JpaRepository<FormResponse, Integer> {
+public interface FormResponseRepo extends MongoRepository<FormResponse, Integer> {
 
-	@Query("SELECT NEW list(b.batch) FROM FormResponse b")
-	List<String> getBatches();
+	public FormResponse findByResponseId(int responseID);
 
-	@Query("SELECT NEW list(b.week) FROM FormResponse b")
-	List<String> getWeeks();
+	public List<FormResponse> findByBatch(String batch);
 
-	@Query("SELECT b FROM FormResponse b WHERE b.batch = :batch")
-	List<FormResponse> getBatchForms(@Param("batch") String batch);
+	public List<FormResponse> findByWeek(String week);
 
-	@Query("SELECT b FROM FormResponse b WHERE b.batch= :batch AND b.week= :week")
-	List<FormResponse> getBatchFormsbyWeek(@Param("batch") String batch, @Param("week") String week);
+	public List<FormResponse> findByBatchAndWeek(String batch, String week);
 
 }

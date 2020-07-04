@@ -2,48 +2,51 @@ package com.revature.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * @authors
  *
  */
-@Entity
+@Document(collection = "formscollection")
 public class FormResponse implements Serializable {
 
 	private static final long serialVersionUID = 9136762341724971453L;
 
 	@Id
+	private int responseId;
+
 	private int formId;
 
-	@Column
-	private String week;
-
-	@Column
 	private String batch;
 
-	@Column
+	private String week;
+
 	private String timestamp;
 
+	private List<String> answers;
+
+	private List<Integer> weights;
+
 	@Transient
-	private String sourceId;
-
-	@ElementCollection
-	private Collection<String> questions;
-
-	@ElementCollection
-	private Collection<String> answers;
+	private List<String> questions;
 
 	public FormResponse() {
 		super();
-		this.questions = new ArrayList<String>();
 		this.answers = new ArrayList<String>();
+	}
+
+	public List<String> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(List<String> answers) {
+		this.answers = answers;
 	}
 
 	/**
@@ -74,79 +77,29 @@ public class FormResponse implements Serializable {
 		this.timestamp = timestamp;
 	}
 
-	/**
-	 * @return
-	 */
-	public String getSourceId() {
-		return sourceId;
+	public int getResponseId() {
+		return responseId;
 	}
 
-	/**
-	 * @param sourceId
-	 */
-	public void setSourceId(String sourceId) {
-		this.sourceId = sourceId;
+	public void setResponseId(int responseId) {
+		this.responseId = responseId;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((answers == null) ? 0 : answers.hashCode());
-		result = prime * result + formId;
-		result = prime * result + ((questions == null) ? 0 : questions.hashCode());
-		result = prime * result + ((sourceId == null) ? 0 : sourceId.hashCode());
-		result = prime * result + ((timestamp == null) ? 0 : timestamp.hashCode());
-		return result;
+	public List<Integer> getWeights() {
+		return weights;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		FormResponse other = (FormResponse) obj;
-		if (answers == null) {
-			if (other.answers != null)
-				return false;
-		} else if (!answers.equals(other.answers))
-			return false;
-		if (formId != other.formId)
-			return false;
-		if (questions == null) {
-			if (other.questions != null)
-				return false;
-		} else if (!questions.equals(other.questions))
-			return false;
-		if (sourceId == null) {
-			if (other.sourceId != null)
-				return false;
-		} else if (!sourceId.equals(other.sourceId))
-			return false;
-		if (timestamp == null) {
-			if (other.timestamp != null)
-				return false;
-		} else if (!timestamp.equals(other.timestamp))
-			return false;
-		return true;
+	public void setWeights(List<Integer> weights) {
+		this.weights = weights;
 	}
 
-	public Collection<String> getQuestions() {
-		return questions;
-	}
-
-	public void setQuestions(Collection<String> questions) {
-		this.questions = questions;
-	}
-
-	public Collection<String> getAnswers() {
-		return answers;
-	}
-
-	public void setAnswers(Collection<String> answers) {
+	public FormResponse(int formId, String week, String batch, String timestamp, String sourceId, Set<String> questions,
+			List<String> answers) {
+		super();
+		this.formId = formId;
+		this.week = week;
+		this.batch = batch;
+		this.timestamp = timestamp;
 		this.answers = answers;
 	}
 
@@ -167,10 +120,73 @@ public class FormResponse implements Serializable {
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((answers == null) ? 0 : answers.hashCode());
+		result = prime * result + ((batch == null) ? 0 : batch.hashCode());
+		result = prime * result + formId;
+		result = prime * result + responseId;
+		result = prime * result + ((timestamp == null) ? 0 : timestamp.hashCode());
+		result = prime * result + ((week == null) ? 0 : week.hashCode());
+		result = prime * result + ((weights == null) ? 0 : weights.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FormResponse other = (FormResponse) obj;
+		if (answers == null) {
+			if (other.answers != null)
+				return false;
+		} else if (!answers.equals(other.answers))
+			return false;
+		if (batch == null) {
+			if (other.batch != null)
+				return false;
+		} else if (!batch.equals(other.batch))
+			return false;
+		if (formId != other.formId)
+			return false;
+		if (responseId != other.responseId)
+			return false;
+		if (timestamp == null) {
+			if (other.timestamp != null)
+				return false;
+		} else if (!timestamp.equals(other.timestamp))
+			return false;
+		if (week == null) {
+			if (other.week != null)
+				return false;
+		} else if (!week.equals(other.week))
+			return false;
+		if (weights == null) {
+			if (other.weights != null)
+				return false;
+		} else if (!weights.equals(other.weights))
+			return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
-		return "FormResponse [getFormId()=" + getFormId() + ", getTimestamp()=" + getTimestamp() + ", getSourceId()="
-				+ getSourceId() + ", hashCode()=" + hashCode() + ", getQuestions()=" + getQuestions()
-				+ ", getAnswers()=" + getAnswers() + "]";
+		return "FormResponse [getAnswers()=" + getAnswers() + ", getFormId()=" + getFormId() + ", getTimestamp()="
+				+ getTimestamp() + ", getResponseId()=" + getResponseId() + ", getWeights()=" + getWeights()
+				+ ", getWeek()=" + getWeek() + ", getBatch()=" + getBatch() + ", hashCode()=" + hashCode() + "]";
+	}
+
+	public List<String> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(List<String> questions) {
+		this.questions = questions;
 	}
 
 }
