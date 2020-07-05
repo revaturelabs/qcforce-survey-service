@@ -73,6 +73,21 @@ public class MsgReceiver {
 				formResponse.setBatch(answers.get(i).replace("/", "_"));
 				weights.set(i,-100.0);
 			}
+			else if (answers.get(i).toLowerCase().trim().startsWith("1")) {
+				weights.set(i,1.0);
+			}
+			else if (answers.get(i).toLowerCase().trim().startsWith("2")) {
+				weights.set(i,2.0);
+			}
+			else if (answers.get(i).toLowerCase().trim().startsWith("3")) {
+				weights.set(i,3.0);
+			}
+			else if (answers.get(i).toLowerCase().trim().startsWith("4")) {
+				weights.set(i,4.0);
+			}
+			else if (answers.get(i).toLowerCase().trim().startsWith("5")) {
+				weights.set(i,5.0);
+			}
 			else if (answers.get(i).toLowerCase().trim().startsWith("n/a")) {
 				weights.set(i,1.0);
 			}
