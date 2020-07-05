@@ -124,6 +124,7 @@ public class MsgReceiver {
 				weights.add(-100.0);
 			}
 		}
+		formResponse.setWeights(weights);
 		formResponse.setAnswers(answers);
 		// System.out.println(formResponse.getBatch());
 		try {
