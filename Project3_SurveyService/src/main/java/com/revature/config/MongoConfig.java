@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.MongoTransactionManager;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
@@ -14,7 +16,9 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 
 @Configuration
+@PropertySource("classpath:application.yml")
 public class MongoConfig extends AbstractMongoConfiguration {
+	
 	@Value("${spring.data.mongodb.uri}")
 	private String mongoUri;
 	@Value("${spring.data.mongodb.database}")

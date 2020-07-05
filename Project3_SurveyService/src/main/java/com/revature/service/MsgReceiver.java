@@ -19,7 +19,7 @@ import com.revature.repo.FormRepo;
 import com.revature.repo.FormResponseRepo;
 
 @Service
-@Transactional
+//@Transactional
 public class MsgReceiver {
 
 	private FormResponseRepo formResponseRepo;

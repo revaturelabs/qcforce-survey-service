@@ -5,7 +5,7 @@ server:
 spring:
   main:
     allow-bean-definition-overriding: true
-    banner-mode: off
+    banner-mode: "off"
   rabbitmq:
     port: 5672
     host: ec2-3-128-80-159.us-east-2.compute.amazonaws.com
