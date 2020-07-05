@@ -11,6 +11,7 @@ import java.util.List;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.model.Form;
 import com.revature.model.FormResponse;
@@ -18,6 +19,7 @@ import com.revature.repo.FormRepo;
 import com.revature.repo.FormResponseRepo;
 
 @Service
+@Transactional
 public class MsgReceiver {
 
 	private FormResponseRepo formResponseRepo;
