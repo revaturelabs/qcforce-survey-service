@@ -67,59 +67,59 @@ public class MsgReceiver {
 		for (int i = 0; i < answers.size(); i++) {
 			if (answers.get(i).toLowerCase().trim().startsWith("week")) {
 				formResponse.setWeek(answers.get(i));
-				weights.set(i,-100.0);
+				weights.add(-100.0);
 			}
 			else if (questions.get(i).toLowerCase().contains("what batch are you in")) {
 				formResponse.setBatch(answers.get(i).replace("/", "_"));
-				weights.set(i,-100.0);
+				weights.add(-100.0);
 			}
 			else if (answers.get(i).toLowerCase().trim().startsWith("1")) {
-				weights.set(i,1.0);
+				weights.add(1.0);
 			}
 			else if (answers.get(i).toLowerCase().trim().startsWith("2")) {
-				weights.set(i,2.0);
+				weights.add(2.0);
 			}
 			else if (answers.get(i).toLowerCase().trim().startsWith("3")) {
-				weights.set(i,3.0);
+				weights.add(3.0);
 			}
 			else if (answers.get(i).toLowerCase().trim().startsWith("4")) {
-				weights.set(i,4.0);
+				weights.add(4.0);
 			}
 			else if (answers.get(i).toLowerCase().trim().startsWith("5")) {
-				weights.set(i,5.0);
+				weights.add(5.0);
 			}
 			else if (answers.get(i).toLowerCase().trim().startsWith("n/a")) {
-				weights.set(i,1.0);
+				weights.add(1.0);
 			}
 			else if (answers.get(i).toLowerCase().trim().startsWith("strongly disagree")) {
-				weights.set(i,2.0);
+				weights.add(2.0);
 			}
 			else if (answers.get(i).toLowerCase().trim().startsWith("disagree")) {
-				weights.set(i, 3.0);
+				weights.add(3.0);
 			}
 			else if (answers.get(i).toLowerCase().trim().startsWith("agree")) {
-				weights.set(i, 4.0);
+				weights.add(4.0);
 			}
 			else if (answers.get(i).toLowerCase().trim().startsWith("strongly agree")) {
-				weights.set(i, 5.0);
+				weights.add(5.0);
 			}
 			else if (answers.get(i).toLowerCase().trim().startsWith("yes")) {
-				weights.set(i, 1.0);
+				weights.add(1.0);
 			}
 			else if (answers.get(i).toLowerCase().trim().startsWith("no")) {
-				weights.set(i, 0.0);
+				weights.add(0.0);
 			}
 			else if(answers.get(i).toLowerCase().trim().startsWith("too slow")) {
-				weights.set(i, -1.0);
+				weights.add(-1.0);
 			}
 			else if(answers.get(i).toLowerCase().trim().startsWith("good")) {
-				weights.set(i, 0.0);
+				weights.add(0.0);
 			}
 			else if(answers.get(i).toLowerCase().trim().startsWith("too fast")) {
-				weights.set(i, 1.0);
+				weights.add(1.0);
 			}
 			else{
-				weights.set(i, -100.0);
+				weights.add(-100.0);
 			}
 		}
 		formResponse.setAnswers(answers);

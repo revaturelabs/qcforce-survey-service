@@ -19,15 +19,17 @@ public class EmailScheduler {
 	public void setEmailService(EmailService emailService) {
 		this.emailService = emailService;
 	}
-	
+	/*
 	public List<String> recieveEmailList() {
 		WebClient emails = WebClient.create("");
 		return emails.get().uri("").retrieve().toEntityList(String.class).block().getBody();
 
       
 	}
+	*/
 	
-	@Scheduled(fixedDelay = 30000)
+	/*
+	//@Scheduled(fixedDelay = 30000)
 	public void sendmail() {
 		List<String> emailList = recieveEmailList();
 		
@@ -37,4 +39,5 @@ public class EmailScheduler {
 			System.out.println(emailList);
 		}
 	}
+	*/
 }
