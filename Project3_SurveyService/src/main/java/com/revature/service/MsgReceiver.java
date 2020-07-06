@@ -75,49 +75,49 @@ public class MsgReceiver {
 				formResponse.setBatch(answers.get(i).replace("/", "_"));
 				weights.add(-100.0);
 			}
-			else if (answers.get(i).toLowerCase().trim().startsWith("1")) {
+			else if (answers.get(i).toLowerCase().trim().equals("1")) {
 				weights.add(1.0);
 			}
-			else if (answers.get(i).toLowerCase().trim().startsWith("2")) {
+			else if (answers.get(i).toLowerCase().trim().equals("2")) {
 				weights.add(2.0);
 			}
-			else if (answers.get(i).toLowerCase().trim().startsWith("3")) {
+			else if (answers.get(i).toLowerCase().trim().equals("3")) {
 				weights.add(3.0);
 			}
-			else if (answers.get(i).toLowerCase().trim().startsWith("4")) {
+			else if (answers.get(i).toLowerCase().trim().equals("4")) {
 				weights.add(4.0);
 			}
-			else if (answers.get(i).toLowerCase().trim().startsWith("5")) {
+			else if (answers.get(i).toLowerCase().trim().equals("5")) {
 				weights.add(5.0);
 			}
-			else if (answers.get(i).toLowerCase().trim().startsWith("n/a")) {
+			else if (answers.get(i).toLowerCase().trim().equals("n/a")) {
 				weights.add(1.0);
 			}
-			else if (answers.get(i).toLowerCase().trim().startsWith("strongly disagree")) {
+			else if (answers.get(i).toLowerCase().trim().equals("strongly disagree")) {
 				weights.add(2.0);
 			}
-			else if (answers.get(i).toLowerCase().trim().startsWith("disagree")) {
+			else if (answers.get(i).toLowerCase().trim().equals("disagree")) {
 				weights.add(3.0);
 			}
-			else if (answers.get(i).toLowerCase().trim().startsWith("agree")) {
+			else if (answers.get(i).toLowerCase().trim().equals("agree")) {
 				weights.add(4.0);
 			}
-			else if (answers.get(i).toLowerCase().trim().startsWith("strongly agree")) {
+			else if (answers.get(i).toLowerCase().trim().equals("strongly agree")) {
 				weights.add(5.0);
 			}
-			else if (answers.get(i).toLowerCase().trim().startsWith("yes")) {
+			else if (answers.get(i).toLowerCase().trim().equals("yes")) {
 				weights.add(1.0);
 			}
-			else if (answers.get(i).toLowerCase().trim().startsWith("no")) {
+			else if (answers.get(i).toLowerCase().trim().equals("no")) {
 				weights.add(0.0);
 			}
-			else if(answers.get(i).toLowerCase().trim().startsWith("too slow")) {
+			else if(answers.get(i).toLowerCase().trim().equals("too slow")) {
 				weights.add(-1.0);
 			}
-			else if(answers.get(i).toLowerCase().trim().startsWith("good")) {
+			else if(answers.get(i).toLowerCase().trim().equals("good")) {
 				weights.add(0.0);
 			}
-			else if(answers.get(i).toLowerCase().trim().startsWith("too fast")) {
+			else if(answers.get(i).toLowerCase().trim().equals("too fast")) {
 				weights.add(1.0);
 			}
 			else{

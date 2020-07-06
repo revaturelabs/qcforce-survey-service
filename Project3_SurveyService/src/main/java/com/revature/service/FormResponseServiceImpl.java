@@ -137,14 +137,31 @@ public class FormResponseServiceImpl implements FormResponseService {
 	}
 	
 	@Override
-	public List<ChartData> getAllChartData() {
+	public ChartData getAllChartData() {
 		List<String> weeks = getBatchWeeks();
+		List<String> batches = getBatchNames();
 		List<ChartData> charts = new ArrayList<ChartData>();
-		
+		for(String batch: batches) {
 			for(String week: weeks) {
-				charts.add(calculateWeekNumbers(findAll(), week, 1));
+				charts.add(calculateWeekNumbers(getBatchByNameAndWeek(batch, week), week, 1));
+			}
 		}
-		return charts;
+		ChartData result = new ChartData("All Batches Average");
+		Form f = formRepo.findById(1);
+		for (String key : f.getQuestions())
+		{
+			double sum=0;
+			int offset=0;
+			for (ChartData chart : charts)
+			{	try {
+					sum+=chart.getData().get(key);
+				}catch(Exception e) {
+					offset++;
+				}
+			}
+			result.getData().put(key,sum/(charts.size()-offset));
+		}
+			return result;
 	}
 
 	@Override
@@ -161,48 +178,33 @@ public class FormResponseServiceImpl implements FormResponseService {
 			return new ChartData(week);
 		}
 		ArrayList<Double> data = new ArrayList<Double>(Arrays.asList(new Double[forms.get(0).getAnswers().size()]));
-
-		ArrayList<String> questions = new ArrayList<String>();
 		
 		for (int j = 0; j < data.size(); j++) {
 			data.set(j, 0.0);
 		}
 		// Cycle through forms for the week
 		Form form = formRepo.findById(id);
+		List<String> ques = form.getQuestions();
 		for (FormResponse f : forms) {
 			// Convert from collection
-			//List<String> ans = f.getAnswers();
 			List<Double> weights = f.getWeights();
-			List<String> ques = form.getQuestions();
 			
 			System.out.println("Form Id : " + f.getFormId());
 			System.out.println("Week : " + week);
 			
 			// Finds columns of interest
-			//for (int i = 0; i < ans.size(); i++) {
+
 				for (int i = 0; i < weights.size(); i++) {
 					double value = weights.get(i);
 					
 					if(weights.get(i) == -100.0) {
-						data.set(i, -2.0);
+						data.set(i, -100.0);
 					}else {
 						data.set(i, data.get(i) + value);
-						questions.add(ques.get(i));
 					}
-				/*
-				try {
-					double value = Double.parseDouble(ans.get(i).trim());
-					
-					// System.out.println("Value : " + value);
-					data.set(i, data.get(i) + value);
-					questions.add(ques.get(i));
-
-				} catch (Exception e) {
-					data.set(i, -1.0);
-				}
-				*/
 			}
 			System.out.println("Sums : " + data.toString());
+			System.out.println("Weights: "+ weights.toString());
 		}
 
 		System.out.println("Question size : " + forms.size());
@@ -212,12 +214,11 @@ public class FormResponseServiceImpl implements FormResponseService {
 			data.set(j, data.get(j) / Double.parseDouble(forms.size() + ""));
 		}
 		ChartData chartData = new ChartData(week);
-		int qIndex = 0;
 		// Removes unnecessary values
-		for (int i = data.size() - 1; i > -1; i--) {
-			if (data.get(i) >= -1.0) {
-				chartData.getData().put(questions.get(qIndex), data.get(i));
-				qIndex++;
+		System.out.println(ques.toString());
+		for (int i = 0; i < data.size(); i++) {
+			if (data.get(i) > -2.0) {
+				chartData.getData().put(ques.get(i), data.get(i));
 			}
 		}
 		// Returns data

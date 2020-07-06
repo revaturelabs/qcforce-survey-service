@@ -35,7 +35,7 @@ public interface FormResponseService {
 	
 	public List<ChartData> getChartDataByWeek(String week);
 	
-	public List<ChartData> getAllChartData();
+	public ChartData getAllChartData();
 
 	public ChartData calculateWeekNumbers(List<FormResponse> forms, String week, int id);
 
