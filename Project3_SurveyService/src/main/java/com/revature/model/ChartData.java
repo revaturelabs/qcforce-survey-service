@@ -5,11 +5,14 @@ import java.util.HashMap;
 public class ChartData {
 	String label;
 
+	String batch;
+
 	HashMap<String, Double> data;
 
-	public ChartData(String label) {
+	public ChartData(String batch, String label) {
 		super();
 		this.label = label;
+		this.batch = batch;
 		this.data = new HashMap<String, Double>();
 	}
 
@@ -32,6 +35,14 @@ public class ChartData {
 	@Override
 	public String toString() {
 		return "ChartData [getLabel()=" + getLabel() + ", getData()=" + getData() + "]";
+	}
+
+	public String getBatch() {
+		return batch;
+	}
+
+	public void setBatch(String batch) {
+		this.batch = batch;
 	}
 
 }

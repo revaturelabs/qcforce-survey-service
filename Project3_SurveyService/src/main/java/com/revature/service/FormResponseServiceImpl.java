@@ -92,14 +92,17 @@ public class FormResponseServiceImpl implements FormResponseService {
 		return result;
 	}
 
+	/**
+	 * @return
+	 */
 	public DistinctIterable<String> getUniqueTask() {
 
 		return mongoTemplate.getCollection("formscollection").distinct("batch", String.class);
 	}
 
+	@Override
 	public List<FormResponse> getBatchForms(String batch) {
 		return formResponseRepo.findByBatch(batch);
-
 	}
 
 	@Override
@@ -115,70 +118,99 @@ public class FormResponseServiceImpl implements FormResponseService {
 		System.out.println("Week: " + week);
 		return formResponseRepo.findByBatchAndWeek(batch, week);
 	}
-	
+
 	@Override
 	public List<ChartData> getChartDataByBatch(String batch) {
 		List<String> weeks = getBatchWeeks();
 		List<ChartData> chartsByWeek = new ArrayList<ChartData>();
 		for (String week : weeks) {
-			chartsByWeek.add(calculateWeekNumbers(getBatchByNameAndWeek(batch, week), week, 1));
+			chartsByWeek.add(calculateWeekNumbers(getBatchByNameAndWeek(batch, week), batch, week, 1));
 		}
 		return chartsByWeek;
 	}
-	
+
 	@Override
 	public List<ChartData> getChartDataByWeek(String week) {
 		List<String> batches = getBatchNames();
 		List<ChartData> chartsByBatch = new ArrayList<ChartData>();
 		for (String batch : batches) {
-			chartsByBatch.add(calculateWeekNumbers(getBatchByNameAndWeek(batch, week), week, 1));
+			chartsByBatch.add(calculateWeekNumbers(getBatchByNameAndWeek(batch, week), batch, week, 1));
 		}
 		return chartsByBatch;
 	}
-	
+
 	@Override
 	public ChartData getAllChartData() {
 		List<String> weeks = getBatchWeeks();
 		List<String> batches = getBatchNames();
 		List<ChartData> charts = new ArrayList<ChartData>();
-		for(String batch: batches) {
-			for(String week: weeks) {
-				charts.add(calculateWeekNumbers(getBatchByNameAndWeek(batch, week), week, 1));
+		for (String batch : batches) {
+			for (String week : weeks) {
+				charts.add(calculateWeekNumbers(getBatchByNameAndWeek(batch, week), batch, week, 1));
 			}
 		}
-		ChartData result = new ChartData("All Batches Average");
+		return mergeChartData(charts, "Average for all batches across all weeks.");
+	}
+
+	@Override
+	public ChartData getBatchesAverageByWeek(String week) {
+		List<String> batches = getBatchNames();
+		List<ChartData> charts = new ArrayList<ChartData>();
+		for (String batch : batches) {
+			charts.add(calculateWeekNumbers(getBatchByNameAndWeek(batch, week), batch, week, 1));
+		}
+		return mergeChartData(charts, "Average for " + week + " for all batches.");
+
+	}
+
+	@Override
+	public ChartData getWeeksAverageByBatch(String batch) {
+		List<String> weeks = getBatchWeeks();
+		List<ChartData> charts = new ArrayList<ChartData>();
+		for (String week : weeks) {
+			charts.add(calculateWeekNumbers(getBatchByNameAndWeek(batch, week), batch, week, 1));
+		}
+		return mergeChartData(charts, "Average of all weeks for batch :" + batch);
+	}
+
+	/**
+	 * @param charts
+	 * @param label
+	 * @return
+	 */
+	private ChartData mergeChartData(List<ChartData> charts, String label) {
+		ChartData result = new ChartData("", label);
 		Form f = formRepo.findById(1);
-		for (String key : f.getQuestions())
-		{
-			double sum=0;
-			int offset=0;
-			for (ChartData chart : charts)
-			{	try {
-					sum+=chart.getData().get(key);
-				}catch(Exception e) {
+		for (String key : f.getQuestions()) {
+			double sum = 0;
+			int offset = 0;
+			for (ChartData chart : charts) {
+				try {
+					sum += chart.getData().get(key);
+				} catch (Exception e) {
 					offset++;
 				}
 			}
-			result.getData().put(key,sum/(charts.size()-offset));
+			result.getData().put(key, sum / (charts.size() - offset));
 		}
-			return result;
+		return result;
 	}
 
 	@Override
 	public ChartData getChartDataByBatchAndWeek(String batch, String week) {
-		return calculateWeekNumbers(getBatchByNameAndWeek(batch, week), week, 1);
+		return calculateWeekNumbers(getBatchByNameAndWeek(batch, week), batch, week, 1);
 	}
 
 	@Override
-	public ChartData calculateWeekNumbers(List<FormResponse> forms, String week, int id) {
+	public ChartData calculateWeekNumbers(List<FormResponse> forms, String batch, String week, int id) {
 
 		try {
 			forms.get(0).getAnswers().size();
 		} catch (Exception e) {
-			return new ChartData(week);
+			return new ChartData(batch, week);
 		}
 		ArrayList<Double> data = new ArrayList<Double>(Arrays.asList(new Double[forms.get(0).getAnswers().size()]));
-		
+
 		for (int j = 0; j < data.size(); j++) {
 			data.set(j, 0.0);
 		}
@@ -188,32 +220,32 @@ public class FormResponseServiceImpl implements FormResponseService {
 		for (FormResponse f : forms) {
 			// Convert from collection
 			List<Double> weights = f.getWeights();
-			
+
 			System.out.println("Form Id : " + f.getFormId());
 			System.out.println("Week : " + week);
-			
+
 			// Finds columns of interest
 
-				for (int i = 0; i < weights.size(); i++) {
-					double value = weights.get(i);
-					
-					if(weights.get(i) == -100.0) {
-						data.set(i, -100.0);
-					}else {
-						data.set(i, data.get(i) + value);
-					}
+			for (int i = 0; i < weights.size(); i++) {
+				double value = weights.get(i);
+
+				if (weights.get(i) == -100.0) {
+					data.set(i, -100.0);
+				} else {
+					data.set(i, data.get(i) + value);
+				}
 			}
 			System.out.println("Sums : " + data.toString());
-			System.out.println("Weights: "+ weights.toString());
+			System.out.println("Weights: " + weights.toString());
 		}
 
 		System.out.println("Question size : " + forms.size());
-		
+
 		// Calculates average
 		for (int j = 0; j < data.size(); j++) {
 			data.set(j, data.get(j) / Double.parseDouble(forms.size() + ""));
 		}
-		ChartData chartData = new ChartData(week);
+		ChartData chartData = new ChartData(batch, week);
 		// Removes unnecessary values
 		System.out.println(ques.toString());
 		for (int i = 0; i < data.size(); i++) {

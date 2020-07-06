@@ -3,6 +3,7 @@ package com.revature.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +13,7 @@ import com.revature.model.FormResponse;
 import com.revature.service.FormResponseService;
 
 @RestController
+@CrossOrigin
 public class FormController {
 
 	private FormResponseService formResponseService;
@@ -43,7 +45,7 @@ public class FormController {
 		System.out.println(batchWeek);
 		return formResponseService.getBatchByNameAndWeek(batchName, batchWeek);
 	}
-	
+
 	@GetMapping("/batch/chartdatabatch/week/{week}")
 	public List<ChartData> getChartDataByWeek(@PathVariable(name = "week") String batchWeek) {
 		return formResponseService.getChartDataByWeek(batchWeek);
@@ -53,10 +55,20 @@ public class FormController {
 	public List<ChartData> getChartDataByBatchName(@PathVariable(name = "name") String batchName) {
 		return formResponseService.getChartDataByBatch(batchName);
 	}
-	
+
 	@GetMapping("/batch/chartdatabatch/all")
 	public ChartData getAllChartData() {
 		return formResponseService.getAllChartData();
+	}
+
+	@GetMapping("/batch/chartdatabatch/all/week/{week}")
+	public ChartData getBatchesAverageByWeek(@PathVariable(name = "week") String week) {
+		return formResponseService.getBatchesAverageByWeek(week);
+	}
+
+	@GetMapping("/batch/chartdatabatch/all/batch/{batch}")
+	public ChartData getWeeksAverageByBatch(@PathVariable(name = "batch") String batch) {
+		return formResponseService.getWeeksAverageByBatch(batch);
 	}
 
 	@GetMapping("/batch/chartdatabatch/{name}/{week}")
