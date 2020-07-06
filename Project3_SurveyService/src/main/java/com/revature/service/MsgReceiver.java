@@ -11,7 +11,6 @@ import java.util.List;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.model.Form;
 import com.revature.model.FormResponse;
@@ -19,7 +18,6 @@ import com.revature.repo.FormRepo;
 import com.revature.repo.FormResponseRepo;
 
 @Service
-@Transactional
 public class MsgReceiver {
 
 	private FormResponseRepo formResponseRepo;
@@ -40,13 +38,6 @@ public class MsgReceiver {
 		this.formResponseRepo = formResponseRepo;
 	}
 
-	public void init() {
-		form = new Form();
-		form.setId(1);
-		formRepository.save(form);
-		System.out.println("Updated form");
-	}
-
 	@RabbitListener(queues = "FormResponse-Queue")
 	public void recievedMessage(FormResponse formResponse) {
 		// Map to form temporary to form 1
@@ -56,6 +47,7 @@ public class MsgReceiver {
 			form = new Form();
 			form.setId(1);
 			formRepository.save(form);
+			init = true;
 			System.out.println("Updated form");
 		}
 		formRepository.save(form);
@@ -65,62 +57,45 @@ public class MsgReceiver {
 		List<String> questions = new ArrayList<String>(form.getQuestions());
 		List<String> answers = formResponse.getAnswers();
 		List<Double> weights = new ArrayList<Double>();
-		
+
 		for (int i = 0; i < answers.size(); i++) {
 			if (answers.get(i).toLowerCase().trim().startsWith("week")) {
 				formResponse.setWeek(answers.get(i));
 				weights.add(-100.0);
-			}
-			else if (questions.get(i).toLowerCase().contains("what batch are you in")) {
+			} else if (questions.get(i).toLowerCase().contains("what batch are you in")) {
 				formResponse.setBatch(answers.get(i).replace("/", "_"));
 				weights.add(-100.0);
-			}
-			else if (answers.get(i).toLowerCase().trim().equals("1")) {
+			} else if (answers.get(i).toLowerCase().trim().equals("1")) {
 				weights.add(1.0);
-			}
-			else if (answers.get(i).toLowerCase().trim().equals("2")) {
+			} else if (answers.get(i).toLowerCase().trim().equals("2")) {
 				weights.add(2.0);
-			}
-			else if (answers.get(i).toLowerCase().trim().equals("3")) {
+			} else if (answers.get(i).toLowerCase().trim().equals("3")) {
 				weights.add(3.0);
-			}
-			else if (answers.get(i).toLowerCase().trim().equals("4")) {
+			} else if (answers.get(i).toLowerCase().trim().equals("4")) {
 				weights.add(4.0);
-			}
-			else if (answers.get(i).toLowerCase().trim().equals("5")) {
+			} else if (answers.get(i).toLowerCase().trim().equals("5")) {
 				weights.add(5.0);
-			}
-			else if (answers.get(i).toLowerCase().trim().equals("n/a")) {
+			} else if (answers.get(i).toLowerCase().trim().equals("n/a")) {
 				weights.add(1.0);
-			}
-			else if (answers.get(i).toLowerCase().trim().equals("strongly disagree")) {
+			} else if (answers.get(i).toLowerCase().trim().equals("strongly disagree")) {
 				weights.add(2.0);
-			}
-			else if (answers.get(i).toLowerCase().trim().equals("disagree")) {
+			} else if (answers.get(i).toLowerCase().trim().equals("disagree")) {
 				weights.add(3.0);
-			}
-			else if (answers.get(i).toLowerCase().trim().equals("agree")) {
+			} else if (answers.get(i).toLowerCase().trim().equals("agree")) {
 				weights.add(4.0);
-			}
-			else if (answers.get(i).toLowerCase().trim().equals("strongly agree")) {
+			} else if (answers.get(i).toLowerCase().trim().equals("strongly agree")) {
 				weights.add(5.0);
-			}
-			else if (answers.get(i).toLowerCase().trim().equals("yes")) {
+			} else if (answers.get(i).toLowerCase().trim().equals("yes")) {
 				weights.add(1.0);
-			}
-			else if (answers.get(i).toLowerCase().trim().equals("no")) {
+			} else if (answers.get(i).toLowerCase().trim().equals("no")) {
 				weights.add(0.0);
-			}
-			else if(answers.get(i).toLowerCase().trim().equals("too slow")) {
+			} else if (answers.get(i).toLowerCase().trim().equals("too slow")) {
 				weights.add(-1.0);
-			}
-			else if(answers.get(i).toLowerCase().trim().equals("good")) {
+			} else if (answers.get(i).toLowerCase().trim().equals("good")) {
 				weights.add(0.0);
-			}
-			else if(answers.get(i).toLowerCase().trim().equals("too fast")) {
+			} else if (answers.get(i).toLowerCase().trim().equals("too fast")) {
 				weights.add(1.0);
-			}
-			else{
+			} else {
 				weights.add(-100.0);
 			}
 		}
@@ -130,7 +105,6 @@ public class MsgReceiver {
 		try {
 			formRepository.save(form);
 			formResponseRepo.save(formResponse);
-			FormResponse f = formResponseRepo.findByResponseId(formResponse.getFormId());
 			// System.out.println("Recovered Successfully: " + f.toString());
 		} catch (Exception e) {
 
