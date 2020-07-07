@@ -16,21 +16,25 @@ import com.revature.repo.FormRepo;
 import com.revature.repo.FormResponseRepo;
 
 /**
- * Used to keep a count of the form responses sent through the messaging queue.
- * @author Wei Wu, Andres Mateo Toledo Albarracin, Jose Canela
+ * Used to manipulate data recovered from a MongoDB and transform it into
+ * valuable information that will get returned to a request.
+ * 
+ * @author Wei Wu
+ * @author Jose Canela
+ * @author Andres Toledo
  */
 @Service
 public class FormResponseServiceImpl implements FormResponseService {
 	/**
-	 *	Instance of FormResponseRepo. 
+	 * Instance of FormResponseRepo.
 	 */
 	private FormResponseRepo formResponseRepo;
 	/**
-	 *	Instance of FormRepo. 
+	 * Instance of FormRepo.
 	 */
 	private FormRepo formRepo;
 	/**
-	 *	Instance of MongoTemplate. 
+	 * Instance of MongoTemplate.
 	 */
 	private MongoTemplate mongoTemplate;
 
@@ -103,7 +107,9 @@ public class FormResponseServiceImpl implements FormResponseService {
 	}
 
 	/**
-	 * @return
+	 * Gets distinct batches from the database.
+	 * 
+	 * @return an iterable array of distinct batches.
 	 */
 	public DistinctIterable<String> getUniqueTask() {
 
@@ -184,9 +190,11 @@ public class FormResponseServiceImpl implements FormResponseService {
 	}
 
 	/**
-	 * @param charts
-	 * @param label
-	 * @return
+	 * Calculates the average of all questions for a given list of ChartData.
+	 * 
+	 * @param charts list of ChartData that needs to be merged.
+	 * @param label  description for the result.
+	 * @return ChartData representing the average of all questions.
 	 */
 	private ChartData mergeChartData(List<ChartData> charts, String label) {
 		ChartData result = new ChartData("", label);
