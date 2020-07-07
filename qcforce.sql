@@ -35,7 +35,7 @@ CREATE TABLE qcforce_survey.answer (
 	answer_string			varchar,
 	response_id				int,
 	question_id				int,
-	weight                  int
+	weight                  numeric(10,2)
 );
 
 alter table qcforce_survey.response add constraint FK_response_form_id
@@ -63,7 +63,7 @@ alter table qcforce_survey.answer add constraint FK_answer_question_id
 --select distinct(answer_string) from qcforce_survey.answer a where a.question_id = (select id from qcforce_survey.question q where q.question_string = 'What batch are you in?');
 --
 -- 
-
+select * from qcforce_survey.answer where response_id=66;
 
 
 
