@@ -62,7 +62,7 @@ public class MsgReceiver {
 
 	/**
 	 * Consumes messages from the FormResponse queue and provides weight to the list of answers
-	 * @param formResponse
+	 * @param formResponse provides form Response
 	 */
 	@RabbitListener(queues = "FormResponse-Queue")
 	public void recievedMessage(FormResponse formResponse) {

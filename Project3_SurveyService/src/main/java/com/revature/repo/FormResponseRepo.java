@@ -15,7 +15,7 @@ import com.revature.model.FormResponse;
  */
 public interface FormResponseRepo extends MongoRepository<FormResponse, Integer> {
 
-	/**Retrieves a {@link FormReponse} by a responseID
+	/**Retrieves a {@link FormResponse} by a responseID
 	 * @param responseID a form response's responseID
 	 * @return a FormResponse
 	 */

@@ -124,7 +124,7 @@ public class FormResponse implements Serializable {
 	}
 	/**
 	 * Sets the response id.
-	 * @param response id new response id.
+	 * @param responseId new responseId.
 	 */
 	public void setResponseId(int responseId) {
 		this.responseId = responseId;

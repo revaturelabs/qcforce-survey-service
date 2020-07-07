@@ -1,1 +1,10 @@
+com.revature
+com.revature.config
+com.revature.controller
+com.revature.controllertest
+com.revature.model
+com.revature.mqlistener
+com.revature.repo
+com.revature.scheduler
 com.revature.service
+com.revature.servicetest

@@ -114,6 +114,7 @@ public class FormController {
 	 * Retrieves the ChartData of specific batch by name and by specific week from the formResponseService
 	 * 
 	 * @param batchName String which represents the batch name
+	 * @param batchweek String which represents the week
 	 * @return the chart data of a specific batch by a specific week
 	 */
 	@GetMapping("/batch/chartdatabatch/{name}/{week}")
