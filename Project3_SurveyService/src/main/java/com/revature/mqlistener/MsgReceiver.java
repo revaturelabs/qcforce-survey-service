@@ -17,15 +17,37 @@ import com.revature.model.FormResponse;
 import com.revature.repo.FormRepo;
 import com.revature.repo.FormResponseRepo;
 
+/**
+ * Class for consuming messages from the Rabbit messaging queue.
+ * 
+ *  @author Anastasia Miagkii
+ *  @author Andres Toledo
+ *  @author Jose Canela
+ *  @author Monica Datta
+ *  @author Wei Wu 
+ *  @author Zachary Reagin 
+ */
 @Service
 public class MsgReceiver {
 
+	/**
+	 * An instance of FormResponseRepo.
+	 */
 	private FormResponseRepo formResponseRepo;
 
+	/**
+	 * An instance of FormRepo.
+	 */
 	private FormRepo formRepository;
 
+	/**
+	 * An instance of Form
+	 */
 	private Form form;
 
+	/**
+	 * A boolean variable
+	 */
 	private boolean init = false;
 
 	@Autowired
@@ -38,6 +60,10 @@ public class MsgReceiver {
 		this.formResponseRepo = formResponseRepo;
 	}
 
+	/**
+	 * Consumes messages from the FormResponse queue and provides weight to the list of answers
+	 * @param formResponse
+	 */
 	@RabbitListener(queues = "FormResponse-Queue")
 	public void recievedMessage(FormResponse formResponse) {
 		// Map to form temporary to form 1
@@ -111,6 +137,11 @@ public class MsgReceiver {
 		}
 	}
 
+	/**
+	 * Converts String into TimeStamp
+	 * @param strDate is string of date
+	 * @return timeStampDate provides time and date
+	 */
 	public static Timestamp convertStringToTimestamp(String strDate) {
 		try {
 			DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");

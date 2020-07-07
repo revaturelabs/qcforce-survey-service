@@ -1,4 +1,4 @@
-package com.revature.controller;
+package com.revature.controllertest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,16 +31,6 @@ class FormControllerTest {
 	@Test
 	void testGetBatchWeeks() {
 		wtc.get().uri("/batch/weeks").exchange().expectStatus().is2xxSuccessful();
-	}
-
-	@Test
-	void testGetBatchNamesString() {
-		wtc.get().uri("/batch/Ana").exchange().expectStatus().isOk();		
-	}
-
-	@Test
-	void testGetBatchNamesStringString() {
-		wtc.get().uri("/batch/Zack/2").exchange().expectStatus().isOk();
 	}
 
 	@Test

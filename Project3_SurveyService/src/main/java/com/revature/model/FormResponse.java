@@ -11,12 +11,19 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * This class represents form data as consumed from the messaging queue.
- * @author Anastasia Miagkii, Andres Toledo, Jose Canela, Monica Datta, Wei Wu, Zachary Reagin
- *
+ *  @author Anastasia Miagkii
+ *  @author Andres Toledo
+ *  @author Jose Canela
+ *  @author Monica Datta
+ *  @author Wei Wu 
+ *  @author Zachary Reagin 
  */
 @Document(collection = "formscollection")
 public class FormResponse implements Serializable {
 
+	/**
+	 * Provides a serial version ID for deserialization
+	 */
 	private static final long serialVersionUID = 9136762341724971453L;
 	/**
 	 *	variable of type {@link Integer} that represents the internal response id used by the database. 
@@ -45,12 +52,10 @@ public class FormResponse implements Serializable {
 	 */
 	private List<String> answers;
 
-
 	/**
 	 * variable of type {@link List}{@link Double} that represents the weights given to the answers of the response. 
 	 */
 	private List<Double> weights;
-
 
 	/**
 	 * variable of type {@link List}{@link String} that represents the questions of the response. 
@@ -65,11 +70,16 @@ public class FormResponse implements Serializable {
 		super();
 		this.answers = new ArrayList<String>();
 	}
-
+	/**
+	 * Gets an {@link List}{@link String} of answers in the form.
+	 * @return {@link List}{@link String} answers.
+	 */
 	public List<String> getAnswers() {
 		return answers;
 	}
-
+	/** Sets the answers.
+	 * @param answers new {@link List}{@link String} of answers.
+	 */
 	public void setAnswers(List<String> answers) {
 		this.answers = answers;
 	}
@@ -121,7 +131,7 @@ public class FormResponse implements Serializable {
 	}
 	/**
 	 * Gets an {@link List}{@link Double} of weights to answers in the form.
-	 * @return {@link List}{@link String} weights.
+	 * @return {@link List}{@link Double} weights.
 	 */
 	public List<Double> getWeights() {
 		return weights;
@@ -132,7 +142,57 @@ public class FormResponse implements Serializable {
 	public void setWeights(List<Double> weights) {
 		this.weights = weights;
 	}
+	/**Gets the week of when a FormResponse was submitted
+	 * @return the week
+	 */
+	public String getWeek() {
+		return week;
+	}
+
+	/**Sets the week of when a FormResponse was submitted
+	 * @param week new week
+	 */
+	public void setWeek(String week) {
+		this.week = week;
+	}
+
+	/**Gets the batch name associated with the FormResponse
+	 * @return the batch name
+	 */
+	public String getBatch() {
+		return batch;
+	}
+
+	/**Sets the batch name associated with the FormResponse
+	 * @param batch new batch
+	 */
+	public void setBatch(String batch) {
+		this.batch = batch;
+	}
+	/**Gets {@link List}{@link String} of questions
+	 * @return list of questions
+	 */
+	public List<String> getQuestions() {
+		return questions;
+	}
+
+	/**Sets {@link List}{@link String} of questions
+	 * @param questions new questions
+	 */
+	public void setQuestions(List<String> questions) {
+		this.questions = questions;
+	}
 	
+	/**
+	 * Creates a {@link FormResponse}
+	 * @param formId new formId
+	 * @param week new week
+	 * @param batch new batch
+	 * @param timestamp new timestamp
+	 * @param sourceId new sourceId
+	 * @param questions new question
+	 * @param answers new list of answers
+	 */
 	public FormResponse(int formId, String week, String batch, String timestamp, String sourceId, Set<String> questions,
 			List<String> answers) {
 		super();
@@ -143,21 +203,7 @@ public class FormResponse implements Serializable {
 		this.answers = answers;
 	}
 
-	public String getWeek() {
-		return week;
-	}
-
-	public void setWeek(String week) {
-		this.week = week;
-	}
-
-	public String getBatch() {
-		return batch;
-	}
-
-	public void setBatch(String batch) {
-		this.batch = batch;
-	}
+	
 
 	@Override
 	public int hashCode() {
@@ -220,13 +266,4 @@ public class FormResponse implements Serializable {
 				+ getTimestamp() + ", getResponseId()=" + getResponseId() + ", getWeights()=" + getWeights()
 				+ ", getWeek()=" + getWeek() + ", getBatch()=" + getBatch() + ", hashCode()=" + hashCode() + "]";
 	}
-
-	public List<String> getQuestions() {
-		return questions;
-	}
-
-	public void setQuestions(List<String> questions) {
-		this.questions = questions;
-	}
-
 }

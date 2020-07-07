@@ -22,14 +22,6 @@ public interface FormResponseService {
 	public List<FormResponse> findAll();
 
 	/**
-	 * Gets one {@link FormResponse} by id.
-	 * 
-	 * @param id represents a {@link FormResponse}.
-	 * @return {@link FormResponse} by id.
-	 */
-	public FormResponse getOne(Integer id);
-
-	/**
 	 * Gets {@link FormResponse} by id.
 	 * 
 	 * @param id represents a {@link FormResponse}.
@@ -38,14 +30,14 @@ public interface FormResponseService {
 	public FormResponse findById(Integer id);
 
 	/**
-	 * Gets the list of distinct batch names.
+	 * Gets {@link List}{@link String} of distinct batch names.
 	 * 
 	 * @return list of batch names.
 	 */
 	public List<String> getBatchNames();
 
 	/**
-	 * Gets a list of weeks.
+	 * Gets {@link List}{@link String} of weeks.
 	 * 
 	 * @return list of weeks.
 	 */
@@ -60,38 +52,15 @@ public interface FormResponseService {
 	 * @return list of {@link FormResponse}
 	 */
 	public List<FormResponse> getBatchByNameAndWeek(String batch, String week);
-
-	public long count();
-
 	/**
-	 * Deletes a {@link FormResponse} by id.
+	 * Saves a {@link FormResponse} to the database.
 	 * 
-	 * @param id {@link FormResponse} id.
-	 */
-	public void deleteById(Integer id);
-
-	/**
-	 * Deletes a {@link FormResponse} entity.
-	 * 
-	 * @param entity instance of a {@link FormResponse}.
-	 */
-	public void delete(FormResponse entity);
-
-	/**
-	 * Deletes all {@link FormResponse} from database.
-	 */
-	public void deleteAll();
-
-	/**
-	 * Saves or creates a {@link FormResponse} in the database
-	 * 
-	 * @param formResponse
+	 * @param formResponse FormResponse object.
 	 */
 	public void save(FormResponse formResponse);
 
 	/**
 	 * Gets all forms for a given batch.
-	 * 
 	 * @param batch name of the batch.
 	 * @return list of {@link FormResponse}.
 	 */

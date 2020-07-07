@@ -8,7 +8,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * This class represents form data from form submissions.
- * @author Anastasia Miagkii, Andres Toledo, Jose Canela, Monica Datta, Wei Wu, Zachary Reagin
+ *  @author Anastasia Miagkii
+ *  @author Andres Toledo
+ *  @author Jose Canela
+ *  @author Monica Datta
+ *  @author Wei Wu 
+ *  @author Zachary Reagin
  */
 @Document(collection = "forms")
 public class Form {
@@ -27,46 +32,9 @@ public class Form {
 	 */
 	private List<String> questions;
 
-	@Override
-	public String toString() {
-		return "Form [hashCode()=" + hashCode() + ", getSourceId()=" + getSourceId() + ", getQuestions()="
-				+ getQuestions() + "]";
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		result = prime * result + ((questions == null) ? 0 : questions.hashCode());
-		result = prime * result + ((sourceId == null) ? 0 : sourceId.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Form other = (Form) obj;
-		if (id != other.id)
-			return false;
-		if (questions == null) {
-			if (other.questions != null)
-				return false;
-		} else if (!questions.equals(other.questions))
-			return false;
-		if (sourceId == null) {
-			if (other.sourceId != null)
-				return false;
-		} else if (!sourceId.equals(other.sourceId))
-			return false;
-		return true;
-	}
-
+	/**
+	 * Creates a Form object that represents a survey
+	 */
 	public Form() {
 		super();
 		this.questions = new ArrayList<String>();
@@ -111,5 +79,42 @@ public class Form {
 	public void setId(int id) {
 		this.id = id;
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		result = prime * result + ((questions == null) ? 0 : questions.hashCode());
+		result = prime * result + ((sourceId == null) ? 0 : sourceId.hashCode());
+		return result;
+	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Form other = (Form) obj;
+		if (id != other.id)
+			return false;
+		if (questions == null) {
+			if (other.questions != null)
+				return false;
+		} else if (!questions.equals(other.questions))
+			return false;
+		if (sourceId == null) {
+			if (other.sourceId != null)
+				return false;
+		} else if (!sourceId.equals(other.sourceId))
+			return false;
+		return true;
+	}
+	@Override
+	public String toString() {
+		return "Form [hashCode()=" + hashCode() + ", getSourceId()=" + getSourceId() + ", getQuestions()="
+				+ getQuestions() + "]";
+	}
 }

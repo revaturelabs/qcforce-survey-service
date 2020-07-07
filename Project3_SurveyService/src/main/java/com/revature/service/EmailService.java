@@ -15,11 +15,26 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+/**
+ * Used for sending email's to the Revature training associates
+ *  @author Anastasia Miagkii
+ *  @author Andres Toledo
+ *  @author Jose Canela
+ *  @author Monica Datta
+ *  @author Wei Wu 
+ *  @author Zachary Reagin
+ */
 @Service
 public class EmailService {
 	
+	/**An instance of a Session for sending out email's
+	 * 
+	 */
 	private Session session;
 	
+	/**
+	 * Sets up properties of EmailService to achieve connection
+	 */
 	public EmailService() {
 		super();
 		Properties prop = new Properties();
@@ -37,6 +52,12 @@ public class EmailService {
 		});  
 	}
 
+	/**Sends an email to a particular email address
+	 * @param msg contents of the email 
+	 * @param destination email address
+	 * @throws AddressException exception thrown when a wrongly formatted address is encountered.
+	 * @throws MessagingException base class for all exceptions thrown by the Messaging classes
+	 */
 	public void sendEmails(String msg,String destination) throws AddressException, MessagingException
 	{
 		

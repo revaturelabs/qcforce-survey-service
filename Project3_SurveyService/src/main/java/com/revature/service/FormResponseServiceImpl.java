@@ -18,7 +18,6 @@ import com.revature.repo.FormResponseRepo;
 /**
  * Used to manipulate data recovered from a MongoDB and transform it into
  * valuable information that will get returned to a request.
- * 
  * @author Wei Wu
  * @author Jose Canela
  * @author Andres Toledo
@@ -59,38 +58,8 @@ public class FormResponseServiceImpl implements FormResponseService {
 	}
 
 	@Override
-	public FormResponse getOne(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public FormResponse findById(Integer id) {
 		return formResponseRepo.findById(id).get();
-	}
-
-	@Override
-	public long count() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void delete(FormResponse entity) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteAll() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

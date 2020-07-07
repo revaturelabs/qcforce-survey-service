@@ -1,4 +1,4 @@
-package com.revature.service;
+package com.revature.servicetest;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;

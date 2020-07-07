@@ -12,7 +12,12 @@ import com.revature.service.FormResponseService;
 /**
  * Controls all endpoints related to FormController
  * 
- * @author Anastasia Miagkii, Andres Toledo, Jose Canela, Monica Datta, Wei Wu,Zachary Reagin
+ *  @author Anastasia Miagkii
+ *  @author Andres Toledo
+ *  @author Jose Canela
+ *  @author Monica Datta
+ *  @author Wei Wu 
+ *  @author Zachary Reagin
  */
 
 @RestController
@@ -52,30 +57,6 @@ public class FormController {
 	public List<String> getBatchWeeks() {
 		return formResponseService.getBatchWeeks();
 	}
-	/**
-	 * Retrieves a List of Batch names from the formResponseService
-	 * 
-	 * @param batchName String which represents a the name of a batch
-	 * @return a List of FormResponses
-	 */
-	/*
-	 * @GetMapping("/batch/{name}") public List<FormResponse>
-	 * getBatchNames(@PathVariable(name = "name") String batchName) { return
-	 * formResponseService.getBatchForms(batchName); }
-	 *//**
-		 * Retrieves a List of Batch names with weeks from the formResponseService
-		 * 
-		 * @param batchName String which represents the name of a batch
-		 * @param batchWeek String which represents the name of a week
-		 * @return a List of FormResponses based on batchName and batchWeek
-		 *//*
-			 * @GetMapping("/batch/{name}/{week}") public List<FormResponse>
-			 * getBatchNames(@PathVariable(name = "name") String batchName,
-			 * 
-			 * @PathVariable(name = "week") String batchWeek) {
-			 * System.out.println(batchName); System.out.println(batchWeek); return
-			 * formResponseService.getBatchByNameAndWeek(batchName, batchWeek); }
-			 */
 
 	/**
 	 * Retrieves a List of ChartData by batch week from the formResponseService

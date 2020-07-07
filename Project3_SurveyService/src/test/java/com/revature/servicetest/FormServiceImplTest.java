@@ -1,4 +1,4 @@
-package com.revature.service.test;
+package com.revature.servicetest;
 
 //import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

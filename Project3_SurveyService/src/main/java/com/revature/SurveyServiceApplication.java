@@ -6,7 +6,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 /**
  * QCForce Survey Service Application Main Class
  * 
- * @author Anastasia Miagkii, Andres Toledo, Jose Canela, Monica Datta, Wei Wu, Zachary Reagin
+ *  @author Anastasia Miagkii
+ *  @author Andres Toledo
+ *  @author Jose Canela
+ *  @author Monica Datta
+ *  @author Wei Wu 
+ *  @author Zachary Reagin
  */
 
 @SpringBootApplication()
