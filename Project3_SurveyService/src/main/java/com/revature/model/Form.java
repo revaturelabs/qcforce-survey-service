@@ -6,14 +6,25 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * This class represents form data from form submissions.
+ * @author Anastasia Miagkii, Andres Toledo, Jose Canela, Monica Datta, Wei Wu, Zachary Reagin
+ */
 @Document(collection = "forms")
 public class Form {
 
+	/**
+	 *	variable of type {@link Integer} that represents the internal form id used by the database. 
+	 */
 	@Id
 	private int id;
-
+	/**
+	 *	variable of type {@link String} that represents the id linked to the response spreadsheet. 
+	 */
 	private String sourceId;
-
+	/**
+	 *	variable of type {@link List}{@link String} that represents a String of questions. 
+	 */
 	private List<String> questions;
 
 	@Override
@@ -60,27 +71,43 @@ public class Form {
 		super();
 		this.questions = new ArrayList<String>();
 	}
-
+	/**Gets source id.
+	 * @return source id.
+	 */
 	public String getSourceId() {
 		return sourceId;
 	}
-
+	/**
+	 * Sets source id.
+	 * @param sourceid new sourceId.
+	 */
 	public void setSourceId(String sourceId) {
 		this.sourceId = sourceId;
 	}
-
+	/**
+	 * Gets an {@link List}{@link String} of questions in the form.
+	 * @return {@link List}{@link String} questions.
+	 */
 	public List<String> getQuestions() {
 		return questions;
 	}
-
+	
+	/** Sets the questions.
+	 * @param questions new {@link List}{@link String} of questions.
+	 */
 	public void setQuestions(List<String> questions) {
 		this.questions = questions;
 	}
-
+	/**Gets id.
+	 * @return id new id.
+	 */
 	public int getId() {
 		return id;
 	}
-
+	/**
+	 * Sets id.
+	 * @param id new id.
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}

@@ -10,34 +10,57 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
- * @authors
+ * This class represents form data as consumed from the messaging queue.
+ * @author Anastasia Miagkii, Andres Toledo, Jose Canela, Monica Datta, Wei Wu, Zachary Reagin
  *
  */
 @Document(collection = "formscollection")
 public class FormResponse implements Serializable {
 
 	private static final long serialVersionUID = 9136762341724971453L;
-
+	/**
+	 *	variable of type {@link Integer} that represents the internal response id used by the database. 
+	 */
 	@Id
 	private int responseId;
-
+	/**
+	 *	variable of type {@link Integer} that represents the internal form id used by the database. 
+	 */
 	private int formId;
-
+	/**
+	 *	variable of type {@link String} that represents the internal batch name used by the database. 
+	 */
 	private String batch;
-
+	/**
+	 *	variable of type {@link String} that represents the internal batch week used by the database. 
+	 */
 	private String week;
-
+	/**
+	 * variable of type {@link String} that represents the time the response was submitted. 
+	 */
 	private String timestamp;
 
+	/**
+	 * variable of type {@link List}{@link String} that represents the answers of the response. 
+	 */
 	private List<String> answers;
 
-	//private List<Integer> weights;
+
+	/**
+	 * variable of type {@link List}{@link Double} that represents the weights given to the answers of the response. 
+	 */
 	private List<Double> weights;
 
 
+	/**
+	 * variable of type {@link List}{@link String} that represents the questions of the response. 
+	 */
 	@Transient
 	private List<String> questions;
 
+	/**
+	 * initializes the answers array.
+	 */
 	public FormResponse() {
 		super();
 		this.answers = new ArrayList<String>();
@@ -52,53 +75,60 @@ public class FormResponse implements Serializable {
 	}
 
 	/**
-	 * @return
+	 * Gets the form id.
+	 * @return form id.
 	 */
 	public int getFormId() {
 		return formId;
 	}
 
 	/**
-	 * @param formId
+	 * Sets the form id.
+	 * @param formId new form id.
 	 */
 	public void setFormId(int formId) {
 		this.formId = formId;
 	}
 
 	/**
-	 * @return
+	 * Gets the timeStamp.
+	 * @return timeStamp.
 	 */
 	public String getTimestamp() {
 		return timestamp;
 	}
 
 	/**
-	 * @param timestamp
+	 * Sets the timeStamp.
+	 * @param timestamp new timestamp.
 	 */
 	public void setTimestamp(String timestamp) {
 		this.timestamp = timestamp;
 	}
-
+	/**
+	 * Gets the response id.
+	 * @return response id.
+	 */
 	public int getResponseId() {
 		return responseId;
 	}
-
+	/**
+	 * Sets the response id.
+	 * @param response id new response id.
+	 */
 	public void setResponseId(int responseId) {
 		this.responseId = responseId;
 	}
-	/*
-	public List<Integer> getWeights() {
-		return weights;
-	}
-	*/
+	/**
+	 * Gets an {@link List}{@link Double} of weights to answers in the form.
+	 * @return {@link List}{@link String} weights.
+	 */
 	public List<Double> getWeights() {
 		return weights;
 	}
-	/*
-	public void setWeights(List<Integer> weights) {
-		this.weights = weights;
-	}
-	*/
+	/** Sets the weights for answers.
+	 * @param weights new {@link List}{@link Double} of weights.
+	 */
 	public void setWeights(List<Double> weights) {
 		this.weights = weights;
 	}

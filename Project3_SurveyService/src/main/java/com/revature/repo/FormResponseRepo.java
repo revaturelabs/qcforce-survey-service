@@ -1,5 +1,9 @@
 package com.revature.repo;
 
+/**
+ * Used to perform CRUD operation on the database.
+ * @author Anastasia Miagkii, Andres Toledo, Jose Canela, Monica Datta, Wei Wu, Zachary Reagin
+ */
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;

@@ -15,6 +15,12 @@ import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 
+/**
+ * Main configuration class for connecting to MongoDB
+ * 
+ * @author Anastasia Miagkii, Andres Toledo, Jose Canela, Monica Datta, Wei Wu, Zachary Reagin
+ */
+
 @Configuration
 @PropertySource("classpath:application.yml")
 public class MongoConfig extends AbstractMongoConfiguration {

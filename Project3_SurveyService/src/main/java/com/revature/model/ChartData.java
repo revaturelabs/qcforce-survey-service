@@ -2,7 +2,12 @@ package com.revature.model;
 
 import java.util.HashMap;
 
+/**
+ * This class represents the information for Chart Data.
+ * @author Anastasia Miagkii, Andres Toledo, Jose Canela, Monica Datta, Wei Wu, Zachary Reagin
+ */
 public class ChartData {
+	
 	String label;
 
 	String batch;

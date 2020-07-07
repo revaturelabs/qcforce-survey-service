@@ -1,9 +1,7 @@
 package com.revature.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Properties;
-
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -44,8 +42,7 @@ public class EmailService {
 		
 		Message message = new MimeMessage(session);
 		message.setFrom(new InternetAddress("trmsloginserver@gmail.com"));
-		message.setRecipients(
-		  Message.RecipientType.TO, InternetAddress.parse(destination));
+		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destination));
 		message.setSubject("Please Fill Out The QC Survey");
 		 
 		MimeBodyPart mimeBodyPart = new MimeBodyPart();

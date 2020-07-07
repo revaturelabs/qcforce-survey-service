@@ -1,4 +1,4 @@
-package com.revature.service;
+package com.revature.mqlistener;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;

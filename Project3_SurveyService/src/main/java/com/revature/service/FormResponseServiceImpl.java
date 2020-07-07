@@ -15,14 +15,24 @@ import com.revature.model.FormResponse;
 import com.revature.repo.FormRepo;
 import com.revature.repo.FormResponseRepo;
 
+/**
+ * Used to keep a count of the form responses sent through the messaging queue.
+ * @author Wei Wu, Andres Mateo Toledo Albarracin, Jose Canela
+ */
 @Service
 public class FormResponseServiceImpl implements FormResponseService {
-
-	FormResponseRepo formResponseRepo;
-
-	FormRepo formRepo;
-
-	MongoTemplate mongoTemplate;
+	/**
+	 *	Instance of FormResponseRepo. 
+	 */
+	private FormResponseRepo formResponseRepo;
+	/**
+	 *	Instance of FormRepo. 
+	 */
+	private FormRepo formRepo;
+	/**
+	 *	Instance of MongoTemplate. 
+	 */
+	private MongoTemplate mongoTemplate;
 
 	@Autowired
 	public void setFormResponseRepo(FormResponseRepo formResponseRepo) {
