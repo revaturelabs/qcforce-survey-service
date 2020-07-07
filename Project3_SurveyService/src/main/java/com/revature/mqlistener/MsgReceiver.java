@@ -83,7 +83,7 @@ public class MsgReceiver {
 		List<String> questions = new ArrayList<String>(form.getQuestions());
 		List<String> answers = formResponse.getAnswers();
 		List<Double> weights = new ArrayList<Double>();
-
+		//for every answer assign a weight to it
 		for (int i = 0; i < answers.size(); i++) {
 			if (answers.get(i).toLowerCase().trim().startsWith("week")) {
 				formResponse.setWeek(answers.get(i));
@@ -127,11 +127,9 @@ public class MsgReceiver {
 		}
 		formResponse.setWeights(weights);
 		formResponse.setAnswers(answers);
-		// System.out.println(formResponse.getBatch());
 		try {
 			formRepository.save(form);
 			formResponseRepo.save(formResponse);
-			// System.out.println("Recovered Successfully: " + f.toString());
 		} catch (Exception e) {
 
 		}
@@ -145,7 +143,6 @@ public class MsgReceiver {
 	public static Timestamp convertStringToTimestamp(String strDate) {
 		try {
 			DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
-			// you can change format of date
 			Date date = formatter.parse(strDate);
 			Timestamp timeStampDate = new Timestamp(date.getTime());
 			return timeStampDate;
