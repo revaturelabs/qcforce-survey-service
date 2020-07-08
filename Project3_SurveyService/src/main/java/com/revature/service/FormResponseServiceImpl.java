@@ -18,9 +18,13 @@ import com.revature.repo.FormResponseRepo;
 /**
  * Used to manipulate data recovered from a MongoDB and transform it into
  * valuable information that will get returned to a request.
+ * 
  * @author Wei Wu
  * @author Jose Canela
  * @author Andres Toledo
+ * @author Monica Datta
+ * @author Anastasia Miagkii
+ * @author Zachary Reagin
  */
 @Service
 public class FormResponseServiceImpl implements FormResponseService {

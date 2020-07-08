@@ -6,6 +6,8 @@ spring:
   main:
     allow-bean-definition-overriding: true
     banner-mode: "off"
+  application:
+    name: SurveyService
   rabbitmq:
     port: 5672
     host: ec2-3-128-80-159.us-east-2.compute.amazonaws.com
@@ -29,7 +31,17 @@ spring:
           auth: true
           starttls:
             enable: true
-      
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    service-url:
+      defaultZone:  http://18.191.226.95:8761/eureka/
+  instance:
+    instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}:${server.port}
+    hostname: ${HOSTNAME:${spring.application.name}}
+    preferIpAddress: false
+    
 #  h2:
 #    console:
 #      enabled: true
