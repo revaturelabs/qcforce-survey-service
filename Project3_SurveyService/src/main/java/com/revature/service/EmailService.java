@@ -1,6 +1,9 @@
 package com.revature.service;
 
 import org.springframework.stereotype.Service;
+
+import com.revature.logger.AppLogger;
+
 import java.util.Properties;
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -58,9 +61,9 @@ public class EmailService {
 	 * @throws AddressException exception thrown when a wrongly formatted address is encountered.
 	 * @throws MessagingException base class for all exceptions thrown by the Messaging classes
 	 */
-	public void sendEmails(String msg,String destination) throws AddressException, MessagingException
-	{
+	public void sendEmails(String msg,String destination) throws AddressException, MessagingException{
 		
+		AppLogger.log.info("SendEmails() was called");
 		Message message = new MimeMessage(session);
 		message.setFrom(new InternetAddress("trmsloginserver@gmail.com"));
 		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destination));
@@ -75,5 +78,6 @@ public class EmailService {
 		message.setContent(multipart);
 		 
 		Transport.send(message);
+		
 	}
 }

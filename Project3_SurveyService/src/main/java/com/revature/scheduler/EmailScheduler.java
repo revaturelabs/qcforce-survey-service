@@ -8,6 +8,8 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import com.revature.logger.AppLogger;
 import com.revature.service.EmailService;
 import reactor.core.publisher.Mono;
 
@@ -32,18 +34,22 @@ public class EmailScheduler {
 		this.emailService = emailService;
 	}
 	
-	/**Sends out email's to active training associates given a particular schedule
-	 * 
+	/**
+	 * Sends out email's to active training associates given a particular schedule.
 	 */
 	@Scheduled(cron = "0 0 10 * * MON")
 	public void sendMailScheduler() {
-		
-		System.out.println("Scheduler ran");
-				recieveEmailList().subscribe(x -> {
-					sendMail(x);
-				});	
+		AppLogger.log.info("Scheduler ran");
+		/*Calls the sendMail method that to sends email's to list of email addresses
+		 *received from the recieveEmailList method. Currently, email's are being sent 
+		 *every Monday at 10AM.
+		*/
+
+		recieveEmailList().subscribe(x -> {
+			sendMail(x);
+		});	
 	}
-	
+
 	/**Retrieves the list of email's for all active training associates
 	 * @return {@link Mono}{@link List}{@link String} of email's
 	 */
@@ -56,20 +62,25 @@ public class EmailScheduler {
 	 * @param data email addresses of all active associates
 	 */
 	public void sendMail(List<String> data) {
+		/*
 		try {
-			Thread.sleep(500);
+			//Sleeping the current thread for 0.5 seconds in order to not overwhelm gmail session 
+			//Thread.sleep(500);
 		} catch (InterruptedException e1) {
-			e1.printStackTrace();
+			AppLogger.log.error("sendMail: "+ e1.getMessage());
 		}
-		System.out.println("emailList: "+ data);
+		*/
+		AppLogger.log.info("emailList: "+ data);
+		//For every active training associate's email  
 		for (String email : data) {
-			System.out.println("Individual Email: "+ email);
+			AppLogger.log.info("sendMail: Individual Email - "+ email);
 			try {
+				//Send an email notification to an associate for them to fill out a QC form  
 				emailService.sendEmails("Please complete the following QC form: <br> <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSctgsH-__acrraIWMPDsV3XSFmTAujJNIxK9zKEhATsYsKHSw/viewform?usp=send_form\">Survey Link</a>", email);
 			} catch (AddressException e) {
-				e.printStackTrace();
+				AppLogger.log.error("sendMail: "+e.getMessage());
 			} catch (MessagingException e) {
-				e.printStackTrace();
+				AppLogger.log.error("sendMail: "+e.getMessage());
 			}
 		}
 	}

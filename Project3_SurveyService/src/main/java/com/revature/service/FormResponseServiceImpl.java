@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 import com.mongodb.client.DistinctIterable;
+import com.revature.logger.AppLogger;
 import com.revature.model.ChartData;
 import com.revature.model.Form;
 import com.revature.model.FormResponse;
@@ -170,18 +171,28 @@ public class FormResponseServiceImpl implements FormResponseService {
 	 * @return ChartData representing the average of all questions.
 	 */
 	private ChartData mergeChartData(List<ChartData> charts, String label) {
+		// Instantiate a ChartData object representing the average of all questions.
 		ChartData result = new ChartData("", label);
 		Form f = formRepo.findById(1);
+		//For every question (every key in the ChartData object),
 		for (String key : f.getQuestions()) {
 			double sum = 0;
+			//Instantiate an offset counter in order to account for the fact that some ChartData objects
+			//may not have the same list of questions being asked
 			int offset = 0;
+			//For every ChartData object in the list of ChartData  that needs to be merged
 			for (ChartData chart : charts) {
 				try {
+					//Sum the values for the particular question for each ChartData object
 					sum += chart.getData().get(key);
 				} catch (Exception e) {
+					AppLogger.log.error("mergeChartData: " + e.getMessage());
+					//If a ChartData object doesn't have answers to a particular question,
+					// one increments the offset
 					offset++;
 				}
 			}
+			//Calculates the average for all questions
 			result.getData().put(key, sum / (charts.size() - offset));
 		}
 		return result;
@@ -196,55 +207,64 @@ public class FormResponseServiceImpl implements FormResponseService {
 	public ChartData calculateWeekNumbers(List<FormResponse> forms, String batch, String week, int id) {
 
 		try {
+			//Validates if a list of for responses has something in it
 			forms.get(0).getAnswers().size();
 		} catch (Exception e) {
+			//If there aren't any elements within the list of form responses, 
+			//then create a new ChartData object pertaining to a particular batch and week.
 			return new ChartData(batch, week);
 		}
+		//Instantiate a list of doubles pertaining to the averages for answers to questions displayed on a chart  
 		ArrayList<Double> data = new ArrayList<Double>(Arrays.asList(new Double[forms.get(0).getAnswers().size()]));
-
+		//Initially set the all averages to zero
 		for (int j = 0; j < data.size(); j++) {
 			data.set(j, 0.0);
 		}
-		// Cycle through forms for the week
+		
+		//Instantiate a list of questions from the survey
 		Form form = formRepo.findById(id);
 		List<String> ques = form.getQuestions();
+		// Cycle through form responses (collections) for the week
 		for (FormResponse f : forms) {
-			// Convert from collection
+			//Retrieve the weight from the form response collection
 			List<Double> weights = f.getWeights();
 
-			System.out.println("Form Id : " + f.getFormId());
-			System.out.println("Week : " + week);
-
 			// Finds columns of interest
-
 			for (int i = 0; i < weights.size(); i++) {
 				double value = weights.get(i);
-
+				//If the weight for a particular answer to a particular question is -100.0,
 				if (weights.get(i) == -100.0) {
+					//Set the sum to -100.0. This will be used to filter out data that's will not be displayed.
 					data.set(i, -100.0);
 				} else {
+					//Set the sum pertaining that question
 					data.set(i, data.get(i) + value);
 				}
 			}
-			System.out.println("Sums : " + data.toString());
-			System.out.println("Weights: " + weights.toString());
+			
+			AppLogger.log.info("calculateWeekNumbers: Sums =  " + data.toString());
+			AppLogger.log.info("calculateWeekNumbers: Weights = " + weights.toString());
 		}
 
-		System.out.println("Question size : " + forms.size());
+		AppLogger.log.info("calculateWeekNumbers: Number of form responses = " + forms.size());
 
-		// Calculates average
+		// Calculates average for every questions on a particular week
 		for (int j = 0; j < data.size(); j++) {
 			data.set(j, data.get(j) / Double.parseDouble(forms.size() + ""));
 		}
+		//Instantiates the a ChartData object that will be used to display averaged data
 		ChartData chartData = new ChartData(batch, week);
-		// Removes unnecessary values
-		System.out.println(ques.toString());
+	
+		AppLogger.log.info("calculateWeekNumbers: list of question - " + ques.toString());
+		// Removes unnecessary averages values
 		for (int i = 0; i < data.size(); i++) {
+			//If an average value average for a particular question is greater than -1 
 			if (data.get(i) > -2.0) {
+				// Input a mapping of a question its corresponding average into the ChartData object
 				chartData.getData().put(ques.get(i), data.get(i));
 			}
 		}
-		// Returns data
+		// Returns the averaged data
 		return chartData;
 	}
 

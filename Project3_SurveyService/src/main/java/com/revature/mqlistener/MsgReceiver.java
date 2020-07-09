@@ -12,6 +12,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.revature.logger.AppLogger;
 import com.revature.model.Form;
 import com.revature.model.FormResponse;
 import com.revature.repo.FormRepo;
@@ -45,11 +46,6 @@ public class MsgReceiver {
 	 */
 	private Form form;
 
-	/**
-	 * A boolean variable
-	 */
-	private boolean init = false;
-
 	@Autowired
 	public void setFormRepository(FormRepo formRepository) {
 		this.formRepository = formRepository;
@@ -66,24 +62,25 @@ public class MsgReceiver {
 	 */
 	@RabbitListener(queues = "FormResponse-Queue")
 	public void recievedMessage(FormResponse formResponse) {
-		// Map to form temporary to form 1
-		System.out.println(formResponse.getFormId());
-		// Map Ids
-		if (!init) {
-			form = new Form();
-			form.setId(1);
-			formRepository.save(form);
-			init = true;
-			System.out.println("Updated form");
-		}
+		AppLogger.log.info("recievedMessage: "+formResponse.getFormId());
+		// Maps form responses to a form (survey template)
+		form = new Form();
+		//There is currently only one form
+		form.setId(1);
 		formRepository.save(form);
+		AppLogger.log.info("recievedMessage: Updated form with Id" +form.getId());
+		//Set the questions of the form object (survey template)
 		form.setQuestions(formResponse.getQuestions());
+		/*
+		 * Map the form response consumed from the queue to a slightly different looking
+		 * survey service form response object
+		 */
 		formResponse.setResponseId(formResponse.getFormId());
 		formResponse.setFormId(1);
 		List<String> questions = new ArrayList<String>(form.getQuestions());
 		List<String> answers = formResponse.getAnswers();
 		List<Double> weights = new ArrayList<Double>();
-		//for every answer assign a weight to it
+		//For every answer assign a weight to it
 		for (int i = 0; i < answers.size(); i++) {
 			if (answers.get(i).toLowerCase().trim().startsWith("week")) {
 				formResponse.setWeek(answers.get(i));
@@ -125,13 +122,18 @@ public class MsgReceiver {
 				weights.add(-100.0);
 			}
 		}
+		//Set the weights and answers for a survey service's form response objec
 		formResponse.setWeights(weights);
 		formResponse.setAnswers(answers);
 		try {
+			//Save or update the form (survey template) and form response being mapped
 			formRepository.save(form);
+			AppLogger.log.info("recievedMessage: Form (Id: "+form.getId()+") Saved");
 			formResponseRepo.save(formResponse);
-		} catch (Exception e) {
+			AppLogger.log.info("recievedMessage: saved form response (Id: " + formResponse.getResponseId());
 
+		} catch (Exception e) {
+			AppLogger.log.error("receivedMessage: "+e.getMessage());
 		}
 	}
 
@@ -147,6 +149,7 @@ public class MsgReceiver {
 			Timestamp timeStampDate = new Timestamp(date.getTime());
 			return timeStampDate;
 		} catch (ParseException e) {
+			AppLogger.log.error("convertStringToTimestamp: "+ e.getMessage());
 			return null;
 		}
 	}
