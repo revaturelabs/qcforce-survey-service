@@ -9,10 +9,10 @@
 		<version>2.3.1.RELEASE</version>
 	</parent>
 	<groupId>com.revature</groupId>
-	<artifactId>Project3</artifactId>
+	<artifactId>SurveyService</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Project3</name>
-	<description>Demo project for Spring Boot</description>
+	<name>SurveyService</name>
+	<description>SurveyService</description>
 
 	<properties>
 		<java.version>1.8</java.version>
