@@ -47,7 +47,7 @@ eureka:
     instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}:${server.port}
 
 
-survey-service:
-  scheduler_cron_pattern: ${scheduler_cron_pattern:"0 0 10 * * MON"}
-  recieveEmailList_baseUrl: ${recieveEmailList_baseUrl}
-  recieveEmailList_endpoint: ${recieveEmailList_endpoint:"/associate/active-emails"}
+survey_service:
+  scheduler_cron_pattern: ${scheduler_cron_pattern:0 0 10 * * MON}
+  receiveEmailList_baseUrl: ${receiveEmailList_baseUrl:"http://localhost:8086"}
+  receiveEmailList_endpoint: ${receiveEmailList_endpoint:"/associate/active-emails"}

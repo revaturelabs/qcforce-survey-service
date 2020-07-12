@@ -38,19 +38,19 @@ public class EmailScheduler {
 	/**
 	 * The base url of the service for getting email list
 	 */
-	@Value("${sync-service.recieveEmailList_baseUrl}")
-	private String recieveEmailList_baseUrl;
+	@Value("${survey_service.receiveEmailList_baseUrl}")
+	private String receiveEmailList_baseUrl;
 
 	/**
 	 * The endpoint of the service for getting email list
 	 */
-	@Value("${sync-service.recieveEmailList_endpoint}")
-	private String recieveEmailList_endpoint;
+	@Value("${survey_service.receiveEmailList_endpoint}")
+	private String receiveEmailList_endpoint;
 
 	/**
 	 * Sends out email's to active training associates given a particular schedule.
 	 */
-	@Scheduled(cron = "${sync-service.scheduler_cron_pattern}")
+	@Scheduled(cron = "${survey_service.scheduler_cron_pattern}")
 	public void sendMailScheduler() {
 		AppLogger.log.info("Scheduler ran");
 		/*Calls the sendMail method that to sends email's to list of email addresses
@@ -67,8 +67,8 @@ public class EmailScheduler {
 	 * @return {@link Mono}{@link List}{@link String} of email's
 	 */
 	public Mono<List<String>> recieveEmailList() {
-		WebClient emails = WebClient.create(recieveEmailList_baseUrl);
-	return emails.get().uri(recieveEmailList_endpoint).retrieve().bodyToMono(new ParameterizedTypeReference<List<String>>() {});
+		WebClient emails = WebClient.create(receiveEmailList_baseUrl);
+	return emails.get().uri(receiveEmailList_endpoint).retrieve().bodyToMono(new ParameterizedTypeReference<List<String>>() {});
 
 	}
 	/**Sends out an email containing the link to the QC Survey to all the active training associates
