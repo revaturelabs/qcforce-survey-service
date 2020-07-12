@@ -41,11 +41,6 @@ public class MsgReceiver {
 	 */
 	private FormRepo formRepository;
 
-	/**
-	 * An instance of Form
-	 */
-	private Form form;
-
 	@Autowired
 	public void setFormRepository(FormRepo formRepository) {
 		this.formRepository = formRepository;
@@ -60,11 +55,11 @@ public class MsgReceiver {
 	 * Consumes messages from the FormResponse queue and provides weight to the list of answers
 	 * @param formResponse provides form Response
 	 */
-	@RabbitListener(queues = "FormResponse-Queue")
+	@RabbitListener(queues = "${spring.rabbitmq.queue-listener}")
 	public void recievedMessage(FormResponse formResponse) {
 		AppLogger.log.info("recievedMessage: "+formResponse.getFormId());
 		// Maps form responses to a form (survey template)
-		form = new Form();
+		Form form = new Form();
 		//There is currently only one form
 		form.setId(1);
 		formRepository.save(form);
@@ -77,9 +72,9 @@ public class MsgReceiver {
 		 */
 		formResponse.setResponseId(formResponse.getFormId());
 		formResponse.setFormId(1);
-		List<String> questions = new ArrayList<String>(form.getQuestions());
+		List<String> questions = new ArrayList<>(form.getQuestions());
 		List<String> answers = formResponse.getAnswers();
-		List<Double> weights = new ArrayList<Double>();
+		List<Double> weights = new ArrayList<>();
 		//For every answer assign a weight to it
 		for (int i = 0; i < answers.size(); i++) {
 			if (answers.get(i).toLowerCase().trim().startsWith("week")) {
@@ -146,8 +141,7 @@ public class MsgReceiver {
 		try {
 			DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
 			Date date = formatter.parse(strDate);
-			Timestamp timeStampDate = new Timestamp(date.getTime());
-			return timeStampDate;
+			return new Timestamp(date.getTime());
 		} catch (ParseException e) {
 			AppLogger.log.error("convertStringToTimestamp: "+ e.getMessage());
 			return null;
