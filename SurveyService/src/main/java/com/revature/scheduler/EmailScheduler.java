@@ -4,6 +4,7 @@ import java.util.List;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -33,11 +34,23 @@ public class EmailScheduler {
 	public void setEmailService(EmailService emailService) {
 		this.emailService = emailService;
 	}
-	
+
+	/**
+	 * The base url of the service for getting email list
+	 */
+	@Value("${sync-service.recieveEmailList_baseUrl}")
+	private String recieveEmailList_baseUrl;
+
+	/**
+	 * The endpoint of the service for getting email list
+	 */
+	@Value("${sync-service.recieveEmailList_endpoint}")
+	private String recieveEmailList_endpoint;
+
 	/**
 	 * Sends out email's to active training associates given a particular schedule.
 	 */
-	@Scheduled(cron = "0 0 10 * * MON")
+	@Scheduled(cron = "${sync-service.scheduler_cron_pattern}")
 	public void sendMailScheduler() {
 		AppLogger.log.info("Scheduler ran");
 		/*Calls the sendMail method that to sends email's to list of email addresses
@@ -54,8 +67,8 @@ public class EmailScheduler {
 	 * @return {@link Mono}{@link List}{@link String} of email's
 	 */
 	public Mono<List<String>> recieveEmailList() {
-		WebClient emails = WebClient.create("http://ec2-18-219-219-28.us-east-2.compute.amazonaws.com:8086");
-	return emails.get().uri("/associate/active-emails").retrieve().bodyToMono(new ParameterizedTypeReference<List<String>>() {});
+		WebClient emails = WebClient.create(recieveEmailList_baseUrl);
+	return emails.get().uri(recieveEmailList_endpoint).retrieve().bodyToMono(new ParameterizedTypeReference<List<String>>() {});
 
 	}
 	/**Sends out an email containing the link to the QC Survey to all the active training associates
