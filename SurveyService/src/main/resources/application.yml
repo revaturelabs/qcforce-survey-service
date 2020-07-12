@@ -51,3 +51,7 @@ survey_service:
   scheduler_cron_pattern: ${scheduler_cron_pattern:0 0 10 * * MON}
   receiveEmailList_baseUrl: ${receiveEmailList_baseUrl:"http://localhost:8086"}
   receiveEmailList_endpoint: ${receiveEmailList_endpoint:"/associate/active-emails"}
+
+  email_service:
+    username: ${email_service_username}
+    password: ${email_service_password}
