@@ -26,7 +26,7 @@ import com.revature.util.InvalidBatchIdException;
 /*
  * This tests the sendEmailsByBatchId method in the Distribution controller. If there are no errors, then a it will perform a 
  * post request and not return any emails. If an invalid batchId is provided, an exception will be thrown and a status of
- * Bad Request
+ * Bad Request, if a batchId returns incorrectly formatted emails from the service the controller returns the list of invalid emails. 
  */
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -99,5 +99,7 @@ class DistributionControllerTest {
 				result.getResponse().getContentAsString());
 
 	}
+
+	
 
 }
