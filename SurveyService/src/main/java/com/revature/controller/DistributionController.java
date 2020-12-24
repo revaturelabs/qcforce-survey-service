@@ -12,11 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * This controller takes in a batch id, or a batch id with a set of emails, then
- * validates if the emails are correctly formatted and the batch id exists. If
- * the emails are invalid then the invalid emails will be returned. If the batch
- * id does not exist then an exception is thrown. If there are no errors the
- * emails are sent to associates.
+ * This controller has three endpoints, one takes in a batch id, another takes
+ * in a batch id with a set of emails, and the last takes in a batch id with a
+ * .CSV file of emails. If there are no errors the emails are sent to
+ * associates.
  * 
  * @author Acacia Holliday, Ksenia Milstein, Marc Roy, Zach Leonardo
  */
@@ -34,10 +33,16 @@ public class DistributionController {
 
 		return null;
 	}
-	
+
+	/**
+	 * The method will send an email to associates that are provided in the CSV
+	 * file.
+	 * 
+	 * @param batchId represents a batch identifier
+	 * @return List of incorrectly formatted emails in the database if any
+	 */
 	@PostMapping("/distribute")
-	private ResponseEntity<List<String>> sendEmailsByCSV(@RequestParam int batchId,
-			@RequestParam File csv ){
+	private ResponseEntity<List<String>> sendEmailsByCSV(@RequestParam int batchId, @RequestParam File csv) {
 		return null;
 	}
 }

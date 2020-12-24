@@ -75,7 +75,7 @@ public class EmailServiceImpl implements EmailService {
 	 * @throws AddressException exception thrown when a wrongly formatted address is encountered.
 	 * @throws MessagingException base class for all exceptions thrown by the Messaging classes
 	 */
-	public void sendEmails(String msg,String destination) throws AddressException, MessagingException{
+	public void sendEmail(String msg,String destination) throws AddressException, MessagingException{
 		
 		AppLogger.log.info("SendEmails() was called");
 		Message message = new MimeMessage(session);

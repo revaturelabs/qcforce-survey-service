@@ -36,8 +36,8 @@ class EmailParameterValidationTest {
 	void testSendEmailsWithNoException() throws AddressException, MessagingException{
 		final String msg = "Please fill out this survey";
 		final String destination = "john.smith@revature.net";
-		service.sendEmails(msg, destination);
-		assertDoesNotThrow(() -> service.sendEmails(msg, destination));
+		service.sendEmail(msg, destination);
+		assertDoesNotThrow(() -> service.sendEmail(msg, destination));
 	}
 
 	/*
@@ -48,7 +48,7 @@ class EmailParameterValidationTest {
 	void testSendEmailsWithInvalidEmailFormat() {
 		final String msg = "Please fill out this survey";
 		final String destination = "john.smithrevature.net";
-		assertThrows(AddressException.class, () -> service.sendEmails(msg, destination));
+		assertThrows(AddressException.class, () -> service.sendEmail(msg, destination));
 	}
 	
 	/*
@@ -59,7 +59,7 @@ class EmailParameterValidationTest {
 	void testSendEmailsWithEmptyStringForEmail() {
 		final String msg = "Please fill out this survey";
 		final String destination = "";
-		assertThrows(AddressException.class, () -> service.sendEmails(msg, destination));
+		assertThrows(AddressException.class, () -> service.sendEmail(msg, destination));
 	}
 	
 	
@@ -81,7 +81,7 @@ class EmailParameterValidationTest {
 	void testSendEmailsWithNullValueForMsg() throws AddressException, MessagingException {
 		final String msg = null;
 		final String destination = "john.smith@revature.net";
-		service.sendEmails(msg, destination);
+		service.sendEmail(msg, destination);
 		//TODO Test case - we need to create a Custom Exception to test this
 	}
 	
@@ -92,8 +92,8 @@ class EmailParameterValidationTest {
 	void testSendEmailsWithNullValueForEmail() throws AddressException, MessagingException {
 		final String msg = "Please fill out this survey";
 		final String destination = null;
-		service.sendEmails(msg, destination);
-		assertThrows(AddressException.class, () -> service.sendEmails(msg, destination));
+		service.sendEmail(msg, destination);
+		assertThrows(AddressException.class, () -> service.sendEmail(msg, destination));
 	}
 	
 	/*
@@ -103,8 +103,8 @@ class EmailParameterValidationTest {
 	void testSendEmailsWithNullValueForBothParameters() throws AddressException, MessagingException {
 		final String msg = null;
 		final String destination = null;
-		service.sendEmails(msg, destination);
-		assertThrows(AddressException.class, () -> service.sendEmails(msg, destination));
+		service.sendEmail(msg, destination);
+		assertThrows(AddressException.class, () -> service.sendEmail(msg, destination));
 	}
 	
 
