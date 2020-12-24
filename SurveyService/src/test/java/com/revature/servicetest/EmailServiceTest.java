@@ -106,4 +106,6 @@ class EmailParameterValidationTest {
 		service.sendEmails(msg, destination);
 		assertThrows(AddressException.class, () -> service.sendEmails(msg, destination));
 	}
+	
+
 }

@@ -1,5 +1,6 @@
 package com.revature.controller;
 
+import java.io.File;
 import java.util.List;
 
 import java.util.Set;
@@ -7,6 +8,7 @@ import java.util.Set;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -30,6 +32,12 @@ public class DistributionController {
 	@PostMapping("/distribute/{batchId}")
 	private ResponseEntity<List<String>> sendEmailsByBatchId(@PathVariable int batchId) {
 
+		return null;
+	}
+	
+	@PostMapping("/distribute/")
+	private ResponseEntity<List<String>> sendEmailsByCSV(@RequestParam int batchId,
+			@RequestParam File csv ){
 		return null;
 	}
 }

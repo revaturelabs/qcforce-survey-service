@@ -1,9 +1,9 @@
 package com.revature.controller;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,8 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.revature.service.DistributionService;
 import com.revature.util.InvalidBatchIdException;
@@ -101,5 +101,51 @@ class DistributionControllerTest {
 	}
 
 	
+	@Test
+	void distributionControllerSendEmailsByBatchIdAndCSV_withoutError() throws Exception {
+
+		final List<String> invalidEmails = new ArrayList<>(Arrays.asList());
+
+		int validBatchId = 2010;
+
+		Mockito.when(service.sendEmailsByBatchIdAndCSV(validBatchId, new File("emails.csv")))
+			.thenReturn(invalidEmails);
+
+		RequestBuilder request = MockMvcRequestBuilders.post("/distribute/");
+		MvcResult result = mockMvc.perform(request).andReturn();
+		assertEquals("", result.getResponse().getContentAsString());
+
+	}
+	
+	@Test
+	void distributionControllerSendEmailsByBatchIdAndCsv_invalidBatchId() throws Exception {
+
+		final List<String> invalidEmails = new ArrayList<>(Arrays.asList());
+
+		int invalidBatchId = 3010;
+
+		Mockito.when(service.sendEmailsByBatchIdAndCSV(invalidBatchId, new File("emails.csv")))
+			.thenThrow(InvalidBatchIdException.class);
+
+		RequestBuilder request = MockMvcRequestBuilders.post("/distribute/");
+		mockMvc.perform(request).andExpect(status().isBadRequest());
+
+	}
+	
+	@Test
+	void distributionControllerSendEmailsByBatchIdAndCSV_withInvalidEmail() throws Exception {
+
+		final List<String> invalidEmails = new ArrayList<>(Arrays.asList("acacia.hollidayrevature.net"));
+
+		int validBatchId = 2010;
+
+		Mockito.when(service.sendEmailsByBatchIdAndCSV(validBatchId, new File("emails.csv")))
+			.thenReturn(invalidEmails);
+
+		RequestBuilder request = MockMvcRequestBuilders.post("/distribute/");
+		MvcResult result = mockMvc.perform(request).andReturn();
+		assertEquals("acacia.hollidayrevature.net", result.getResponse().getContentAsString());
+
+	}
 
 }
