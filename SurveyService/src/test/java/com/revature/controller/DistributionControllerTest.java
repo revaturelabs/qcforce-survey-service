@@ -126,7 +126,7 @@ class DistributionControllerTest {
 		Mockito.when(service.sendEmailsByBatchIdAndCSV(validBatchId, new File("emails.csv"))).thenReturn(invalidEmails);
 
 		// when
-		RequestBuilder request = MockMvcRequestBuilders.post("/distribute/")
+		RequestBuilder request = MockMvcRequestBuilders.post("/distribute")
 				.param("batchId", Integer.toString(validBatchId)).param("csv", "files.csv");
 		MvcResult result = mockMvc.perform(request).andReturn();
 
@@ -144,7 +144,7 @@ class DistributionControllerTest {
 				.thenThrow(InvalidBatchIdException.class);
 
 		// when
-		RequestBuilder request = MockMvcRequestBuilders.post("/distribute/")
+		RequestBuilder request = MockMvcRequestBuilders.post("/distribute")
 				.param("batchId", Integer.toString(invalidBatchId)).param("csv", "files.csv");
 		// then
 		mockMvc.perform(request).andExpect(status().isBadRequest());
@@ -160,7 +160,7 @@ class DistributionControllerTest {
 		Mockito.when(service.sendEmailsByBatchIdAndCSV(validBatchId, new File("emails.csv"))).thenReturn(invalidEmails);
 
 		//when
-		RequestBuilder request = MockMvcRequestBuilders.post("/distribute/")
+		RequestBuilder request = MockMvcRequestBuilders.post("/distribute")
 				.param("batchId", Integer.toString(validBatchId)).param("csv", "files.csv");
 		MvcResult result = mockMvc.perform(request).andReturn();
 		

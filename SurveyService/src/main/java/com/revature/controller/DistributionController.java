@@ -35,7 +35,7 @@ public class DistributionController {
 		return null;
 	}
 	
-	@PostMapping("/distribute/")
+	@PostMapping("/distribute")
 	private ResponseEntity<List<String>> sendEmailsByCSV(@RequestParam int batchId,
 			@RequestParam File csv ){
 		return null;
