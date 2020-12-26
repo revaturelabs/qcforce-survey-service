@@ -11,16 +11,6 @@ public class AuthServiceJWT implements AuthService {
 		return null;
 	}
 
-	@Override
-	public int surveyIdFromToken(String token) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
-	@Override
-	public Boolean validateToken(String token) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

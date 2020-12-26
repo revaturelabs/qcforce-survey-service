@@ -39,11 +39,17 @@ class AuthServiceJWTTest {
 		int surveyId = 1;
 		String token = this.authService.createToken(surveyId);
 		
+		
 	}
 	
 	@Test
 	void testCreateToken_withInvalidSurveyId() {
-		fail("Not yet implemented");
+		int surveyId = 0;
+		String token = authService.createToken(surveyId);
+		String expectedToken = "";
+		assertEquals(expectedToken, token);
 	}
+	
+	
 
 }
