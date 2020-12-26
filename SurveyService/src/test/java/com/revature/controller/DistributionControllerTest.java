@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -167,7 +168,7 @@ class DistributionControllerTest {
 		RequestBuilder request = MockMvcRequestBuilders.post("/distribute")
 				.param("batchId", Integer.toString(invalidBatchId)).param("csv", "emails.csv");
 		verify(service).sendEmailsByBatchIdAndCSV(invalidBatchId, new File("emails.csv"));
-		
+
 		// then
 		mockMvc.perform(request).andExpect(status().isBadRequest());
 
@@ -196,26 +197,27 @@ class DistributionControllerTest {
 
 	}
 
-	/*
-	 * TODO: change to throwing an IOException Checks the SendEmailByCSV method with
-	 * a CSV with an invalid format throws an Exception.
+	/**
+	 * Checks the SendEmailByCSV method with a CSV with an invalid format throws an
+	 * Exception.
 	 */
 	@Test
 	void distributionControllerSendEmailsByBatchId_withInvalidCSV() throws Exception {
-
+		File emailFile = new File("emails.txt");
+		final String EXCEPTION_MESSAGE = "File not found";
 		// given
-		final List<String> invalidEmails = new ArrayList<>(Arrays.asList());
 		int validBatchId = 2010;
-		Mockito.when(service.sendEmailsByBatchIdAndCSV(validBatchId, new File("emails.txt"))).thenReturn(invalidEmails);
+		Mockito.when(service.sendEmailsByBatchIdAndCSV(validBatchId, emailFile))
+				.thenThrow(IOException.class);
 
 		// when
 		RequestBuilder request = MockMvcRequestBuilders.post("/distribute")
-				.param("batchId", Integer.toString(validBatchId)).param("csv", "emails.txt");
-		MvcResult result = mockMvc.perform(request).andExpect(status().isNotAcceptable()).andReturn();
+				.param("batchId", Integer.toString(validBatchId)).fileUpload(emailFile);
+		MvcResult result = mockMvc.perform(request).andExpect(status().isBadRequest()).andReturn();
 		verify(service).sendEmailsByBatchIdAndCSV(validBatchId, new File("emails.txt"));
 
 		// then
-		assertEquals("acacia.hollidayrevature.net", result.getResponse().getContentAsString());
+		assertEquals(EXCEPTION_MESSAGE, result.getResponse().getContentAsString());
 	}
 
 }
