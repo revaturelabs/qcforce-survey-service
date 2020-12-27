@@ -39,10 +39,13 @@ public class DistributionController {
 	 * file.
 	 * 
 	 * @param batchId represents a batch identifier
+	 * @param surveyId represents a survey that will be filled out by associates
+	 * @param csv represents a csv file of emails
 	 * @return List of incorrectly formatted emails in the database if any
 	 */
 	@PostMapping("/distribute")
-	private ResponseEntity<List<String>> sendEmailsByCSV(@RequestParam int batchId, @RequestParam File csv) {
+	private ResponseEntity<List<String>> sendEmailsByCSV(@RequestParam int batchId, @RequestParam int surveyId,
+			@RequestParam File csv) {
 		return null;
 	}
 }

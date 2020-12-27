@@ -10,5 +10,7 @@ public class CSVParserImpl implements CSVParser {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	//TODO Create Parser for regular string of emails separated by comma? separated by space?
 
 }

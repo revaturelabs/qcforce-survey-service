@@ -6,5 +6,6 @@ import java.util.List;
 public interface CSVParser {
 	
 	public List<String> parseFileForEmails(File file);
+	
 
 }

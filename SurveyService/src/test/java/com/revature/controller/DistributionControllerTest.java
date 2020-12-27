@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -212,7 +211,7 @@ class DistributionControllerTest {
 
 		// when
 		RequestBuilder request = MockMvcRequestBuilders.post("/distribute")
-				.param("batchId", Integer.toString(validBatchId)).fileUpload(emailFile);
+				.param("batchId", Integer.toString(validBatchId)).param("csv", "emails.txt");
 		MvcResult result = mockMvc.perform(request).andExpect(status().isBadRequest()).andReturn();
 		verify(service).sendEmailsByBatchIdAndCSV(validBatchId, new File("emails.txt"));
 
