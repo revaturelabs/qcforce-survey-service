@@ -23,22 +23,10 @@ class CSVParserTest {
 	@Autowired
 	CSVParser csvParser;
 
-	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterAll
-	static void tearDownAfterClass() throws Exception {
-	}
-
-	@BeforeEach
-	void setUp() throws Exception {
-	}
-
-	@AfterEach
-	void tearDown() throws Exception {
-	}
-
+	/**
+	 * Tests CSVParser service, creates a valid CSV and inputs it as parameter, asserts that it does not
+	 * throw an exception
+	 */
 	@Test
 	void testCSVParser_withValidCSVFormattedFile() {
 		FileWriter writer = null;
@@ -68,7 +56,9 @@ class CSVParserTest {
 		assertDoesNotThrow(() -> csvParser.parseFileForEmails(csvFile));
 
 	}
-
+	/**
+	 * Tests CSVParser service with empty string, should throw a FileNotFoundException
+	 */
 	@Test
 	void testCVSParser_withCSVFileNotFound() {
 		File csvFile = new File("");

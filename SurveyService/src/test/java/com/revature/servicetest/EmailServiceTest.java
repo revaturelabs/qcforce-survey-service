@@ -22,9 +22,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.revature.service.EmailService;
 
 /**
- * This class tests that the behavior of the sendEmail method in EmailServiceImpl class with 
- * different parameters. The method should execute is if both parameters are not null, neither string is empty and the email
- * address is valid. If any of these conditions are not met, an exception should be thrown.
+ * This class tests that the behavior of the sendEmail method in
+ * EmailServiceImpl class with different parameters. The method should execute
+ * is if both parameters are not null, neither string is empty and the email
+ * address is valid. If any of these conditions are not met, an exception should
+ * be thrown.
  */
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { EmailService.class })
@@ -115,10 +117,11 @@ class EmailParameterValidationTest {
 		service.sendEmail(msg, destination);
 		assertThrows(AddressException.class, () -> service.sendEmail(msg, destination));
 	}
-	/**
-	 * Tests EmailService's sendEmails with all valid Emails, should return an empty list
-	 */
 
+	/**
+	 * Tests EmailService's sendEmails with all valid emails, should return an empty
+	 * list
+	 */
 	@Test
 	void testSendEmailsWithAllValidEmails() {
 		final List<String> validEmails = new ArrayList<>(Arrays.asList("acacia.holliday@revature.net",
@@ -127,9 +130,9 @@ class EmailParameterValidationTest {
 	}
 
 	/**
-	 * 
+	 * Tests EmailService's sendEmails with some invalid emails, should return a
+	 * subset of inputted emails that are invalid
 	 */
-	
 	@Test
 	void testSendEmailsWithSomeInvalidEmails() {
 		final List<String> emails = new ArrayList<>(
@@ -138,6 +141,10 @@ class EmailParameterValidationTest {
 		assert (expectedInvalidEmails.equals(service.sendEmails("Please fill out this survey", emails)));
 	}
 
+	/**
+	 * Tests EmailService's sendEmails with all invalid emails, should return the
+	 * same list of emails as inputted as they are all invalid
+	 */
 	@Test
 	void testSendEmailsWithAllInvalidEmails() {
 		final List<String> emails = new ArrayList<>(
@@ -145,17 +152,29 @@ class EmailParameterValidationTest {
 		assert (emails.equals(service.sendEmails("Please fill out this survey", emails)));
 	}
 
+	/**
+	 * Tests EmailService's sendEmails with an empty list of emails, should throw an
+	 * IllegalStateException
+	 * 
+	 * @throws IllegalStateException
+	 */
 	@Test
 	void testSendEmailsWithEmptyList() throws IllegalStateException {
 		assertThrows(IllegalStateException.class,
 				() -> service.sendEmails("Please fill out this survey", new ArrayList<String>()));
 	}
 
+	/**
+	 * Tests EmailService's sendEmails with empty string for message parameter should throw an
+	 * illegal State Execption
+	 * 
+	 * @throws IllegalStateException
+	 */
+	@Test
 	void testSendEmailsWithEmptyMessage() throws IllegalStateException {
 		final List<String> validEmails = new ArrayList<>(
 				Arrays.asList("acacia.hollidayrevature.net", "ksenia.milstein@revaturenet", "zach.leonardo@revature"));
-		assertThrows(IllegalStateException.class,
-				() -> service.sendEmails("", new ArrayList<String>()));
+		assertThrows(IllegalStateException.class, () -> service.sendEmails("", new ArrayList<String>()));
 
 	}
 
