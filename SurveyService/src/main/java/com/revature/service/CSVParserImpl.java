@@ -1,10 +1,11 @@
 package com.revature.service;
 
-import java.io.File;
+import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CSVParserImpl implements CSVParser {
 
 	@Override
@@ -12,5 +13,7 @@ public class CSVParserImpl implements CSVParser {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	//TODO Create Parser for regular string of emails separated by comma? separated by space?
 
 }

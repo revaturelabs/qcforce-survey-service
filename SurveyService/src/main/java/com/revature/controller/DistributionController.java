@@ -40,6 +40,8 @@ public class DistributionController {
 	 * file.
 	 * 
 	 * @param batchId represents a batch identifier
+	 * @param surveyId represents a survey that will be filled out by associates
+	 * @param csv represents a csv file of emails
 	 * @return List of incorrectly formatted emails in the database if any
 	 */
 	@PostMapping("/distribute")

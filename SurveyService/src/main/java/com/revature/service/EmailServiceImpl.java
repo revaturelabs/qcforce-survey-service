@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import com.revature.logger.AppLogger;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -93,5 +95,20 @@ public class EmailServiceImpl implements EmailService {
 		 
 		Transport.send(message);
 		
+	}
+
+	@Override
+	public List<String> sendEmails(String msg, List<String> destinations) {
+		List<String> failedDestinations = new ArrayList<>();
+		for (String destination : destinations) {
+			try {
+				sendEmail(msg, destination);
+			} catch (Exception e) {
+				e.printStackTrace();
+				failedDestinations.add(destination);
+		
+			}
+		}
+		return failedDestinations;
 	}
 }
