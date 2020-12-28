@@ -3,6 +3,9 @@ package com.revature.service;
 import java.io.File;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class CSVParserImpl implements CSVParser {
 
 	@Override
