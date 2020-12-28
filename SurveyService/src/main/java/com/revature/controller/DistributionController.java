@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * This controller has three endpoints, one takes in a batch id, another takes
@@ -44,8 +45,7 @@ public class DistributionController {
 	 * @return List of incorrectly formatted emails in the database if any
 	 */
 	@PostMapping("/distribute")
-	private ResponseEntity<List<String>> sendEmailsByCSV(@RequestParam int batchId, @RequestParam int surveyId,
-			@RequestParam File csv) {
+	private ResponseEntity<List<String>> sendEmailsByCSV(@RequestParam int batchId, @RequestParam MultipartFile csv) {
 		return null;
 	}
 }

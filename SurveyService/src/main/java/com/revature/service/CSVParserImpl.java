@@ -1,6 +1,6 @@
 package com.revature.service;
 
-import java.io.File;
+import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class CSVParserImpl implements CSVParser {
 
 	@Override
-	public List<String> parseFileForEmails(File file) {
+	public List<String> parseFileForEmails(MultipartFile file) {
 		// TODO Auto-generated method stub
 		return null;
 	}
