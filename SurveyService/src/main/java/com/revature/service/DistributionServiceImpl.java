@@ -68,12 +68,7 @@ public class DistributionServiceImpl implements DistributionService {
 	@Override
 	public List<String> sendEmailsByBatchIdAndCSV(int batchId, int surveyId, MultipartFile csv) {
 
-		String token = authService.createToken(surveyId,batchId);
-		String surveyURL = baseURL + "/survey?token=" + token;
-
-		List<String> emails = csvParser.parseFileForEmails(csv);
-
-		return emailService.sendEmails(surveyURL, emails);
+		return null;
 
 	}
 

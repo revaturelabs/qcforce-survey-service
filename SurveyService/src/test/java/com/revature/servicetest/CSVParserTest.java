@@ -45,7 +45,7 @@ class CSVParserTest {
 
 	}
 	/**
-	 * Tests CSVParser service with invalid CSV file, should throw a FileNotFoundException
+	 * Tests CSVParser service with invalid CSV file, should throw a FileNotFoundException.
 	 * @throws IOException 
 	 * @throws FileNotFoundException 
 	 */
@@ -56,5 +56,11 @@ class CSVParserTest {
 		assertThrows(FileNotFoundException.class, () -> csvParser.parseFileForEmails(csvFile));
 
 	}
+	
+	/*
+	 * Additionally needed tests:
+	 * Empty file
+	 * 
+	 */
 
 }
