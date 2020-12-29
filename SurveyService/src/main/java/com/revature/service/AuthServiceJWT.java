@@ -1,29 +1,38 @@
 package com.revature.service;
 
+import java.security.Key;
+import java.util.Date;
+
+import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.DatatypeConverter;
+
 import org.springframework.stereotype.Service;
 
-/**
- * 
- * This service contains methods related to handling a JWT.
- *
- */
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
+/**
+ * This service receives requests from the distribution service to create a JWT.
+ */
 @Service
 public class AuthServiceJWT implements AuthService {
 
 	/**
-	 * This method creates a JWT based on the provided surveyId (int). If the
-	 * provided surveyId is invalid, the method throws InvalidSurveyIdException.
-	 * Created JWT includes claims for IAT, EXP, SID, BID and surveyId and signs it
-	 * with a secret.
+
+	 * This method creates and returns a Json Web Token given a surveyId and batchID
+	 * with various claims. Sets an IAT (issued at) claim for the current time in
+	 * milliseconds. Sets an EXP (expiration) claim for 15 minutes past the IAT
+	 * time. Sets a surveyID claim to hold the identifier for the distributed
+	 * survey. Sets a batchId claim to hole the identifier for the specified batch.
 	 * 
-	 * @param surveyId Represents a valid survey's id.
-	 * @return Returns a String that represents the created JWT.
+	 * @param surveyId the identifier for the distributed survey
+	 * @param batchId  the identifier for the specified batch receiving the emails.
 	 */
 	@Override
-	public String createToken(int surveyId) {
-		// TODO Auto-generated method stub
-		return null;
+	public String createToken(int surveyId, int batchId) {
+
+	  return null;
 	}
 
 }

@@ -3,7 +3,9 @@ package com.revature.service;
 import java.io.File;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * This service receives requests from the distribution controller, and then
@@ -14,22 +16,65 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DistributionServiceImpl implements DistributionService {
+
+	EmailService emailService;
+
+	CSVParser csvParser;
+
+	AuthService authService;
+
+	public final String baseURL = "http://qcforce.com";
+
 	/**
-	 * TODO: Document after implementation
+	 * @param emailService the emailService to set
 	 */
-	@Override
-	public List<String> sendEmailsByBatchId(int batchId) {
-		// TODO Auto-generated method stub
-		return null;
+	@Autowired
+	public void setEmailService(EmailService emailService) {
+		this.emailService = emailService;
+	}
+
+	/**
+	 * @param csvParser the csvParser to set
+	 */
+	@Autowired
+	public void setCsvParser(CSVParser csvParser) {
+		this.csvParser = csvParser;
+	}
+
+	/**
+	 * @param authService the authService to set
+	 */
+	@Autowired
+	public void setAuthService(AuthService authService) {
+		this.authService = authService;
 	}
 
 	/**
 	 * TODO: Document after implementation
 	 */
 	@Override
-	public List<String> sendEmailsByBatchIdAndCSV(int batchId, File csv) {
+	public List<String> sendEmailsByBatchId(int batchId, int surveyId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**
+	 * Distributes survey links to specified emails within the given csv file.
+	 * 
+	 * @param batchId the identifier for the desired batch.
+	 * @param surveyId the identifier for the survey to distribute.
+	 * @param csv the file containing associate emails.
+	 */
+	@Override
+	public List<String> sendEmailsByBatchIdAndCSV(int batchId, int surveyId, MultipartFile csv) {
+
+		String token = authService.createToken(surveyId,batchId);
+		String surveyURL = baseURL + "/survey?token=" + token;
+
+		List<String> emails = csvParser.parseFileForEmails(csv);
+
+		return emailService.sendEmails(surveyURL, emails);
+
 	}
 
 }

@@ -38,10 +38,11 @@ class AuthServiceJWTTest {
 	 */
 	@Test
 	void testCreateToken_withValidSurveyId() {
+		int batchId = 2010;
 		int surveyId = 1;
 		Date before = new Date(System.currentTimeMillis());
 		Date beforeExp = new Date(System.currentTimeMillis() + 1000 * 60 * 59);
-		String token = this.authService.createToken(surveyId);
+		String token = this.authService.createToken(batchId, surveyId);
 		Date after = new Date(System.currentTimeMillis());
 		Date afterExp = new Date(System.currentTimeMillis() + 1000 * 60 * 61);
 		try {
@@ -57,7 +58,6 @@ class AuthServiceJWTTest {
 		} catch (MalformedJwtException exception) {
 			fail(exception);
 		}
-
 	}
 
 	/**
@@ -66,11 +66,12 @@ class AuthServiceJWTTest {
 	 */
 	@Test
 	void testCreateToken_withInvalidSurveyId() {
+    int batchId = 2010;
 		int surveyId = -1;
 		// TODO:
 		// find assertThrows method
 		try {
-			authService.createToken(surveyId);
+			authService.createToken(batchId, surveyId);
 			fail("Expected InvalidSurveyIdException to be thrown");
 		} catch (InvalidSurveyIdException e) {
 		} catch (Exception e) {
