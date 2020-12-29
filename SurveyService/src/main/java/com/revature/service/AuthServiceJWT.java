@@ -19,6 +19,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class AuthServiceJWT implements AuthService {
 
 	/**
+
 	 * This method creates and returns a Json Web Token given a surveyId and batchID
 	 * with various claims. Sets an IAT (issued at) claim for the current time in
 	 * milliseconds. Sets an EXP (expiration) claim for 15 minutes past the IAT
@@ -31,25 +32,7 @@ public class AuthServiceJWT implements AuthService {
 	@Override
 	public String createToken(int surveyId, int batchId) {
 
-		// The JWT signature algorithm we will be using to sign the token
-		SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-
-		long nowMillis = System.currentTimeMillis();
-		Date now = new Date(nowMillis);
-
-		// We will sign our JWT with our ApiKey secret
-		byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary("secret");
-		Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
-
-		// Let's set the JWT Claims
-		JwtBuilder builder = Jwts.builder().setIssuedAt(now).claim("surveyId", surveyId).claim("batchId", batchId)
-				.signWith(signatureAlgorithm, signingKey);
-
-		Date exp = new Date(nowMillis + 15 * 60 * 1000);
-		builder.setExpiration(exp);
-
-		// Builds the JWT and serializes it to a compact, URL-safe string
-		return builder.compact();
+	  return null;
 	}
 
 }
