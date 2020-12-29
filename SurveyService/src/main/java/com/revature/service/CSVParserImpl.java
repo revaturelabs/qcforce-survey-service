@@ -24,6 +24,7 @@ public class CSVParserImpl implements CSVParser {
 	 * @param file the CSV to parse as a MultipartFile
 	 * @throws IOException
 	 * @throws FileNotFoundException
+	 * @throws IllegalArgumentException
 	 */
 	@Override
 	public List<String> parseFileForEmails(MultipartFile file)

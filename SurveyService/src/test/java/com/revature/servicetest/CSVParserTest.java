@@ -61,10 +61,8 @@ class CSVParserTest {
 	 */
 	@Test
 	void testCVSParser_withInvalidCSV() throws FileNotFoundException, IOException {
-		MockMultipartFile csvFile = new MockMultipartFile("data", "email.csv", "text/plain",
-				new FileInputStream(new File("emails.csv")));
-		assertThrows(FileNotFoundException.class, () -> csvParser.parseFileForEmails(csvFile));
-
+		assertThrows(FileNotFoundException.class,
+				() -> csvParser.parseFileForEmails((MultipartFile) new FileInputStream(new File("emails.csv"))));
 	}
 
 	/**
