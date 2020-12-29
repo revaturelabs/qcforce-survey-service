@@ -42,8 +42,13 @@ class CSVParserTest {
 				"ksenia.milstein@revature.net", "zach.leonardo@revature.net"));
 		MockMultipartFile emailFile = new MockMultipartFile("data", "nonexistingfile.csv", "text/plain",
 				"acacia.holliday@revature.net,ksenia.milstein@revature.net,zach.leonardo@revature.net".getBytes());
-		List<String> actualEmails = csvParser.parseFileForEmails(emailFile);
-		assertEquals(testEmails, actualEmails);
+		List<String> actualEmails;
+		try {
+			actualEmails = csvParser.parseFileForEmails(emailFile);
+			assertEquals(testEmails, actualEmails);
+		} catch (IOException e) {
+			fail("IOException thrown " + e);
+		}
 
 	}
 
@@ -72,8 +77,7 @@ class CSVParserTest {
 	 */
 	@Test
 	void testCVSParser_withEmptyFile() throws FileNotFoundException, IOException {
-		MockMultipartFile cvsFile = new MockMultipartFile("data", "email.csv", "text/plain",
-				"".getBytes());
+		MockMultipartFile cvsFile = new MockMultipartFile("data", "email.csv", "text/plain", "".getBytes());
 		assertThrows(IllegalArgumentException.class, () -> csvParser.parseFileForEmails(cvsFile));
 	}
 
