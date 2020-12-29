@@ -36,16 +36,18 @@ class AuthServiceJWTTest {
 
 	@Test
 	void testCreateToken_withValidSurveyId() {
+		int batchId = 2010;
 		int surveyId = 1;
-		String token = this.authService.createToken(surveyId);
+		String token = this.authService.createToken(batchId, surveyId);
 		
 		
 	}
 	
 	@Test
 	void testCreateToken_withInvalidSurveyId() {
+		int batchId = 2010;
 		int surveyId = 0;
-		String token = authService.createToken(surveyId);
+		String token = authService.createToken(batchId, surveyId);
 		String expectedToken = "";
 		assertEquals(expectedToken, token);
 	}

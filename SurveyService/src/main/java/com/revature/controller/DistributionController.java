@@ -29,8 +29,8 @@ public class DistributionController {
 	 * @param batchId represents a batch identifier
 	 * @return List of incorrectly formatted emails in the database if any
 	 */
-	@PostMapping("/distribute/{batchId}")
-	private ResponseEntity<List<String>> sendEmailsByBatchId(@PathVariable int batchId) {
+	@PostMapping("/distribute/{surveyId}/{batchId}")
+	private ResponseEntity<List<String>> sendEmailsByBatchId(@PathVariable int surveyId, @PathVariable int batchId) {
 
 		return null;
 	}
@@ -44,8 +44,8 @@ public class DistributionController {
 	 * @param csv represents a csv file of emails
 	 * @return List of incorrectly formatted emails in the database if any
 	 */
-	@PostMapping("/distribute")
-	private ResponseEntity<List<String>> sendEmailsByCSV(@RequestParam int batchId, @RequestParam MultipartFile csv) {
+	@PostMapping("/distribute/{surveyId}")
+	private ResponseEntity<List<String>> sendEmailsByCSV( @PathVariable int surveyId, @RequestParam int batchId, @RequestParam MultipartFile csv) {
 		return null;
 	}
 }

@@ -53,7 +53,7 @@ public class DistributionServiceImpl implements DistributionService {
 	 * TODO: Document after implementation
 	 */
 	@Override
-	public List<String> sendEmailsByBatchId(int batchId) {
+	public List<String> sendEmailsByBatchId(int batchId, int surveyId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -66,7 +66,7 @@ public class DistributionServiceImpl implements DistributionService {
 	 * @param csv the file containing associate emails.
 	 */
 	@Override
-	public List<String> sendEmailsByBatchIdAndCSV(int batchId, int surveyId, File csv) {
+	public List<String> sendEmailsByBatchIdAndCSV(int batchId, int surveyId, MultipartFile csv) {
 
 		String token = authService.createToken(surveyId,batchId);
 		String surveyURL = baseURL + "/survey?token=" + token;
