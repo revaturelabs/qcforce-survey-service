@@ -50,7 +50,11 @@ public class DistributionServiceImpl implements DistributionService {
 	}
 
 	/**
-	 * TODO: Document after implementation
+	 * Sends emails by batch Id takes survey id calls email service with batch Id emails 
+	 * received from messaging queue
+	 * and calls auth service with surveyId.
+	 * @param batchId - identifies the batch to recieve emails from
+	 * @parm surveyId - identifies the survey to send to batch emails
 	 */
 	@Override
 	public List<String> sendEmailsByBatchId(int batchId, int surveyId) {
