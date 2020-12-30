@@ -54,3 +54,6 @@ survey_service:
   email_service:
     username: ${email_service_username}
     password: ${email_service_password}
+    
+  auth_service:
+    secret: ${token_secret}

@@ -8,6 +8,7 @@ import javax.xml.bind.DatatypeConverter;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.revature.service.AuthService;
@@ -29,33 +30,41 @@ class AuthServiceJWTTest {
 	@Autowired
 	AuthService authService;
 
-	private final String SECRET = "secret";
+	/**
+	 * The secret string for the JWT signature.
+	 */
+	@Value("${survey_service.auth_service.secret}")
+	private String secret;
 
 	/**
-	 * Checks AuthServiceJWT.createToken(surveyId) with a valid surveyId. If token
-	 * is generated with the correct claims for surveyId, batchId, IAT, and EXP,
-	 * test passes. For temporal claims (IAT, EXP), a reasonable time range is
+	 * Checks AuthServiceJWT.createToken(surveyId, batchId) with a valid surveyId.
+	 * If token is generated with the correct claims for surveyId, batchId, IAT, and
+	 * EXP, test passes. For temporal claims (IAT, EXP), a reasonable time range is
 	 * checked in lieu of exact values.
+	 * 
+	 * @throws InterruptedException
 	 */
 	@Test
-	void testCreateToken_withValidParameters() {
+	void testCreateToken_withValidParameters() throws InterruptedException {
 
 		int batchId = 2010;
 		int surveyId = 1;
 		Date before = new Date(System.currentTimeMillis());
 		Date beforeExp = new Date(System.currentTimeMillis() + 1000 * 60 * 14);
-		String token = this.authService.createToken(batchId, surveyId);
+		java.util.concurrent.TimeUnit.SECONDS.sleep(1);
+		String token = this.authService.createToken(surveyId, batchId);
+		java.util.concurrent.TimeUnit.SECONDS.sleep(1);
 		Date after = new Date(System.currentTimeMillis());
 		Date afterExp = new Date(System.currentTimeMillis() + 1000 * 60 * 16);
 		try {
-			Claims claims = Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(this.SECRET))
+			Claims claims = Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(secret))
 					.parseClaimsJws(token).getBody();
 			assertEquals((int) claims.get("surveyId"), surveyId);
 			assertEquals((int) claims.get("batchId"), batchId);
-			assert (claims.getIssuedAt().after(before));
-			assert (claims.getIssuedAt().before(after));
-			assert (claims.getExpiration().after(beforeExp));
-			assert (claims.getExpiration().before(afterExp));
+			assertTrue(claims.getIssuedAt().after(before));
+			assertTrue(claims.getIssuedAt().before(after));
+			assertTrue(claims.getExpiration().after(beforeExp));
+			assertTrue(claims.getExpiration().before(afterExp));
 		} catch (MalformedJwtException exception) {
 			fail(exception);
 		}
