@@ -62,12 +62,12 @@ public class DistributionController {
 		try {
 			returnList = distributionService.sendEmailsByBatchIdAndCSV(batchId, surveyId, csv);
 		} catch (Exception e) {
-			returnList.add("Failed to upload files!");
+			returnList.add("Failed to send emails!");
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(returnList);
 		}
 		
 		if (returnList.isEmpty()) {
-			returnList.add("Emails sent successfully: " + csv.getOriginalFilename());
+			returnList.add("Emails sent successfully");
 		}
 
 		return ResponseEntity.status(HttpStatus.OK).body(returnList);
