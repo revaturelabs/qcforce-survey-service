@@ -68,7 +68,7 @@ public class DistributionServiceImpl implements DistributionService {
 	@Override
 	public List<String> sendEmailsByBatchIdAndCSV(int batchId, int surveyId, MultipartFile csv) {
 
-		return null;
+		return csvParser.parseFileForEmails(csv);
 
 	}
 
