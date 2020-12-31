@@ -56,17 +56,15 @@ public class DistributionController {
 	 * @return List of incorrectly formatted emails in the database if any
 	 */
 	@PostMapping("/distribute/{surveyId}")
-	private ResponseEntity<List<String>> sendEmailsByCSV(@PathVariable int surveyId, @RequestParam int batchId,
+	private ResponseEntity<EmailResponse>sendEmailsByCSV(@PathVariable int surveyId, @RequestParam int batchId,
 			@RequestParam MultipartFile csv) {
 
 		EmailResponse response = distributionService.sendEmailsByBatchIdAndCSV(batchId, surveyId, csv);
 
 		if (response.getMessage().equals("Malformatted emails")) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response.getEmails());
-		} else if (response.getMessage().equals("Failed to send")) {
-			return ResponseEntity.status(HttpStatus.OK).body(response.getEmails());
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(response.getEmails());
+			return ResponseEntity.status(HttpStatus.OK).body(response);
 		}
 	}
 }
