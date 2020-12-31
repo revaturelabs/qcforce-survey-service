@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.revature.response.EmailResponse;
 import com.revature.service.DistributionService;
 
 /**
@@ -57,20 +58,15 @@ public class DistributionController {
 	@PostMapping("/distribute/{surveyId}")
 	private ResponseEntity<List<String>> sendEmailsByCSV(@PathVariable int surveyId, @RequestParam int batchId,
 			@RequestParam MultipartFile csv) {
-		List<String> returnList = new ArrayList<String>();
 
-		try {
-			returnList = distributionService.sendEmailsByBatchIdAndCSV(batchId, surveyId, csv);
-		} catch (Exception e) {
-			returnList.add("Failed to send emails!");
-			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(returnList);
+		EmailResponse response = distributionService.sendEmailsByBatchIdAndCSV(batchId, surveyId, csv);
+
+		if (response.getMessage().equals("Malformatted emails")) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response.getEmails());
+		} else if (response.getMessage().equals("Failed to send")) {
+			return ResponseEntity.status(HttpStatus.OK).body(response.getEmails());
+		} else {
+			return ResponseEntity.status(HttpStatus.OK).body(response.getEmails());
 		}
-		
-		if (returnList.isEmpty()) {
-			returnList.add("Emails sent successfully");
-		}
-
-		return ResponseEntity.status(HttpStatus.OK).body(returnList);
-
 	}
 }

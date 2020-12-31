@@ -11,4 +11,6 @@ public interface EmailService {
 
 	public List<String> sendEmails(String msg, List<String> emails);
 	
+	public void validateEmail(String destination) throws AddressException;
+	
 }
