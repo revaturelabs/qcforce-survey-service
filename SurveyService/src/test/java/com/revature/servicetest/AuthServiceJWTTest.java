@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.revature.service.AuthService;
+import com.revature.util.InvalidBatchIdException;
 import com.revature.util.InvalidSurveyIdException;
 
 import io.jsonwebtoken.Claims;
@@ -32,51 +33,62 @@ class AuthServiceJWTTest {
 
 	/**
 	 * Checks AuthServiceJWT.createToken(surveyId) with a valid surveyId. If token
-	 * is generated with the correct claims for surveyId, IAT, SID, BID and EXP,
+	 * is generated with the correct claims for surveyId, batchId, IAT, and EXP,
 	 * test passes. For temporal claims (IAT, EXP), a reasonable time range is
 	 * checked in lieu of exact values.
 	 */
 	@Test
-	void testCreateToken_withValidSurveyId() {
+	void testCreateToken_withValidParameters() {
+
 		int batchId = 2010;
 		int surveyId = 1;
 		Date before = new Date(System.currentTimeMillis());
-		Date beforeExp = new Date(System.currentTimeMillis() + 1000 * 60 * 59);
+		Date beforeExp = new Date(System.currentTimeMillis() + 1000 * 60 * 14);
 		String token = this.authService.createToken(batchId, surveyId);
 		Date after = new Date(System.currentTimeMillis());
-		Date afterExp = new Date(System.currentTimeMillis() + 1000 * 60 * 61);
+		Date afterExp = new Date(System.currentTimeMillis() + 1000 * 60 * 16);
 		try {
 			Claims claims = Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(this.SECRET))
 					.parseClaimsJws(token).getBody();
 			assertEquals((int) claims.get("surveyId"), surveyId);
+			assertEquals((int) claims.get("batchId"), batchId);
 			assert (claims.getIssuedAt().after(before));
 			assert (claims.getIssuedAt().before(after));
 			assert (claims.getExpiration().after(beforeExp));
 			assert (claims.getExpiration().before(afterExp));
-			// TODO:
-			// verify BID and SID
 		} catch (MalformedJwtException exception) {
 			fail(exception);
 		}
 	}
 
 	/**
-	 * Checks AuthServiceJWT.createToken(surveyId) with an invalid surveyId. The
-	 * expected behavior is the throwing of the exception InvalidSurveyIdException.
+	 * Checks AuthServiceJWT.createToken(surveyId, batchId) with an invalid
+	 * surveyId. The expected behavior is the throwing of the exception
+	 * InvalidSurveyIdException.
 	 */
 	@Test
 	void testCreateToken_withInvalidSurveyId() {
-    int batchId = 2010;
+
+		int batchId = 2010;
 		int surveyId = -1;
-		// TODO:
-		// find assertThrows method
-		try {
-			authService.createToken(batchId, surveyId);
-			fail("Expected InvalidSurveyIdException to be thrown");
-		} catch (InvalidSurveyIdException e) {
-		} catch (Exception e) {
-			fail(e);
-		}
+
+		assertThrows(InvalidSurveyIdException.class, () -> authService.createToken(batchId, surveyId));
+
+	}
+
+	/**
+	 * Checks AuthServiceJWT.createToken(surveyId, batchId) with an invalid batchId.
+	 * The expected behavior is the throwing of the exception
+	 * InvalidBatchIdException.
+	 */
+	@Test
+	void testCreateToken_withInvalidBatchId() {
+
+		int batchId = -1;
+		int surveyId = 1;
+
+		assertThrows(InvalidBatchIdException.class, () -> authService.createToken(batchId, surveyId));
+
 	}
 
 }
