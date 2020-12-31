@@ -1,5 +1,6 @@
 package com.revature.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,11 +74,19 @@ public class DistributionServiceImpl implements DistributionService {
 	 * @param batchId  the identifier for the desired batch.
 	 * @param surveyId the identifier for the survey to distribute.
 	 * @param csv      the file containing associate emails.
+	 * 
 	 */
 	@Override
 	public EmailResponse sendEmailsByBatchIdAndCSV(int batchId, int surveyId, MultipartFile csv) {
+		//Call webclient service?
 		EmailResponse response;
-		List<String> emails = csvParser.parseFileForEmails(csv);
+		List<String> emails;
+		try {
+			emails = csvParser.parseFileForEmails(csv);
+		} catch (IOException e1) {
+	
+			return new EmailResponse("CSV Parsing error", null);
+		}
 		List<String> invalidEmails = new ArrayList<>();
 		List<String> failedToSend = new ArrayList<>();
 		String mes = "";

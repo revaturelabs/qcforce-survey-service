@@ -16,12 +16,15 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.revature.response.EmailResponse;
 import com.revature.service.DistributionService;
 import com.revature.util.InvalidBatchIdException;
 
@@ -41,30 +44,33 @@ class DistributionControllerTest {
 	private DistributionService service;
 
 	/**
-	 * Checks the SendEmailByBatchId method with a valid path parameter and no
-	 * incorrectly formatted emails in the database
+	 * Checks the SendEmailByBatchIdAndCSV method with a valid path parameter and no
+	 * incorrectly formatted emails in the database should return 
 	 */
 	@Test
 	void distributionControllerSendEmailsByBatchId_withoutError() throws Exception {
 
 		// given
-		final List<String> invalidEmails = new ArrayList<>(Arrays.asList());
 		int validBatchId = 2010;
 		int surveyId = 100;
-		Mockito.when(service.sendEmailsByBatchId(validBatchId, surveyId)).thenReturn(invalidEmails);
+		MockMultipartFile emailFile = new MockMultipartFile("data", "emails.csv", "text/plain",
+				"acacia.holliday@revature.net,ksenia.milstein@revature.net,zach.leonardo@revature.net".getBytes());
+		Mockito.when(service.sendEmailsByBatchIdAndCSV(validBatchId, surveyId, emailFile)).thenReturn(new EmailResponse("Email "
+				+ "successfully sent", null));
 
 		// when
 		RequestBuilder request = MockMvcRequestBuilders.post("/distribute/" + surveyId+ "/" + validBatchId);
 		MvcResult result = mockMvc.perform(request).andReturn();
-		verify(service).sendEmailsByBatchId(validBatchId, surveyId);
+		verify(service).sendEmailsByBatchIdAndCSV(validBatchId, surveyId, emailFile);
 
 		// then
-		assertEquals("", result.getResponse().getContentAsString());
+		assertEquals( ResponseEntity.status(HttpStatus.OK).body(service.sendEmailsByBatchIdAndCSV(validBatchId, 
+				surveyId, emailFile)), ResponseEntity.status(HttpStatus.OK).body(new EmailResponse("Email successfully sent", null)));
 
 	}
 
 	/**
-	 * Checks the SendEmailByBatchId method with an invalid path parameter. The
+	 * Checks the SendEmailByBatchIdCSV method with an invalid CSV batch Id. The
 	 * distribution service should throw an InvalidBatchIdException and the request
 	 * should return a 400 bad request status code
 	 */
@@ -74,7 +80,9 @@ class DistributionControllerTest {
 		// given
 		int invalidBatchId = 3010;
 		int surveyId = 100;
-		Mockito.when(service.sendEmailsByBatchId(invalidBatchId, surveyId)).thenThrow(InvalidBatchIdException.class);
+		MockMultipartFile emailFile = new MockMultipartFile("data", "emails.csv", "text/plain",
+				"acacia.holliday@revature.net,ksenia.milstein@revature.net,zach.leonardo@revature.net".getBytes());
+		Mockito.when(service.sendEmailsByBatchIdAndCSV(invalidBatchId, surveyId, emailFile)).thenThrow(InvalidBatchIdException.class);
 
 		// when
 		RequestBuilder request = MockMvcRequestBuilders.post("/distribute/" + surveyId+ "/" + invalidBatchId);
@@ -108,7 +116,7 @@ class DistributionControllerTest {
 	}
 
 	/**
-	 * Checks the SendEmailByBatchId method with a valid batchId, but with multiple
+	 * Checks the SendEmailsByBatchId method with a valid batchId, but with multiple
 	 * invalid emails.
 	 */
 	@Test
