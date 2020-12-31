@@ -19,6 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
@@ -34,7 +35,7 @@ import com.revature.util.InvalidBatchIdException;
  */
 @SpringBootTest
 @AutoConfigureMockMvc
-@WebMvcTest
+@ContextConfiguration(classes= {DistributionService.class, DistributionController.class})
 class DistributionControllerTest {
 
 	@Autowired
@@ -50,22 +51,18 @@ class DistributionControllerTest {
 	@Test
 	void distributionControllerSendEmailsByBatchId_withoutError() throws Exception {
 
-		// given
+		final List<String> invalidEmails = new ArrayList<>(Arrays.asList());
 		int validBatchId = 2010;
 		int surveyId = 100;
-		MockMultipartFile emailFile = new MockMultipartFile("data", "emails.csv", "text/plain",
-				"acacia.holliday@revature.net,ksenia.milstein@revature.net,zach.leonardo@revature.net".getBytes());
-		Mockito.when(service.sendEmailsByBatchIdAndCSV(validBatchId, surveyId, emailFile)).thenReturn(new EmailResponse("Email "
-				+ "successfully sent", null));
+		Mockito.when(service.sendEmailsByBatchId(validBatchId, surveyId)).thenReturn(invalidEmails);
 
 		// when
 		RequestBuilder request = MockMvcRequestBuilders.post("/distribute/" + surveyId+ "/" + validBatchId);
 		MvcResult result = mockMvc.perform(request).andReturn();
-		verify(service).sendEmailsByBatchIdAndCSV(validBatchId, surveyId, emailFile);
+		verify(service).sendEmailsByBatchId(validBatchId, surveyId);
 
 		// then
-		assertEquals( ResponseEntity.status(HttpStatus.OK).body(service.sendEmailsByBatchIdAndCSV(validBatchId, 
-				surveyId, emailFile)), ResponseEntity.status(HttpStatus.OK).body(new EmailResponse("Email successfully sent", null)));
+		assertEquals("", result.getResponse().getContentAsString());
 
 	}
 
@@ -131,7 +128,7 @@ class DistributionControllerTest {
 
 		// when
 		RequestBuilder request = MockMvcRequestBuilders.post("/distribute/" + surveyId + "/" + validBatchId);
-		MvcResult result = mockMvc.perform(request).andExpect(status().isNotAcceptable()).andReturn();
+		MvcResult result = mockMvc.perform(request).andExpect(status().isBadRequest()).andReturn();
 		verify(service).sendEmailsByBatchId(validBatchId, surveyId);
 
 		// then
@@ -153,7 +150,8 @@ class DistributionControllerTest {
 		final List<String> invalidEmails = new ArrayList<>(Arrays.asList());
 		int validBatchId = 2010;
 		int surveyId = 100;
-		Mockito.when(service.sendEmailsByBatchIdAndCSV(validBatchId, surveyId, emailFile)).thenReturn(invalidEmails);
+		Mockito.when(service.sendEmailsByBatchIdAndCSV(validBatchId, surveyId, emailFile))
+			.thenReturn(new EmailResponse ("Emails successfully sent",invalidEmails));
 
 		// when
 		RequestBuilder request = MockMvcRequestBuilders
@@ -206,7 +204,8 @@ class DistributionControllerTest {
 		final List<String> invalidEmails = new ArrayList<>(Arrays.asList("acacia.hollidayrevature.net"));
 		int validBatchId = 2010;
 		int surveyId = 100;
-		Mockito.when(service.sendEmailsByBatchIdAndCSV(validBatchId, surveyId, emailFile)).thenReturn(invalidEmails);
+		Mockito.when(service.sendEmailsByBatchIdAndCSV(validBatchId, surveyId, emailFile))
+			.thenReturn(new EmailResponse ("Emails successfully sent",invalidEmails));
 
 		// when
 		RequestBuilder request = MockMvcRequestBuilders

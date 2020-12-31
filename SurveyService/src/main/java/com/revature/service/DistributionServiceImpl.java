@@ -111,7 +111,7 @@ public class DistributionServiceImpl implements DistributionService {
 			return response;
 		} else {
 			if (failedToSend.isEmpty()) {
-				response = new EmailResponse("Email successfully sent", null);
+				response = new EmailResponse("Emails successfully sent", null);
 				return response;
 			} else {
 				response = new EmailResponse("Malformatted emails", invalidEmails);
