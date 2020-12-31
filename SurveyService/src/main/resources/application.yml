@@ -1,3 +1,4 @@
+
 server:
   port: ${custom_port:8087}
   
@@ -33,6 +34,12 @@ spring:
           auth: true
           starttls:
             enable: true
+            
+  servlet:
+    multipart:
+      max-file-size: 500KB
+      max-request-size: 500KB
+
 eureka:
   client:
     registerWithEureka: true
@@ -54,6 +61,4 @@ survey_service:
   email_service:
     username: ${email_service_username}
     password: ${email_service_password}
-    
-  auth_service:
-    secret: ${token_secret}
+

@@ -154,27 +154,27 @@ class EmailParameterValidationTest {
 
 	/**
 	 * Tests EmailService's sendEmails with an empty list of emails, should throw an
-	 * IllegalStateException
+	 * IllegalArgumentException
 	 * 
-	 * @throws IllegalStateException
+	 * @throws IllegalArgumentException
 	 */
 	@Test
 	void testSendEmailsWithEmptyList() throws IllegalStateException {
-		assertThrows(IllegalStateException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> service.sendEmails("Please fill out this survey", new ArrayList<String>()));
 	}
 
 	/**
 	 * Tests EmailService's sendEmails with empty string for message parameter should throw an
-	 * illegal State Execption
+	 * IllegalStateExecption
 	 * 
-	 * @throws IllegalStateException
+	 * @throws IllegalArgumentException
 	 */
 	@Test
-	void testSendEmailsWithEmptyMessage() throws IllegalStateException {
+	void testSendEmailsWithEmptyMessage() throws IllegalArgumentException {
 		final List<String> validEmails = new ArrayList<>(
 				Arrays.asList("acacia.hollidayrevature.net", "ksenia.milstein@revaturenet", "zach.leonardo@revature"));
-		assertThrows(IllegalStateException.class, () -> service.sendEmails("", new ArrayList<String>()));
+		assertThrows(IllegalArgumentException.class, () -> service.sendEmails("", new ArrayList<String>()));
 
 	}
 
