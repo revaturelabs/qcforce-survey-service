@@ -67,7 +67,7 @@ public class DistributionServiceImpl implements DistributionService {
 	 * 
 	 */
 	@Override
-	public EmailResponse sendEmailsByBatchId(int batchId, int surveyId) {
+	public EmailResponse sendEmailsByBatchId(String batchId, int surveyId) {
 		
 		// get list of eamils
 		
@@ -84,7 +84,7 @@ public class DistributionServiceImpl implements DistributionService {
 	 * 
 	 */
 	@Override
-	public EmailResponse sendEmailsByCSV(int batchId, int surveyId, MultipartFile csv) {
+	public EmailResponse sendEmailsByCSV(String batchId, int surveyId, MultipartFile csv) {
 		
 		// parse list of emails out of csv file
 		
@@ -100,7 +100,7 @@ public class DistributionServiceImpl implements DistributionService {
 	 * @param emails
 	 * @return
 	 */
-	private EmailResponse sendEmailHelper(int batchId, int surveyId, Set<String> emails) {
+	private EmailResponse sendEmailHelper(String batchId, int surveyId, Set<String> emails) {
 		
 		// validate list of emails. Flag if one is malformatted but still check all.
 

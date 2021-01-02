@@ -49,15 +49,20 @@ class DistributionServiceImplTest {
 	@MockBean
 	EmailService emailService;
 	
+	@MockBean
+	AssociateService associateService;
+	
 	EmailResponse emailResponse;
 
-	int batchId;
+	String batchId;
 
 	int surveyId;
 	
 	int surveySubIdAcacia;
 	int surveySubIdKsenia;
 	int surveySubIdZach;
+	
+	Set<Integer> associateIds;
 	
 	Set<String> emails;
 	
@@ -78,12 +83,16 @@ class DistributionServiceImplTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		
-		batchId = 2010;
+		batchId = "2010";
 		surveyId = 1;
 		
 		surveySubIdAcacia = 1;
 		surveySubIdKsenia = 2;
 		surveySubIdZach = 3;
+		
+		associateIds.add(1);
+		associateIds.add(2);
+		associateIds.add(3);
 		
 		emails.add("acacia.holliday@revature.net");
 		emails.add("ksenia.milstein@revature.net");
@@ -97,6 +106,7 @@ class DistributionServiceImplTest {
 		when(authService.createToken(surveyId, batchId, surveySubIdKsenia)).thenReturn(token);
 		when(authService.createToken(surveyId, batchId, surveySubIdZach)).thenReturn(token);
 		when(emailService.sendEmails(url + token, emails)).thenReturn(new HashSet<String>());
+		when(associateService.getAssociatesByBatchId(batchId)).thenReturn(associateIds);
 		
 	}
 
@@ -115,6 +125,8 @@ class DistributionServiceImplTest {
 		verify(authService).createToken(surveyId, batchId, surveySubIdKsenia);
 		verify(authService).createToken(surveyId, batchId, surveySubIdZach);
 		verify(emailService).sendEmails(url + token, emails);
+		verify(associateService).getAssociatesByBatchId(batchId);
+		
 		
 		assertTrue(emailResponse.getSendFailedEmails().size() == 0);
 		assertTrue(emailResponse.getTokenFailedEmails().size() == 0);
