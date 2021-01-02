@@ -62,3 +62,6 @@ survey_service:
     username: ${email_service_username}
     password: ${email_service_password}
 
+  auth_service:
+    secret: ${qcforce_token_secret}
+

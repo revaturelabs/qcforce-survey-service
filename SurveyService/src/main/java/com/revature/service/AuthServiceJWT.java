@@ -51,7 +51,7 @@ public class AuthServiceJWT implements AuthService {
 		Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
 
 		// Let's set the JWT Claims
-		JwtBuilder builder = Jwts.builder().setIssuedAt(now).claim("surveyId", surveyId).claim("batchId", batchId)
+		JwtBuilder builder = Jwts.builder().setIssuedAt(now).claim("surveyId", surveyId).claim("batchId", batchId) // add surveySubId as claim
 				.signWith(signatureAlgorithm, signingKey);
 
 		Date exp = new Date(nowMillis + TIME_TO_EXPIRATION);
