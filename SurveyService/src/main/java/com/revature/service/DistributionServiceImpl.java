@@ -69,6 +69,8 @@ public class DistributionServiceImpl implements DistributionService {
 	@Override
 	public EmailResponse sendEmailsByBatchId(int batchId, int surveyId) {
 		
+		// get list of eamils
+		
 		return null;
 	}
 	
