@@ -38,7 +38,7 @@ public class AuthServiceJWT implements AuthService {
 	 * @param batchId  the identifier for the specified batch receiving the emails.
 	 */
 	@Override
-	public String createToken(int surveyId, int batchId) {
+	public String createToken(int surveyId, int batchId, int surveySubId) {
 
 		// The JWT signature algorithm we will be using to sign the token
 		SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
@@ -51,7 +51,7 @@ public class AuthServiceJWT implements AuthService {
 		Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
 
 		// Let's set the JWT Claims
-		JwtBuilder builder = Jwts.builder().setIssuedAt(now).claim("surveyId", surveyId).claim("batchId", batchId)
+		JwtBuilder builder = Jwts.builder().setIssuedAt(now).claim("surveyId", surveyId).claim("batchId", batchId).claim("surveySubId", surveySubId)
 				.signWith(signatureAlgorithm, signingKey);
 
 		Date exp = new Date(nowMillis + TIME_TO_EXPIRATION);
