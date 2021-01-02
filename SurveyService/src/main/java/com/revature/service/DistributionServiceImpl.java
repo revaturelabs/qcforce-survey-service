@@ -100,7 +100,7 @@ public class DistributionServiceImpl implements DistributionService {
 	 * @param emails
 	 * @return
 	 */
-	private EmailResponse sendEmail(int batchId, int surveyId, Set<String> emails) {
+	private EmailResponse sendEmailHelper(int batchId, int surveyId, Set<String> emails) {
 		
 		// validate list of emails. Flag if one is malformatted but still check all.
 
