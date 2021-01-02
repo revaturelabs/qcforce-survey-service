@@ -6,8 +6,11 @@ import org.springframework.stereotype.Service;
 import com.revature.logger.AppLogger;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
+
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -107,8 +110,8 @@ public class EmailServiceImpl implements EmailService {
 	}
 
 	@Override
-	public List<String> sendEmails(String msg, List<String> destinations) {
-		List<String> failedDestinations = new ArrayList<>();
+	public Set<String> sendEmails(String msg, Set<String> destinations) {
+		Set<String> failedDestinations = new HashSet<>();
 		for (String destination : destinations) {
 			try {
 				sendEmail(msg, destination);

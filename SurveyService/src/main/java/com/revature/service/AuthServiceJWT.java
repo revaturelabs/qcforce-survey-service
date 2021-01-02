@@ -38,7 +38,7 @@ public class AuthServiceJWT implements AuthService {
 	 * @param batchId  the identifier for the specified batch receiving the emails.
 	 */
 	@Override
-	public String createToken(int surveyId, int batchId) {
+	public String createToken(int surveyId, int batchId, int surveySubId) {
 
 		// The JWT signature algorithm we will be using to sign the token
 		SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
