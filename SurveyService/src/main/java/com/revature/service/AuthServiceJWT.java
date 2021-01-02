@@ -33,6 +33,7 @@ public class AuthServiceJWT implements AuthService {
 	 * milliseconds. Sets an EXP (expiration) claim for 15 minutes past the IAT
 	 * time. Sets a surveyID claim to hold the identifier for the distributed
 	 * survey. Sets a batchId claim to hole the identifier for the specified batch.
+	 * Set the surveySubId claim to hold the identifier for the survey submission.
 	 * 
 	 * @param surveyId the identifier for the distributed survey
 	 * @param batchId  the identifier for the specified batch receiving the emails.
