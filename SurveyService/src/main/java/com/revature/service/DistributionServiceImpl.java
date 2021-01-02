@@ -3,6 +3,7 @@ package com.revature.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
@@ -23,12 +24,12 @@ import com.revature.response.EmailResponse;
 @Service
 public class DistributionServiceImpl implements DistributionService {
 
-	EmailService emailService;
+	private EmailService emailService;
 
-	CSVParser csvParser;
+	private CSVParser csvParser;
 
-	AuthService authService;
-
+	private AuthService authService;
+	
 	public final String baseURL = "http://qcforce.com";
 
 	/**
@@ -56,68 +57,61 @@ public class DistributionServiceImpl implements DistributionService {
 	}
 
 	/**
-	 * Sends emails by batch Id takes survey id calls email service with batch Id emails 
+	 * Sends emails by batch Id. Takes survey id calls email service with batch Id emails 
 	 * received from messaging queue
 	 * and calls auth service with surveyId.
+	 * 
 	 * @param batchId - identifies the batch to recieve emails from
-	 * @parm surveyId - identifies the survey to send to batch emails
+	 * @param surveyId - identifies the survey to send to batch emails
+	 * @return 
+	 * 
 	 */
 	@Override
-	public List<String> sendEmailsByBatchId(int batchId, int surveyId) {
-		// TODO Auto-generated method stub
+	public EmailResponse sendEmailsByBatchId(int batchId, int surveyId) {
+		
 		return null;
 	}
-
+	
 	/**
 	 * Distributes survey links to specified emails within the given csv file.
 	 * 
 	 * @param batchId  the identifier for the desired batch.
 	 * @param surveyId the identifier for the survey to distribute.
 	 * @param csv      the file containing associate emails.
+	 * @return
 	 * 
 	 */
 	@Override
-	public EmailResponse sendEmailsByBatchIdAndCSV(int batchId, int surveyId, MultipartFile csv) {
-		//Call webclient service?
-		EmailResponse response;
-		List<String> emails;
-		try {
-			emails = csvParser.parseFileForEmails(csv);
-		} catch (IOException e1) {
+	public EmailResponse sendEmailsByCSV(int batchId, int surveyId, MultipartFile csv) {
+		
+		// parse list of emails out of csv file
+		
+		// return sendEmail method call
+		return null;
+	}
 	
-			return new EmailResponse("CSV Parsing error", null);
-		}
-		List<String> invalidEmails = new ArrayList<>();
-		List<String> failedToSend = new ArrayList<>();
-		String mes = "";
+	/**
+	 * Distributes survey links to specified emails within the given email Set.
+	 * 
+	 * @param batchId
+	 * @param surveyId
+	 * @param emails
+	 * @return
+	 */
+	private EmailResponse sendEmail(int batchId, int surveyId, Set<String> emails) {
+		
+		// validate list of emails. Flag if one is malformatted but still check all.
 
-		for (String email : emails) {
-			try {
-				emailService.validateEmail(email);
-			} catch (AddressException e) {
-				invalidEmails.add(email);
-			}
-		}
-
-		if (invalidEmails.isEmpty()) {
-			for (String email : emails) {
-				try {
-					emailService.sendEmail(mes, email);
-				} catch (MessagingException e) {
-					failedToSend.add(email);
-				}
-			}
-			response = new EmailResponse("Failed to send", failedToSend);
-			return response;
-		} else {
-			if (failedToSend.isEmpty()) {
-				response = new EmailResponse("Emails successfully sent", null);
-				return response;
-			} else {
-				response = new EmailResponse("Malformatted emails", invalidEmails);
-				return response;
-			}
-		}
+		// call associate finder(Our service) to get id for that associate from this endpoint: /batch-id/{batchId}
+		
+		// make post api call to syncService "/surveysub" with surveyId and associateId and get surveySubmission back
+		
+		// generate token using batchId, surveyId, and serveySubId; add failed emails into response
+		
+		// Create url for each email and send; add failed sending emails to response
+		
+		// return email response
+		return null;
 	}
 
 }
