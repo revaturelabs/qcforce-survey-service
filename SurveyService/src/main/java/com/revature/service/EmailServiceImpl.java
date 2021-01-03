@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -105,6 +106,20 @@ public class EmailServiceImpl implements EmailService {
 
 	}
 
+	@Override
+	public boolean isValidEmailAddress(String email) {
+		
+		String emailRegex = "^[a-zA-Z0-9_+&*-] + (?:\\.[a-zA-Z0-9_+&*-]"
+							+ " )*@(?:[a-zA-Z0-9-]+\\.) + [a-zA-Z]{2, 7}";
+		
+		Pattern pat = Pattern.compile(emailRegex); 
+		
+        if (email == null) 
+            return false; 
+        
+        return pat.matcher(email).matches(); 
+	}
+	
 	public void validateEmail(String destination) throws AddressException {
 		InternetAddress.parse(destination);
 	}

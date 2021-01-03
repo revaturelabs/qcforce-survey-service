@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.revature.response.EmailResponse;
+import com.revature.util.InvalidBatchIdException;
+import com.revature.util.InvalidSurveyIdException;
 
 /**
  * This service receives requests from the distribution controller, and then
@@ -84,9 +86,11 @@ public class DistributionServiceImpl implements DistributionService {
 	 * 
 	 */
 	@Override
-	public EmailResponse sendEmailsByCSV(String batchId, int surveyId, MultipartFile csv) {
+	public EmailResponse sendEmailsByCSV(String batchId, int surveyId, MultipartFile csv) throws InvalidSurveyIdException, InvalidBatchIdException {
 		
 		// parse list of emails out of csv file
+		
+		// validate that batchId and SurveyId are legit
 		
 		// return sendEmail method call
 		return null;
@@ -105,12 +109,17 @@ public class DistributionServiceImpl implements DistributionService {
 		// validate list of emails. Flag if one is malformatted but still check all.
 
 		// call associate finder(Our service) to get id for that associate from this endpoint: /batch-id/{batchId}
+		// We'll have a hashmap of all emails with associate Ids as keys
 		
-		// make post api call to syncService "/surveysub" with surveyId and associateId and get surveySubmission back
+		//Start loop for each email
 		
-		// generate token using batchId, surveyId, and serveySubId; add failed emails into response
+			// check if emails are in hashmap and pull out key
+			
+			// make post api call to syncService "/surveysub" with surveyId and associateId and get surveySubmission back
 		
-		// Create url for each email and send; add failed sending emails to response
+			// generate token using batchId, surveyId, and serveySubId; add failed emails into response
+		
+			// Create url for each email and send; add failed sending emails to response
 		
 		// return email response
 		return null;

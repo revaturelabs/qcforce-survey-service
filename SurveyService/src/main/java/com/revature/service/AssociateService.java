@@ -1,5 +1,7 @@
 package com.revature.service;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
@@ -7,6 +9,6 @@ import org.springframework.stereotype.Service;
 @Service 
 public interface AssociateService {
 	
-	public Set<Integer> getAssociatesByBatchId(String batchId);
+	public HashMap<String, Integer> getAssociatesByBatchId(String batchId);
 
 }

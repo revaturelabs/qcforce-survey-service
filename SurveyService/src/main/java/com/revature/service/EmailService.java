@@ -12,6 +12,8 @@ public interface EmailService {
 
 	public Set<String> sendEmails(String msg, Set<String> emails);
 	
+	public boolean isValidEmailAddress(String email);
+	
 	public void validateEmail(String destination) throws AddressException;
 	
 }

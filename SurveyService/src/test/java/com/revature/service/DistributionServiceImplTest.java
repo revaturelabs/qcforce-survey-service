@@ -14,6 +14,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -52,6 +53,9 @@ class DistributionServiceImplTest {
 	@MockBean
 	AssociateService associateService;
 	
+	@MockBean
+	SurveySubmissionService surveySubmissionService;
+	
 	EmailResponse emailResponse;
 
 	String batchId;
@@ -61,10 +65,16 @@ class DistributionServiceImplTest {
 	int surveySubIdAcacia;
 	int surveySubIdKsenia;
 	int surveySubIdZach;
+
+	int associateIdAcacia;
+	int associateIdKsenia;
+	int associateIdZach;
 	
-	Set<Integer> associateIds;
+	HashMap<String, Integer> associateIdEmailMap;
 	
 	Set<String> emails;
+	
+	Set<Integer> validAssociateIds;
 	
 	String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdXJ2ZXlJZCI6IjEyMzQ1Njc4OTAiLCJiYXRjaElkIjoiMjAxMCIsImV4cCI6MjAsImlhdCI6MjB9.rpejfxJ1pM5bZm74bpuHh92vIdqfMkwDHATLGiY35qs";
 
@@ -90,23 +100,36 @@ class DistributionServiceImplTest {
 		surveySubIdKsenia = 2;
 		surveySubIdZach = 3;
 		
-		associateIds.add(1);
-		associateIds.add(2);
-		associateIds.add(3);
+		associateIdAcacia = 1;
+		associateIdKsenia = 2;
+		associateIdZach = 3;
 		
 		emails.add("acacia.holliday@revature.net");
 		emails.add("ksenia.milstein@revature.net");
 		emails.add("zach.leonardo@revature.net");
+
+		associateIdEmailMap.put("acacia.holliday@revature.net", surveySubIdAcacia);
+		associateIdEmailMap.put("ksenia.milstein@revature.net", surveySubIdKsenia);
+		associateIdEmailMap.put("zach.leonardo@revature.net", surveySubIdZach);
 		
 		csv = new MockMultipartFile("data", "emails.csv", "text/plain",
 				"acacia.holliday@revature.net,ksenia.milstein@revature.net,zach.leonardo@revature.net".getBytes());
 		
+		for(String email : emails) {
+			when(emailService.isValidEmailAddress(email)).thenReturn(true);
+		}
+			
 		when(csvParser.parseFileForEmails(csv)).thenReturn(emails);
+		
 		when(authService.createToken(surveyId, batchId, surveySubIdAcacia)).thenReturn(token);
 		when(authService.createToken(surveyId, batchId, surveySubIdKsenia)).thenReturn(token);
 		when(authService.createToken(surveyId, batchId, surveySubIdZach)).thenReturn(token);
+		
 		when(emailService.sendEmails(url + token, emails)).thenReturn(new HashSet<String>());
-		when(associateService.getAssociatesByBatchId(batchId)).thenReturn(associateIds);
+		
+		when(surveySubmissionService.getSurveySubmissionByAssociateId(batchId, surveyId, associateIdAcacia)).thenReturn(surveySubIdAcacia);
+		when(surveySubmissionService.getSurveySubmissionByAssociateId(batchId, surveyId, associateIdKsenia)).thenReturn(surveySubIdKsenia);
+		when(surveySubmissionService.getSurveySubmissionByAssociateId(batchId, surveyId, associateIdZach)).thenReturn(surveySubIdZach);
 		
 	}
 
@@ -114,29 +137,46 @@ class DistributionServiceImplTest {
 	void tearDown() throws Exception {
 	}
 
+	/**
+	 * Test path of sendEmailsByCSV for valid parameters. Expects verification of Parsing emails from csv file,
+	 * checking formatting of each email, get valid survey submission id for each email, create token for each email,
+	 * 
+	 * 
+	 * @throws Exception
+	 */
 	@Test
 	void sendEmailsByCSV_withValidParameters() throws Exception{
-
-	
-		emailResponse = distributionService.sendEmailsByCSV(batchId, surveyId, csv);
+		
+		EmailResponse returned = distributionService.sendEmailsByCSV(batchId, surveyId, csv);
 		
 		verify(csvParser).parseFileForEmails(csv);
+		
+		for(String email : emails) {
+			verify(emailService).isValidEmailAddress(email);
+		}
+		
+		verify(surveySubmissionService).getSurveySubmissionByAssociateId(batchId, surveyId, associateIdAcacia);
+		verify(surveySubmissionService).getSurveySubmissionByAssociateId(batchId, surveyId, associateIdKsenia);
+		verify(surveySubmissionService).getSurveySubmissionByAssociateId(batchId, surveyId, associateIdZach);
+		
 		verify(authService).createToken(surveyId, batchId, surveySubIdAcacia);
 		verify(authService).createToken(surveyId, batchId, surveySubIdKsenia);
 		verify(authService).createToken(surveyId, batchId, surveySubIdZach);
-		verify(emailService).sendEmails(url + token, emails);
+		
+		for(String email : emails) {
+			verify(emailService).sendEmail(url + token, email); // token used here during the test are not unique
+		}
+		
 		verify(associateService).getAssociatesByBatchId(batchId);
 		
+		assertTrue(returned.getSendFailedEmails().size() == 0, "Returned EmailResponse with non-empty SendFailedEmails: " + returned.getSendFailedEmails().toString());
+		assertTrue(returned.getTokenFailedEmails().size() == 0, "Returned EmailResponse with non-empty TokenFailedEmails: " + returned.getTokenFailedEmails().toString());
+		assertTrue(returned.getMalformedEmails().size() == 0, "Returned EmailResponse with non-empty MalformedEmails: " + returned.getMalformedEmails().toString());
+		assertTrue(returned.getStatusMessage().equals(""), "Returned EmailResponse with non-empty StatusMessage: " + returned.getStatusMessage());
 		
-		assertTrue(emailResponse.getSendFailedEmails().size() == 0);
-		assertTrue(emailResponse.getTokenFailedEmails().size() == 0);
-		assertTrue(emailResponse.getMalformedEmails().size() == 0);
-		
-		// parseFileForEmails(file)
-		// call send emails
 	}
-
-	// happy path
+	
+	
 	// invalid batchId
 	// invalid surveyID
 	// invalid csv
