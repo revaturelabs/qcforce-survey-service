@@ -104,6 +104,9 @@ class DistributionServiceImplTest {
 		associateIdKsenia = 2;
 		associateIdZach = 3;
 		
+		emails = new HashSet<String>();
+		validAssociateIds = new HashSet<Integer>();
+		
 		emails.add("acacia.holliday@revature.net");
 		emails.add("ksenia.milstein@revature.net");
 		emails.add("zach.leonardo@revature.net");
