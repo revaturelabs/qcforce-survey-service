@@ -113,9 +113,9 @@ class DistributionServiceImplTest {
 
 		associateIdEmailMap = new HashMap<String, Integer>();
 		
-		associateIdEmailMap.put("acacia.holliday@revature.net", surveySubIdAcacia);
-		associateIdEmailMap.put("ksenia.milstein@revature.net", surveySubIdKsenia);
-		associateIdEmailMap.put("zach.leonardo@revature.net", surveySubIdZach);
+		associateIdEmailMap.put("acacia.holliday@revature.net", associateIdAcacia);
+		associateIdEmailMap.put("ksenia.milstein@revature.net", associateIdKsenia);
+		associateIdEmailMap.put("zach.leonardo@revature.net", associateIdZach);
 		
 		csv = new MockMultipartFile("data", "emails.csv", "text/plain",
 				"acacia.holliday@revature.net,ksenia.milstein@revature.net,zach.leonardo@revature.net".getBytes());
@@ -123,6 +123,8 @@ class DistributionServiceImplTest {
 		for(String email : emails) {
 			when(emailService.isValidEmailAddress(email)).thenReturn(true);
 		}
+		
+		when(associateService.getAssociatesByBatchId(batchId)).thenReturn(associateIdEmailMap);
 			
 		when(csvParser.parseFileForEmails(csv)).thenReturn(emails);
 		
@@ -146,7 +148,6 @@ class DistributionServiceImplTest {
 	 * Test path of sendEmailsByCSV for valid parameters. Expects verification of Parsing emails from csv file,
 	 * checking formatting of each email, get valid survey submission id for each email, create token for each email,
 	 * 
-	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -159,6 +160,8 @@ class DistributionServiceImplTest {
 		for(String email : emails) {
 			verify(emailService).isValidEmailAddress(email);
 		}
+		
+		verify(associateService).getAssociatesByBatchId(batchId);
 		
 		verify(surveySubmissionService).getSurveySubmissionByAssociateId(batchId, surveyId, associateIdAcacia);
 		verify(surveySubmissionService).getSurveySubmissionByAssociateId(batchId, surveyId, associateIdKsenia);
@@ -174,16 +177,88 @@ class DistributionServiceImplTest {
 		
 		verify(associateService).getAssociatesByBatchId(batchId);
 		
-		assertTrue(returned.getSendFailedEmails().size() == 0, "Returned EmailResponse with non-empty SendFailedEmails: " + returned.getSendFailedEmails().toString());
-		assertTrue(returned.getTokenFailedEmails().size() == 0, "Returned EmailResponse with non-empty TokenFailedEmails: " + returned.getTokenFailedEmails().toString());
-		assertTrue(returned.getMalformedEmails().size() == 0, "Returned EmailResponse with non-empty MalformedEmails: " + returned.getMalformedEmails().toString());
-		assertTrue(returned.getStatusMessage().equals(""), "Returned EmailResponse with non-empty StatusMessage: " + returned.getStatusMessage());
+		assertEquals(returned.getSendFailedEmails().size(), 0, "Returned EmailResponse with non-empty SendFailedEmails: " + returned.getSendFailedEmails().toString());
+		assertEquals(returned.getTokenFailedEmails().size(), 0, "Returned EmailResponse with non-empty TokenFailedEmails: " + returned.getTokenFailedEmails().toString());
+		assertEquals(returned.getMalformedEmails().size(), 0, "Returned EmailResponse with non-empty MalformedEmails: " + returned.getMalformedEmails().toString());
+		assertEquals(returned.getStatusMessage(), "", "Returned EmailResponse with non-empty StatusMessage: " + returned.getStatusMessage());
+		
+	}
+	
+	/**
+	 * Test path of sendEmailsByCSV for an Invalid CSV. Expects verification of Parsing emails from csv file to fail
+	 * and handle it properly. Should return {@link EmailResponse} with empty lists and status code 'File Not Found'
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void sendEmailsByCSV_withInvalidCSV() throws Exception{
+		
+		when(csvParser.parseFileForEmails(csv)).thenThrow(IllegalArgumentException.class);
+		
+		EmailResponse returned = distributionService.sendEmailsByCSV(batchId, surveyId, csv);
+		
+		verify(csvParser).parseFileForEmails(csv);
+		
+		assertEquals(returned.getSendFailedEmails().size(), 0, "Returned EmailResponse with non-empty SendFailedEmails: " + returned.getSendFailedEmails().toString());
+		assertEquals(returned.getTokenFailedEmails().size(), 0, "Returned EmailResponse with non-empty TokenFailedEmails: " + returned.getTokenFailedEmails().toString());
+		assertEquals(returned.getMalformedEmails().size(), 0, "Returned EmailResponse with non-empty MalformedEmails: " + returned.getMalformedEmails().toString());
+		assertEquals(returned.getStatusMessage(), "File not found", "Returned EmailResponse with unexpected StatusMessage: " + returned.getStatusMessage());
+		
+	}
+	
+	/**
+	 * Test path of sendEmailsByCSV for an Invalid batch Id. Expects verification of Parsing emails from csv file to pass
+	 * but will handle associateService.getAssociatesByBatchId returning an empty HashMap by returning early with 
+	 * the {@link EmailResponse} statusMessage field containing 'Invalid Batch Id'
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void sendEmailsByCSV_withInvalidBatchId() throws Exception{
+		
+		associateIdEmailMap.clear();
+		
+		when(associateService.getAssociatesByBatchId(batchId)).thenReturn(associateIdEmailMap);
+		
+		EmailResponse returned = distributionService.sendEmailsByCSV(batchId, surveyId, csv);
+		
+		verify(associateService).getAssociatesByBatchId(batchId);
+
+		verify(csvParser).parseFileForEmails(csv);
+		
+		assertEquals(returned.getSendFailedEmails().size(), 0, "Returned EmailResponse with non-empty SendFailedEmails: " + returned.getSendFailedEmails().toString());
+		assertEquals(returned.getTokenFailedEmails().size(), 0, "Returned EmailResponse with non-empty TokenFailedEmails: " + returned.getTokenFailedEmails().toString());
+		assertEquals(returned.getMalformedEmails().size(), 0, "Returned EmailResponse with non-empty MalformedEmails: " + returned.getMalformedEmails().toString());
+		assertEquals(returned.getStatusMessage(), "Invalid Batch Id", "Returned EmailResponse with unexpected StatusMessage: " + returned.getStatusMessage());
 		
 	}
 	
 	
-	// invalid batchId
-	// invalid surveyID
-	// invalid csv
+	/**
+	 * Test path of sendEmailsByCSV for an Invalid survey Id. Expects verification of Parsing emails from csv file to pass.
+	 * 
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void sendEmailsByCSV_withInvalidSurveyId() throws Exception{
+		
+		associateIdEmailMap.clear();
+		
+		when(associateService.getAssociatesByBatchId(batchId)).thenReturn(associateIdEmailMap);
+		
+		EmailResponse returned = distributionService.sendEmailsByCSV(batchId, surveyId, csv);
+		
+		verify(csvParser).parseFileForEmails(csv);
+		
+		verify(associateService).getAssociatesByBatchId(batchId);
+		
+		assertEquals(returned.getSendFailedEmails().size(), 0, "Returned EmailResponse with non-empty SendFailedEmails: " + returned.getSendFailedEmails().toString());
+		assertEquals(returned.getTokenFailedEmails().size(), 0, "Returned EmailResponse with non-empty TokenFailedEmails: " + returned.getTokenFailedEmails().toString());
+		assertEquals(returned.getMalformedEmails().size(), 0, "Returned EmailResponse with non-empty MalformedEmails: " + returned.getMalformedEmails().toString());
+		assertEquals(returned.getStatusMessage(), "Invalid Batch Id", "Returned EmailResponse with unexpected StatusMessage: " + returned.getStatusMessage());
+		
+	}
+	
 
 }

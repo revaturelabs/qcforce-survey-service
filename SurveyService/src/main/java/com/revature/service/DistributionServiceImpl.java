@@ -71,7 +71,7 @@ public class DistributionServiceImpl implements DistributionService {
 	@Override
 	public EmailResponse sendEmailsByBatchId(String batchId, int surveyId) {
 		
-		// get list of eamils
+		// get list of emails
 		
 		return null;
 	}
@@ -90,7 +90,8 @@ public class DistributionServiceImpl implements DistributionService {
 		
 		// parse list of emails out of csv file
 		
-		// validate that batchId and SurveyId are legit
+		// validate that batchId is valid
+		// validate that surveyId is valid
 		
 		// return sendEmail method call
 		return null;
@@ -106,20 +107,22 @@ public class DistributionServiceImpl implements DistributionService {
 	 */
 	private EmailResponse sendEmailHelper(String batchId, int surveyId, Set<String> emails) {
 		
-		// validate list of emails. Flag if one is malformatted but still check all.
-
 		// call associate finder(Our service) to get id for that associate from this endpoint: /batch-id/{batchId}
 		// We'll have a hashmap of all emails with associate Ids as keys
+		// if this returns nothing, it was a bad batch Id so return with 404 more or less
 		
+		// validate list of emails. Flag if one is malformatted but still check all.
+	
 		//Start loop for each email
 		
 			// check if emails are in hashmap and pull out key
 			
 			// make post api call to syncService "/surveysub" with surveyId and associateId and get surveySubmission back
+			// if returns nothing, the surveyId was bad, return with 404 more or less
 		
-			// generate token using batchId, surveyId, and serveySubId; add failed emails into response
+			// generate token using batchId, surveyId, and serveySubId; add failed emails into response in tokenFailed
 		
-			// Create url for each email and send; add failed sending emails to response
+			// Create url for each email and send; add failed sending emails to response in sendFailed
 		
 		// return email response
 		return null;
