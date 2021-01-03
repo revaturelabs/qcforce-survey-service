@@ -111,6 +111,8 @@ class DistributionServiceImplTest {
 		emails.add("ksenia.milstein@revature.net");
 		emails.add("zach.leonardo@revature.net");
 
+		associateIdEmailMap = new HashMap<String, Integer>();
+		
 		associateIdEmailMap.put("acacia.holliday@revature.net", surveySubIdAcacia);
 		associateIdEmailMap.put("ksenia.milstein@revature.net", surveySubIdKsenia);
 		associateIdEmailMap.put("zach.leonardo@revature.net", surveySubIdZach);
