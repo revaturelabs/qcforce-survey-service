@@ -2,6 +2,8 @@ package com.revature.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -32,6 +34,12 @@ public class DistributionServiceImpl implements DistributionService {
 
 	private AuthService authService;
 	
+	private AssociateService associateService;
+	
+	private SurveyService surveyService;
+	
+	private SurveySubmissionService surveySubmissionService;
+	
 	public final String baseURL = "http://qcforce.com";
 
 	/**
@@ -56,6 +64,34 @@ public class DistributionServiceImpl implements DistributionService {
 	@Autowired
 	public void setAuthService(AuthService authService) {
 		this.authService = authService;
+	}
+	
+	
+
+	/**
+	 * @param associateService the associateService to set
+	 */
+	@Autowired
+	public void setAssociateService(AssociateService associateService) {
+		this.associateService = associateService;
+	}
+
+	/**
+	 * @param surveyService the surveyService to set
+	 */
+	@Autowired
+	public void setSurveyService(SurveyService surveyService) {
+		this.surveyService = surveyService;
+	}
+	
+	
+
+	/**
+	 * @param surveySubmissionService the surveySubmissionService to set
+	 */
+	@Autowired
+	public void setSurveySubmissionService(SurveySubmissionService surveySubmissionService) {
+		this.surveySubmissionService = surveySubmissionService;
 	}
 
 	/**
@@ -89,13 +125,29 @@ public class DistributionServiceImpl implements DistributionService {
 	public EmailResponse sendEmailsByCSV(String batchId, int surveyId, MultipartFile csv) throws 
 	InvalidSurveyIdException, InvalidBatchIdException, IllegalArgumentException{
 		
-		// parse list of emails out of csv file
+		// call getAssociatesByBatchId
+		// if this returns nothing, it was a bad batch Id so throw an InvalidBatchIdException
+		// We'll have a hashmap of all emails with associate Ids as keys
+		HashMap<String, Integer> associateEmailIdMap = associateService.getAssociatesByBatchId(batchId);
+		if(associateEmailIdMap.isEmpty()) {
+			throw new InvalidBatchIdException("Invalid BatchId: " + batchId);
+		}
 		
-		// validate that batchId is valid
 		// validate that surveyId is valid
+		if(!surveyService.isValidSurvey(surveyId)) {
+			throw new InvalidSurveyIdException("Invalid SurveyId: " + surveyId);
+		}
+
+		// parse list of emails out of csv file
+		Set<String> emails = null;
+		try {
+			emails = csvParser.parseFileForEmails(csv);
+		} catch (IOException e) {
+			throw new IllegalArgumentException("Invalid csv: Invalid Content");
+		}
 		
 		// return sendEmail method call
-		return null;
+		return sendEmailHelper(batchId, surveyId, emails, associateEmailIdMap);
 	}
 	
 	/**
@@ -106,27 +158,50 @@ public class DistributionServiceImpl implements DistributionService {
 	 * @param emails
 	 * @return
 	 */
-	private EmailResponse sendEmailHelper(String batchId, int surveyId, Set<String> emails) {
+	private EmailResponse sendEmailHelper(String batchId, int surveyId, Set<String> emails, HashMap<String, Integer> associateEmailIdMap) {
+				
+		EmailResponse emailResponse = new EmailResponse(); 
 		
-		// call associate finder(Our service) to get id for that associate from this endpoint: /batch-id/{batchId}
-		// We'll have a hashmap of all emails with associate Ids as keys
-		// if this returns nothing, it was a bad batch Id so return with 404 more or less
+		// validate list of emails. Add to emailResponse if one is malformatted but still check all others.
+		for(String email : emails) {
+			if(!emailService.isValidEmailAddress(email)) {
+				emailResponse.addMalformedEmail(email);
+			}
+		}
 		
-		// validate list of emails. Flag if one is malformatted but still check all.
+		// if any emails were invalid, return with the list of malformatted emails
+		if(!emailResponse.getMalformedEmails().isEmpty()) {
+			return emailResponse;
+		}
 	
 		//Start loop for each email
+		for(String email : emails) {
 		
 			// check if emails are in hashmap and pull out key
+			Integer associateId = associateEmailIdMap.get(email);
+			// if there is no email in batch that matches, add to token fail and continue
+			if(associateId == null) {
+				emailResponse.addTokenFailedEmail(email);
+				continue;
+			}
 			
 			// make post api call to syncService "/surveysub" with surveyId and associateId and get surveySubmission back
-			// if returns nothing, the surveyId was bad, return with 404 more or less
-		
+			Integer surveySubId = surveySubmissionService.getSurveySubmissionByAssociateId(batchId, surveyId, associateId);
+			
 			// generate token using batchId, surveyId, and serveySubId; add failed emails into response in tokenFailed
-		
+			String authToken = authService.createToken(surveyId, batchId, surveySubId);
+			
 			// Create url for each email and send; add failed sending emails to response in sendFailed
-		
+			String surveyUrl = baseURL + "/survey?token=" + authToken;
+			try {
+				emailService.sendEmail(surveyUrl, email);
+			} catch (Exception e) {
+				emailResponse.addsendFailedEmail(email);
+				e.printStackTrace();
+			}
+		}
 		// return email response
-		return null;
+		return emailResponse;
 	}
 
 }
