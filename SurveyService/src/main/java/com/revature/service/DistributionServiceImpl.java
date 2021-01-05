@@ -13,6 +13,7 @@ import javax.mail.internet.AddressException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.reactive.function.client.WebClientException;
 
 import com.revature.response.EmailResponse;
 import com.revature.util.InvalidBatchIdException;
@@ -189,7 +190,14 @@ public class DistributionServiceImpl implements DistributionService {
 			Integer surveySubId = surveySubmissionService.getSurveySubmissionByAssociateId(batchId, surveyId, associateId);
 			
 			// generate token using batchId, surveyId, and serveySubId; add failed emails into response in tokenFailed
-			String authToken = authService.createToken(surveyId, batchId, surveySubId);
+			String authToken = null;
+			try {
+				authToken = authService.createToken(surveyId, batchId, surveySubId);
+			} catch (WebClientException e) {
+				e.printStackTrace();
+				emailResponse.addTokenFailedEmail(email);
+				continue;
+			}
 			
 			// Create url for each email and send; add failed sending emails to response in sendFailed
 			String surveyUrl = baseURL + "/survey?token=" + authToken;

@@ -4,16 +4,25 @@
 package com.revature.service;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+
+import java.io.IOException;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientException;
+
+import com.revature.dto.TokenDto;
 
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
+import reactor.core.publisher.Mono;
 
 /**
  * @author Work From Home
@@ -32,7 +41,7 @@ class AuthServiceFinderTest {
 	private int surveyId;
 	
 	private int surveySubId;
-
+	
 	/**
 	 * @param authService the authService to set
 	 */
@@ -81,7 +90,8 @@ class AuthServiceFinderTest {
 	}
 
 	/**
-	 * Checks if createToken() returns expected token when given valid parameters.
+	 * Checks if createToken() returns expected token when given valid 
+	 * surveyId, surveySubId, and batchId.
 	 */
 	@Test
 	void createTokenTest_withValidParams() {
@@ -89,5 +99,4 @@ class AuthServiceFinderTest {
 		String returned = authService.createToken(surveyId, batchId, surveySubId);
 		assertEquals(token, returned, "Token " + token + " did not line up with returned " + returned);
 	}
-
 }

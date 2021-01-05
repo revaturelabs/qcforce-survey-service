@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClient.RequestBodySpec;
+import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
+import org.springframework.web.reactive.function.client.WebClientException;
 
 import com.revature.dto.TokenDto;
 
@@ -31,19 +33,22 @@ public class AuthServiceFinder implements AuthService {
 	 * @return token the JWT received from the endpoint
 	 */
 	@Override
-	public String createToken(int surveyId, String batchId, int surveySubId) {
+	public String createToken(int surveyId, String batchId, int surveySubId) throws WebClientException{
 		
 		TokenDto tokenDto = new TokenDto(surveyId, batchId, surveySubId);
 		
 		this.webClient = WebClient.create(BASE_URL);
 		
-		Mono<String> token = this.webClient
-							.post()
-							.uri(AUTH_PATH)
-							.body(Mono.just(tokenDto), TokenDto.class)
-							.retrieve()
-							.bodyToMono(String.class);
-			
+		Mono<String> token;
+		
+		token = this.webClient
+					.post()
+					.uri(AUTH_PATH)
+					.body(Mono.just(tokenDto), TokenDto.class)
+					.retrieve()
+					.bodyToMono(String.class);
+
+	
 		return token.block();
 	}
 
